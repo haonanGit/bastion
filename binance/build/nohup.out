@@ -42,3 +42,27 @@ sending subscription msg
 [2024-07-19 16:47:00] [frame_payload] Payload Bytes: 
 [0] (13) [10] 40 52 40 F2 42 52 4A FB 43 55 4A F2 47 
 
+[2024-07-19 16:50:00] [control] Control frame received with opcode 9
+[2024-07-19 16:50:00] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:50:00] [frame_header] Header Bytes: 
+[0] (6) 8A 8D 18 B6 51 67 
+
+[2024-07-19 16:50:00] [frame_payload] Payload Bytes: 
+[0] (13) [10] 29 81 63 56 2B 81 68 57 28 86 69 51 2E 
+
+[2024-07-19 16:53:00] [control] Control frame received with opcode 9
+[2024-07-19 16:53:00] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:53:00] [frame_header] Header Bytes: 
+[0] (6) 8A 8D 00 D7 74 60 
+
+[2024-07-19 16:53:00] [frame_payload] Payload Bytes: 
+[0] (13) [10] 31 E0 46 51 33 E0 4D 51 38 E7 4D 51 33 
+
+[2024-07-19 16:56:00] [control] Control frame received with opcode 9
+[2024-07-19 16:56:00] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:56:00] [frame_header] Header Bytes: 
+[0] (6) 8A 8D 68 F7 77 9F 
+
+[2024-07-19 16:56:00] [frame_payload] Payload Bytes: 
+[0] (13) [10] 59 C0 45 AE 5B C0 4E AC 5E C7 4E A9 5A 
+
