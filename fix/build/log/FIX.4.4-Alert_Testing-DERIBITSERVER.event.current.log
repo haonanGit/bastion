@@ -1,0 +1,168 @@
+20240708-10:53:47.726011000 : Created session
+20240708-10:53:47.727500000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240708-10:53:48.087930000 : Initiated logon request
+20240708-10:53:48.387664000 : Received logout request
+20240708-10:53:48.389051000 : Sending logout response
+20240708-10:53:48.400003000 : Disconnecting
+20240708-10:53:48.429085000 : Initiated logon request
+20240708-10:54:12.695617000 : Created session
+20240708-10:54:12.696767000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240708-10:54:13.023166000 : Initiated logon request
+20240708-10:54:13.330715000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240708-10:54:13.330905000 : Received logon response
+20240708-10:54:13.633252000 : Message 2 Rejected: Required tag missing:45
+20240708-10:54:13.634563000 : Socket Error: Connection reset by peer.
+20240708-10:54:13.634743000 : Disconnecting
+20240710-01:48:06.426919000 : Created session
+20240710-01:48:06.428229000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-01:48:06.805881000 : Initiated logon request
+20240710-01:48:07.110893000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-01:48:07.111084000 : Received logon response
+20240710-01:48:07.417974000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-01:48:07.419705000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-01:48:07.479384000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-01:48:07.811737000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-01:48:08.140164000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-01:48:08.469854000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-01:48:08.802273000 : Message 15 Rejected: Tag not defined for this message type:746
+20240710-01:48:09.131006000 : Message 18 Rejected: Tag not defined for this message type:746
+20240710-01:48:09.461085000 : Message 20 Rejected: Tag not defined for this message type:746
+20240710-01:48:09.792317000 : Message 22 Rejected: Tag not defined for this message type:746
+20240710-02:16:35.439893000 : Created session
+20240710-02:16:35.440873000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-02:16:35.765793000 : Initiated logon request
+20240710-02:16:36.084299000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-02:16:36.084511000 : Received logon response
+20240710-02:16:36.468731000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-02:16:36.470243000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-02:16:36.513057000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-02:16:36.812515000 : Message 7 Rejected: Tag not defined for this message type:746
+20240710-02:16:37.144705000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-02:16:37.474296000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-02:16:37.805310000 : Message 15 Rejected: Tag not defined for this message type:746
+20240710-02:16:38.137628000 : Message 18 Rejected: Tag not defined for this message type:746
+20240710-02:18:16.370603000 : Created session
+20240710-02:18:16.371748000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-02:18:16.704880000 : Initiated logon request
+20240710-02:18:17.015397000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-02:18:17.015610000 : Received logon response
+20240710-02:18:17.322194000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-02:18:17.323747000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-02:18:17.406929000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-02:18:17.737062000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-03:11:30.002179000 : Created session
+20240710-03:11:30.003348000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-03:11:30.336870000 : Initiated logon request
+20240710-03:11:30.640531000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-03:11:30.640711000 : Received logon response
+20240710-03:11:30.947652000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-03:11:30.949323000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-03:11:31.230469000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-03:11:31.562289000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-03:11:31.888569000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-03:11:32.219665000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-03:11:32.549445000 : Message 15 Rejected: Tag not defined for this message type:746
+20240710-03:11:32.880720000 : Message 18 Rejected: Tag not defined for this message type:746
+20240710-07:09:13.401927000 : Created session
+20240710-07:09:13.403222000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-07:09:13.732336000 : Initiated logon request
+20240710-07:09:14.036140000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-07:09:14.036360000 : Received logon response
+20240710-07:09:14.343614000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-07:09:14.345105000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-07:09:14.594359000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-07:09:14.922285000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-07:09:15.252999000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-07:09:15.584610000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-07:09:52.547079000 : Created session
+20240710-07:09:52.548527000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-07:09:52.911195000 : Initiated logon request
+20240710-07:09:53.215168000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-07:09:53.215397000 : Received logon response
+20240710-07:09:53.523919000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-07:09:53.525596000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-07:12:31.214493000 : Created session
+20240710-07:12:31.216098000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-07:12:31.540815000 : Initiated logon request
+20240710-07:12:31.845001000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-07:12:31.845193000 : Received logon response
+20240710-07:12:32.151638000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-07:12:32.153195000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-07:12:32.458267000 : Message 6 Rejected: Tag not defined for this message type:746
+20240710-07:12:32.788379000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-07:12:33.119270000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-07:12:33.450345000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-07:15:39.978686000 : Created session
+20240710-07:15:39.979684000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-07:15:40.313908000 : Initiated logon request
+20240710-07:15:40.617197000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-07:15:40.617516000 : Received logon response
+20240710-07:15:40.928633000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-07:15:40.930507000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-07:15:41.069512000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-07:15:41.393356000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-07:15:41.726219000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-07:23:59.464402000 : Created session
+20240710-07:23:59.465402000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-07:23:59.803433000 : Initiated logon request
+20240710-07:24:00.107072000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-07:24:00.107290000 : Received logon response
+20240710-07:24:00.415615000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-07:24:00.417411000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-07:24:00.657498000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-07:24:00.990195000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-07:24:01.319234000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-07:24:01.650413000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-07:26:13.116515000 : Created session
+20240710-07:26:13.117659000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-07:26:13.481342000 : Initiated logon request
+20240710-07:26:13.784468000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-07:26:13.784699000 : Received logon response
+20240710-07:26:14.091526000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-07:26:14.093301000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-07:26:14.180178000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-07:26:14.512066000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-07:26:14.845439000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-07:26:15.174395000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-08:02:55.012123000 : Created session
+20240710-08:02:55.013505000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-08:02:55.343901000 : Initiated logon request
+20240710-08:02:55.648408000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-08:02:55.648626000 : Received logon response
+20240710-08:02:55.955514000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-08:02:55.957311000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-08:02:56.180747000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-08:02:56.514663000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-08:02:56.842426000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-08:02:57.183766000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-08:09:42.379263000 : Created session
+20240710-08:09:42.380444000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-08:09:42.711568000 : Initiated logon request
+20240710-08:09:43.017027000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-08:09:43.017249000 : Received logon response
+20240710-08:09:43.324172000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-08:09:43.326043000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-08:09:43.423747000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-08:09:43.756237000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-08:09:44.084180000 : Message 11 Rejected: Tag not defined for this message type:746
+20240710-08:09:44.414237000 : Message 13 Rejected: Tag not defined for this message type:746
+20240710-08:09:44.745941000 : Message 15 Rejected: Tag not defined for this message type:746
+20240710-08:09:45.073710000 : Message 18 Rejected: Tag not defined for this message type:746
+20240710-08:22:47.208566000 : Created session
+20240710-08:22:47.209711000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-08:22:47.541286000 : Initiated logon request
+20240710-08:22:47.845071000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-08:22:47.845301000 : Received logon response
+20240710-08:22:48.150637000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-08:22:48.152935000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-08:22:48.193852000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-08:22:48.526759000 : Message 8 Rejected: Tag not defined for this message type:746
+20240710-08:23:56.713534000 : Created session
+20240710-08:23:56.714571000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240710-08:23:57.046509000 : Initiated logon request
+20240710-08:23:57.349989000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240710-08:23:57.350173000 : Received logon response
+20240710-08:23:57.655287000 : Message 2 Rejected: Tag not defined for this message type:37
+20240710-08:23:57.657368000 : Message 3 Rejected: Tag not defined for this message type:746
+20240710-08:23:57.720584000 : Message 4 Rejected: Tag not defined for this message type:746
+20240710-08:23:58.049571000 : Message 8 Rejected: Tag not defined for this message type:746

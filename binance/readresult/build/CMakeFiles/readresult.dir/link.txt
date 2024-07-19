@@ -1,0 +1,1 @@
+/opt/rh/devtoolset-10/root/usr/bin/c++  -g CMakeFiles/readresult.dir/read_result.cpp.o CMakeFiles/readresult.dir/work/code/deribit/api/common.cpp.o -o readresult  /usr/lib64/libboost_system-mt.so -lboost_thread-mt -lpthread /usr/lib64/libboost_chrono-mt.so /usr/lib64/libboost_date_time-mt.so /usr/lib64/libboost_atomic-mt.so -lpthread -lssl -lcrypto 

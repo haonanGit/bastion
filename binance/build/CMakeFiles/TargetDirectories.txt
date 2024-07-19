@@ -1,0 +1,3 @@
+/work/code/deribit/api/binance/build/CMakeFiles/rebuild_cache.dir
+/work/code/deribit/api/binance/build/CMakeFiles/edit_cache.dir
+/work/code/deribit/api/binance/build/CMakeFiles/test_biance.dir

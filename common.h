@@ -1,0 +1,22 @@
+#ifndef COMMON_H
+#define COMMON_H
+
+#include <string>
+
+namespace common {
+
+enum class TimeUnit { Milliseconds, Microseconds, Nanoseconds };
+
+size_t      calcDecodeLength(const char* b64input);
+std::string toHexString(const unsigned char* hash, size_t length);
+std::string sha256HexString(const std::string& data);
+std::string sha256RawString(const std::string& data);
+char*       Base64Encode(const unsigned char* input, size_t length);
+int         Base64Decode(char* b64message, unsigned char** buffer, size_t* length);
+std::string GenerateRandomNonce(size_t length);
+std::string timestampToDate(int64_t timestamp, TimeUnit unit = TimeUnit::Milliseconds);
+int64_t     getNow();
+
+}  // namespace common
+
+#endif  // COMMON_H

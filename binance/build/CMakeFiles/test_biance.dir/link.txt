@@ -1,0 +1,1 @@
+/usr/bin/g++  -g CMakeFiles/test_biance.dir/aggregate_trade_streams.cpp.o CMakeFiles/test_biance.dir/ws_client.cpp.o CMakeFiles/test_biance.dir/work/code/deribit/api/common.cpp.o -o test_biance  /usr/lib/x86_64-linux-gnu/libboost_system.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0 -lpthread -lssl -lcrypto /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0 

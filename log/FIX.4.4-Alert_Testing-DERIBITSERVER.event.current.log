@@ -1,0 +1,259 @@
+20240628-06:02:22.858725000 : Created session
+20240628-06:02:22.859873000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:02:23.159058000 : Initiated logon request
+20240628-06:02:23.454707000 : Received logout request
+20240628-06:02:23.457738000 : Sending logout response
+20240628-06:02:23.458024000 : Disconnecting
+20240628-06:02:23.459500000 : Initiated logon request
+20240628-06:05:20.752549000 : Created session
+20240628-06:05:20.754006000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:05:21.063273000 : Initiated logon request
+20240628-06:05:21.357903000 : Logon state is not valid for message
+20240628-06:05:21.358063000 : Disconnecting
+20240628-06:05:21.359357000 : Initiated logon request
+20240628-06:17:53.883677000 : Created session
+20240628-06:17:53.884826000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:17:54.189358000 : Initiated logon request
+20240628-06:17:54.484166000 : Logon state is not valid for message
+20240628-06:17:54.484332000 : Disconnecting
+20240628-06:17:54.485787000 : Initiated logon request
+20240628-06:18:15.346444000 : Created session
+20240628-06:18:15.347367000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:18:15.646811000 : Initiated logon request
+20240628-06:18:15.941392000 : Logon state is not valid for message
+20240628-06:18:15.941627000 : Disconnecting
+20240628-06:18:15.943103000 : Initiated logon request
+20240628-06:37:11.977228000 : Created session
+20240628-06:37:11.978215000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:37:12.284516000 : Initiated logon request
+20240628-06:37:12.578619000 : Logon state is not valid for message
+20240628-06:37:12.578781000 : Disconnecting
+20240628-06:37:12.580170000 : Initiated logon request
+20240628-06:37:35.883053000 : Created session
+20240628-06:37:35.884036000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:37:36.182458000 : Initiated logon request
+20240628-06:37:36.476472000 : Logon state is not valid for message
+20240628-06:37:36.476583000 : Disconnecting
+20240628-06:37:36.477926000 : Initiated logon request
+20240628-06:38:51.219820000 : Created session
+20240628-06:38:51.220913000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:38:51.522139000 : Initiated logon request
+20240628-06:38:51.816438000 : Logon state is not valid for message
+20240628-06:38:51.816590000 : Disconnecting
+20240628-06:38:51.817782000 : Initiated logon request
+20240628-06:39:44.364269000 : Created session
+20240628-06:39:44.365491000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:39:44.669760000 : Initiated logon request
+20240628-06:39:44.963731000 : Logon state is not valid for message
+20240628-06:39:44.963880000 : Disconnecting
+20240628-06:39:44.965618000 : Initiated logon request
+20240628-06:40:55.615328000 : Created session
+20240628-06:40:55.616349000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-06:40:56.675771000 : Initiated logon request
+20240628-06:40:56.970051000 : Logon state is not valid for message
+20240628-06:40:56.970215000 : Disconnecting
+20240628-06:40:56.971714000 : Initiated logon request
+20240628-07:21:28.633036000 : Created session
+20240628-07:21:28.634179000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-07:21:28.937132000 : Initiated logon request
+20240628-07:21:29.231268000 : Logon state is not valid for message
+20240628-07:21:29.231416000 : Disconnecting
+20240628-07:21:29.232719000 : Initiated logon request
+20240628-08:09:53.644636000 : Created session
+20240628-08:09:53.645831000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240628-08:09:53.952403000 : Initiated logon request
+20240628-08:09:54.248054000 : Logon state is not valid for message
+20240628-08:09:54.248196000 : Disconnecting
+20240628-08:09:54.249673000 : Initiated logon request
+20240702-00:23:21.779737000 : Created session
+20240702-00:23:21.780865000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240702-00:23:22.087891000 : Initiated logon request
+20240702-00:23:22.382638000 : Received logout request
+20240702-00:23:22.385769000 : Sending logout response
+20240702-00:23:22.386117000 : Disconnecting
+20240702-00:23:22.387422000 : Initiated logon request
+20240702-00:23:47.122595000 : Created session
+20240702-00:23:47.124016000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240702-00:23:47.465572000 : Initiated logon request
+20240702-00:23:47.759710000 : Logon state is not valid for message
+20240702-00:23:47.759858000 : Disconnecting
+20240702-00:23:47.761326000 : Initiated logon request
+20240702-00:24:17.162110000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240702-00:24:17.460989000 : Initiated logon request
+20240702-00:24:17.755133000 : Logon state is not valid for message
+20240702-00:24:17.755259000 : Disconnecting
+20240702-00:24:17.756510000 : Initiated logon request
+20240702-00:24:47.197046000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240702-00:24:47.496682000 : Initiated logon request
+20240702-00:24:47.790498000 : Logon state is not valid for message
+20240702-00:24:47.790636000 : Disconnecting
+20240702-00:24:47.791833000 : Initiated logon request
+20240702-00:37:53.509428000 : Created session
+20240702-00:37:53.510498000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240702-00:37:53.853625000 : Initiated logon request
+20240702-00:37:54.148278000 : Logon state is not valid for message
+20240702-00:37:54.148412000 : Disconnecting
+20240702-00:37:54.149487000 : Initiated logon request
+20240702-00:50:32.422015000 : Created session
+20240702-00:50:32.423269000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240702-00:50:32.732168000 : Initiated logon request
+20240702-00:50:33.026231000 : Logon state is not valid for message
+20240702-00:50:33.026377000 : Disconnecting
+20240702-00:50:33.027751000 : Initiated logon request
+20240703-08:30:36.442386000 : Created session
+20240703-08:30:36.443640000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:30:36.747887000 : Initiated logon request
+20240703-08:30:37.049184000 : Received logon response
+20240703-08:31:31.039634000 : Created session
+20240703-08:31:31.040902000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:31:31.348612000 : Initiated logon request
+20240703-08:31:31.647910000 : Logon state is not valid for message
+20240703-08:31:31.648044000 : Disconnecting
+20240703-08:31:31.649456000 : Initiated logon request
+20240703-08:31:54.807754000 : Created session
+20240703-08:31:54.808792000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:31:55.116664000 : Initiated logon request
+20240703-08:31:55.416328000 : Logon state is not valid for message
+20240703-08:31:55.416505000 : Disconnecting
+20240703-08:31:55.417884000 : Initiated logon request
+20240703-08:32:58.924740000 : Created session
+20240703-08:32:58.925876000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:32:59.235810000 : Initiated logon request
+20240703-08:32:59.535260000 : Logon state is not valid for message
+20240703-08:32:59.535450000 : Disconnecting
+20240703-08:32:59.537037000 : Initiated logon request
+20240703-08:37:52.976002000 : Created session
+20240703-08:37:52.977498000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:37:53.323516000 : Initiated logon request
+20240703-08:37:53.623646000 : Logon state is not valid for message
+20240703-08:37:53.623778000 : Disconnecting
+20240703-08:37:53.625070000 : Initiated logon request
+20240703-08:38:29.033540000 : Created session
+20240703-08:38:29.034879000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:38:29.374152000 : Initiated logon request
+20240703-08:38:29.673934000 : Logon state is not valid for message
+20240703-08:38:29.674066000 : Disconnecting
+20240703-08:38:29.675330000 : Initiated logon request
+20240703-08:41:52.764809000 : Created session
+20240703-08:41:52.765895000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:41:53.075489000 : Initiated logon request
+20240703-08:41:53.375227000 : Logon state is not valid for message
+20240703-08:41:53.375369000 : Disconnecting
+20240703-08:41:53.376606000 : Initiated logon request
+20240703-08:42:42.019827000 : Created session
+20240703-08:42:42.020903000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-08:42:42.335488000 : Initiated logon request
+20240703-08:42:42.635541000 : Logon state is not valid for message
+20240703-08:42:42.635777000 : Disconnecting
+20240703-08:42:42.637202000 : Initiated logon request
+20240703-09:02:10.577541000 : Created session
+20240703-09:02:10.578640000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:02:27.076010000 : Created session
+20240703-09:02:27.077268000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:02:48.130023000 : Initiated logon request
+20240703-09:02:48.130143000 : Disconnecting
+20240703-09:52:52.131557000 : Created session
+20240703-09:52:52.132847000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:52:52.447166000 : Initiated logon request
+20240703-09:52:52.749299000 : MsgSeqNum too low, expecting 4 but received 1
+20240703-09:52:52.749407000 : Disconnecting
+20240703-09:52:52.750638000 : Initiated logon request
+20240703-09:53:20.951961000 : Created session
+20240703-09:53:20.953141000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:53:21.257208000 : Initiated logon request
+20240703-09:53:21.559327000 : MsgSeqNum too low, expecting 4 but received 1
+20240703-09:53:21.559497000 : Disconnecting
+20240703-09:53:21.561096000 : Initiated logon request
+20240703-09:56:25.011708000 : Created session
+20240703-09:56:25.012947000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:56:25.324852000 : Initiated logon request
+20240703-09:56:25.624810000 : Logon state is not valid for message
+20240703-09:56:25.624954000 : Disconnecting
+20240703-09:56:25.626195000 : Initiated logon request
+20240703-09:56:55.049826000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:56:55.358767000 : Initiated logon request
+20240703-09:56:55.658832000 : Logon state is not valid for message
+20240703-09:56:55.659010000 : Disconnecting
+20240703-09:56:55.660220000 : Initiated logon request
+20240703-09:57:25.081626000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:57:25.385786000 : Initiated logon request
+20240703-09:57:25.686366000 : Logon state is not valid for message
+20240703-09:57:25.686573000 : Disconnecting
+20240703-09:57:25.688113000 : Initiated logon request
+20240703-09:57:55.109413000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:57:55.416875000 : Initiated logon request
+20240703-09:57:55.716885000 : Logon state is not valid for message
+20240703-09:57:55.717017000 : Disconnecting
+20240703-09:57:55.718517000 : Initiated logon request
+20240703-09:58:25.139412000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:58:25.447371000 : Initiated logon request
+20240703-09:58:25.747333000 : Logon state is not valid for message
+20240703-09:58:25.747469000 : Disconnecting
+20240703-09:58:25.748793000 : Initiated logon request
+20240703-09:58:55.170104000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:58:55.478182000 : Initiated logon request
+20240703-09:58:55.781523000 : Logon state is not valid for message
+20240703-09:58:55.781680000 : Disconnecting
+20240703-09:58:55.783107000 : Initiated logon request
+20240703-09:59:25.193910000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:59:25.501480000 : Initiated logon request
+20240703-09:59:25.801424000 : Logon state is not valid for message
+20240703-09:59:25.801593000 : Disconnecting
+20240703-09:59:25.803138000 : Initiated logon request
+20240703-09:59:55.233935000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-09:59:55.544462000 : Initiated logon request
+20240703-09:59:55.844670000 : Logon state is not valid for message
+20240703-09:59:55.844785000 : Disconnecting
+20240703-09:59:55.846158000 : Initiated logon request
+20240703-10:00:25.267044000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-10:00:25.575028000 : Initiated logon request
+20240703-10:00:25.874883000 : Logon state is not valid for message
+20240703-10:00:25.875059000 : Disconnecting
+20240703-10:00:25.876289000 : Initiated logon request
+20240703-10:26:36.080238000 : Created session
+20240703-10:26:36.081669000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-10:26:36.395091000 : Initiated logon request
+20240703-10:26:36.694867000 : Received logout request
+20240703-10:26:36.696370000 : Sending logout response
+20240703-10:26:36.696903000 : Disconnecting
+20240703-10:26:36.698305000 : Initiated logon request
+20240703-10:27:06.109841000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-10:27:06.413497000 : Initiated logon request
+20240703-10:27:06.712783000 : Received logout request
+20240703-10:27:06.714345000 : Sending logout response
+20240703-10:27:06.714628000 : Disconnecting
+20240703-10:27:06.715990000 : Initiated logon request
+20240703-12:11:23.639645000 : Created session
+20240703-12:11:23.640823000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-12:11:23.954887000 : Initiated logon request
+20240703-12:11:24.254360000 : Logon state is not valid for message
+20240703-12:11:24.254493000 : Disconnecting
+20240703-12:11:24.255652000 : Initiated logon request
+20240703-12:11:53.676612000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-12:11:53.981692000 : Initiated logon request
+20240703-12:11:54.281159000 : Logon state is not valid for message
+20240703-12:11:54.281326000 : Disconnecting
+20240703-12:11:54.282867000 : Initiated logon request
+20240703-12:12:35.511804000 : Created session
+20240703-12:12:35.512847000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-12:12:35.822581000 : Initiated logon request
+20240703-12:12:36.121798000 : Logon state is not valid for message
+20240703-12:12:36.121972000 : Disconnecting
+20240703-12:12:36.123413000 : Initiated logon request
+20240703-12:13:06.789404000 : Created session
+20240703-12:13:06.790844000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-12:13:07.100357000 : Initiated logon request
+20240703-12:13:07.401323000 : Logon state is not valid for message
+20240703-12:13:07.401550000 : Disconnecting
+20240703-12:13:07.403058000 : Initiated logon request
+20240703-12:15:59.691374000 : Created session
+20240703-12:15:59.692815000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-12:16:00.007027000 : Initiated logon request
+20240703-12:16:00.306280000 : Logon state is not valid for message
+20240703-12:16:00.306406000 : Disconnecting
+20240703-12:16:00.307617000 : Initiated logon request
+20240703-12:16:29.728458000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240703-12:16:30.032895000 : Initiated logon request
+20240703-12:16:30.332705000 : Logon state is not valid for message
+20240703-12:16:30.332847000 : Disconnecting
+20240703-12:16:30.334055000 : Initiated logon request

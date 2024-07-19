@@ -1,0 +1,56 @@
+20240715-09:05:08.399765000 : Created session
+20240715-09:05:08.401232000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240715-09:05:08.727313000 : Initiated logon request
+20240715-09:05:09.025743000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240715-09:05:09.025911000 : Received logon response
+20240717-10:24:29.552503000 : Created session
+20240717-10:24:29.553761000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:24:29.879751000 : Initiated logon request
+20240717-10:24:30.177432000 : Received logout request
+20240717-10:24:30.178781000 : Sending logout response
+20240717-10:24:30.187836000 : Disconnecting
+20240717-10:24:30.214800000 : Initiated logon request
+20240717-10:24:33.248824000 : Created session
+20240717-10:24:33.250068000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:24:33.570345000 : Initiated logon request
+20240717-10:24:33.869914000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240717-10:24:33.870066000 : Received logon response
+20240717-10:27:53.738033000 : Created session
+20240717-10:27:53.739202000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:27:54.064456000 : Initiated logon request
+20240717-10:27:54.362766000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240717-10:27:54.363028000 : Received logon response
+20240717-10:32:12.330781000 : Created session
+20240717-10:32:12.332462000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:32:12.662223000 : Initiated logon request
+20240717-10:32:12.960190000 : Received logout request
+20240717-10:32:12.961534000 : Sending logout response
+20240717-10:32:12.972807000 : Disconnecting
+20240717-10:32:13.006368000 : Initiated logon request
+20240717-10:32:16.681753000 : Created session
+20240717-10:32:16.683045000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:32:17.003407000 : Initiated logon request
+20240717-10:32:17.302939000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240717-10:32:17.303106000 : Received logon response
+20240717-10:32:48.048422000 : Created session
+20240717-10:32:48.049504000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:32:48.374281000 : Initiated logon request
+20240717-10:32:48.673576000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240717-10:32:48.673724000 : Received logon response
+20240717-10:38:53.315416000 : Created session
+20240717-10:38:53.316768000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:38:53.639299000 : Initiated logon request
+20240717-10:38:53.937956000 : Received logout request
+20240717-10:38:53.940334000 : Sending logout response
+20240717-10:38:53.953907000 : Disconnecting
+20240717-10:38:53.987687000 : Initiated logon request
+20240717-10:38:57.141700000 : Created session
+20240717-10:38:57.142943000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:38:57.466507000 : Initiated logon request
+20240717-10:38:57.765451000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240717-10:38:57.765594000 : Received logon response
+20240717-10:39:07.830646000 : Created session
+20240717-10:39:07.831833000 : Connecting to www.deribit.com on port 9881 (Source :0)
+20240717-10:39:08.151552000 : Initiated logon request
+20240717-10:39:08.449847000 : Logon contains ResetSeqNumFlag=Y, reseting sequence numbers to 1
+20240717-10:39:08.450017000 : Received logon response

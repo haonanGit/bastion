@@ -1,0 +1,44 @@
+Empty result.txt successfully.
+addr : wss://fstream.binance.com/stream?streams=xrpusdt@trade/xrpusdt@aggTrade
+[2024-07-19 16:36:51] [connect] Successful connection
+[2024-07-19 16:36:52] [connect] WebSocket Connection 52.195.85.23:443 v-2 "WebSocket++/0.8.2" /stream?streams=xrpusdt@trade/xrpusdt@aggTrade 101
+sending subscription msg
+[2024-07-19 16:36:52] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 75 payload bytes
+[2024-07-19 16:36:52] [frame_header] Header Bytes: 
+[0] (6) 81 CB E6 71 D1 20 
+
+[2024-07-19 16:36:52] [frame_payload] Payload Bytes: 
+[0] (75) [1] S¼E’¾DÄKós³3‚c´8“eÄ]óP‡°M•Së{Ä	£P“µT¦£A‚óÄ	£P“µT¦¶G²°DƒSŒÄµÜ@¬
+
+[2024-07-19 16:38:00] [control] Control frame received with opcode 9
+[2024-07-19 16:38:00] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:38:00] [frame_header] Header Bytes: 
+[0] (6) 8A 8D 04 A5 6E 1E 
+
+[2024-07-19 16:38:00] [frame_payload] Payload Bytes: 
+[0] (13) [10] 35 92 5C 2F 37 92 56 2C 3C 95 58 29 31 
+
+[2024-07-19 16:41:00] [control] Control frame received with opcode 9
+[2024-07-19 16:41:00] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:41:00] [frame_header] Header Bytes: 
+[0] (6) 8A 8D C6 35 5A 70 
+
+[2024-07-19 16:41:00] [frame_payload] Payload Bytes: 
+[0] (13) [10] F7 02 68 41 F5 02 62 44 F0 05 6D 42 F5 
+
+[2024-07-19 16:44:00] [control] Control frame received with opcode 9
+[2024-07-19 16:44:00] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:44:00] [frame_header] Header Bytes: 
+[0] (6) 8A 8D 6C 86 79 76 
+
+[2024-07-19 16:44:00] [frame_payload] Payload Bytes: 
+[0] (13) [10] 5D B1 4B 47 5F B1 41 40 58 B6 4E 41 5C 
+
+[2024-07-19 16:47:00] [control] Control frame received with opcode 9
+[2024-07-19 16:47:00] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:47:00] [frame_header] Header Bytes: 
+[0] (6) 8A 8D 71 65 72 C3 
+
+[2024-07-19 16:47:00] [frame_payload] Payload Bytes: 
+[0] (13) [10] 40 52 40 F2 42 52 4A FB 43 55 4A F2 47 
+

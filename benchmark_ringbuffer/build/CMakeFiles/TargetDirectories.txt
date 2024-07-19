@@ -1,0 +1,3 @@
+/work/code/deribit/api/benchmark_ringbuffer/build/CMakeFiles/rebuild_cache.dir
+/work/code/deribit/api/benchmark_ringbuffer/build/CMakeFiles/edit_cache.dir
+/work/code/deribit/api/benchmark_ringbuffer/build/CMakeFiles/bm_ringbuffer.dir

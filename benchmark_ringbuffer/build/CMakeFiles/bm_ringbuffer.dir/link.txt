@@ -1,0 +1,1 @@
+/usr/bin/g++  -g CMakeFiles/bm_ringbuffer.dir/bm_ringbuffer.cpp.o -o bm_ringbuffer  -lbenchmark -lpthread 
