@@ -7,17 +7,17 @@
 #include <websocketpp/client.hpp>
 #include <websocketpp/config/asio_client.hpp>
 
-using app_client = websocketpp::client<websocketpp::config::asio_tls_client>;
-// using app_client = websocketpp::client<websocketpp::config::asio_client>;
+using app_tls_client = websocketpp::client<websocketpp::config::asio_tls_client>;
+// using app_tls_client = websocketpp::client<websocketpp::config::asio_client>;
 
 namespace app {
 
 class WSClient {
 private:
-    app_client  client_;
-    std::string addr_;  // server address
-    std::string subs_msg_;
-    std::string cancel_subs_msg_;
+    app_tls_client client_;
+    std::string    addr_;  // server address
+    std::string    subs_msg_;
+    std::string    cancel_subs_msg_;
 
 public:
     WSClient() = default;
@@ -27,7 +27,7 @@ public:
     virtual void stop();
     virtual void onSubscription(websocketpp::connection_hdl hdl);
     virtual void onCancelSubscripton(websocketpp::connection_hdl hdl);
-    virtual void onMessage(websocketpp::connection_hdl hdl, app_client::message_ptr msg) = 0;
+    virtual void onMessage(websocketpp::connection_hdl hdl, app_tls_client::message_ptr msg) = 0;
     virtual void onFail(websocketpp::connection_hdl hdl);
 };
 

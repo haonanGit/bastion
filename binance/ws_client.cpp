@@ -41,7 +41,7 @@ WSClient::WSClient(const std::string_view& addr, const std::string_view& subs_ms
     });
 
     client_.set_open_handler([this](const websocketpp::connection_hdl hdl) { onSubscription(hdl); });
-    client_.set_message_handler([this](const websocketpp::connection_hdl hdl, app_client::message_ptr msg) { onMessage(hdl, msg); });
+    client_.set_message_handler([this](const websocketpp::connection_hdl hdl, app_tls_client::message_ptr msg) { onMessage(hdl, msg); });
     client_.set_fail_handler([this](const websocketpp::connection_hdl hdl) { onFail(hdl); });
 }
 
@@ -49,13 +49,13 @@ WSClient::WSClient(const std::string_view& addr, const std::string_view& subs_ms
 //     : addr_(addr), subs_msg_(subs_msg), cancel_subs_msg_(cancel_subs_msg) {
 //     client_.init_asio();
 //     client_.set_open_handler([this](const websocketpp::connection_hdl hdl) { onSubscription(hdl); });
-//     client_.set_message_handler([this](const websocketpp::connection_hdl hdl, app_client::message_ptr msg) { onMessage(hdl, msg); });
+//     client_.set_message_handler([this](const websocketpp::connection_hdl hdl, app_tls_client::message_ptr msg) { onMessage(hdl, msg); });
 //     client_.set_fail_handler([this](const websocketpp::connection_hdl hdl) { onFail(hdl); });
 // }
 
 void WSClient::start() {
-    websocketpp::lib::error_code ec;
-    app_client::connection_ptr   con = client_.get_connection(addr_, ec);
+    websocketpp::lib::error_code   ec;
+    app_tls_client::connection_ptr con = client_.get_connection(addr_, ec);
     if (ec) {
         printf("connecting failed :[%s]\n", ec.message().c_str());
         return;

@@ -6,7 +6,6 @@
 #include <openssl/sha.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <chrono>
 #include <cstring>
 #include <iomanip>
 #include <sstream>
@@ -126,13 +125,6 @@ std::string timestampToDate(int64_t timestamp, TimeUnit unit) {
     ss << '.' << std::setw(width) << std::setfill('0') << milliseconds;
 
     return ss.str();
-}
-
-int64_t getNow() {
-    using namespace std::chrono;
-    auto now = system_clock::now();
-    auto ns = duration_cast<nanoseconds>(now.time_since_epoch()).count();
-    return ns;
 }
 
 }  // namespace common

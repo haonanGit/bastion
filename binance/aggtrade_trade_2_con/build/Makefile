@@ -201,6 +201,30 @@ work/code/deribit/api/common.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/aggtrade_trade_2_con.dir/build.make CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/common.cpp.s
 .PHONY : work/code/deribit/api/common.cpp.s
 
+work/code/deribit/api/logger/logger.o: work/code/deribit/api/logger/logger.cpp.o
+.PHONY : work/code/deribit/api/logger/logger.o
+
+# target to build an object file
+work/code/deribit/api/logger/logger.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aggtrade_trade_2_con.dir/build.make CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/logger/logger.cpp.o
+.PHONY : work/code/deribit/api/logger/logger.cpp.o
+
+work/code/deribit/api/logger/logger.i: work/code/deribit/api/logger/logger.cpp.i
+.PHONY : work/code/deribit/api/logger/logger.i
+
+# target to preprocess a source file
+work/code/deribit/api/logger/logger.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aggtrade_trade_2_con.dir/build.make CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/logger/logger.cpp.i
+.PHONY : work/code/deribit/api/logger/logger.cpp.i
+
+work/code/deribit/api/logger/logger.s: work/code/deribit/api/logger/logger.cpp.s
+.PHONY : work/code/deribit/api/logger/logger.s
+
+# target to generate assembly for a file
+work/code/deribit/api/logger/logger.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/aggtrade_trade_2_con.dir/build.make CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/logger/logger.cpp.s
+.PHONY : work/code/deribit/api/logger/logger.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -219,6 +243,9 @@ help:
 	@echo "... work/code/deribit/api/common.o"
 	@echo "... work/code/deribit/api/common.i"
 	@echo "... work/code/deribit/api/common.s"
+	@echo "... work/code/deribit/api/logger/logger.o"
+	@echo "... work/code/deribit/api/logger/logger.i"
+	@echo "... work/code/deribit/api/logger/logger.s"
 .PHONY : help
 
 

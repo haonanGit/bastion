@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/binance/ws_client.cpp.o.d"
   "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/common.cpp.o"
   "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/common.cpp.o.d"
+  "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/logger/logger.cpp.o"
+  "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/logger/logger.cpp.o.d"
   "aggtrade_trade_2_con"
   "aggtrade_trade_2_con.pdb"
 )

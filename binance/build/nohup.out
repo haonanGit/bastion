@@ -66,3 +66,11 @@ sending subscription msg
 [2024-07-19 16:56:00] [frame_payload] Payload Bytes: 
 [0] (13) [10] 59 C0 45 AE 5B C0 4E AC 5E C7 4E A9 5A 
 
+[2024-07-19 16:59:01] [control] Control frame received with opcode 9
+[2024-07-19 16:59:01] [frame_header] Dispatching write containing 1 message(s) containing 6 header bytes and 13 payload bytes
+[2024-07-19 16:59:01] [frame_header] Header Bytes: 
+[0] (6) 8A 8D 74 F8 33 7D 
+
+[2024-07-19 16:59:01] [frame_payload] Payload Bytes: 
+[0] (13) [10] 45 CF 01 4C 47 CF 0A 48 40 C9 03 4D 4C 
+

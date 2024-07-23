@@ -30,6 +30,7 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar2.h \
  /usr/include/c++/10/exception /usr/include/c++/10/bits/exception.h \
  /usr/include/c++/10/bits/exception_ptr.h \
  /usr/include/c++/10/bits/exception_defines.h \
@@ -119,16 +120,20 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/include/x86_64-linux-gnu/sys/select.h \
  /usr/include/x86_64-linux-gnu/bits/select.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h \
- /usr/include/alloca.h /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/select2.h /usr/include/alloca.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/10/bits/std_abs.h /usr/include/c++/10/cstdio \
  /usr/include/stdio.h /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos64_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h \
  /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
- /usr/include/c++/10/cerrno /usr/include/errno.h \
- /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
- /usr/include/x86_64-linux-gnu/asm/errno.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdio2.h /usr/include/c++/10/cerrno \
+ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/10/bits/charconv.h \
@@ -179,6 +184,7 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/include/x86_64-linux-gnu/asm/sockios.h \
  /usr/include/asm-generic/sockios.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+ /usr/include/x86_64-linux-gnu/bits/socket2.h \
  /usr/include/x86_64-linux-gnu/bits/in.h \
  /usr/local/include/websocketpp/common/stdint.hpp \
  /usr/local/include/websocketpp/utf8_validator.hpp \
@@ -245,6 +251,8 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/local/include/websocketpp/processors/hybi00.hpp \
  /usr/local/include/websocketpp/common/md5.hpp \
  /usr/include/c++/10/cstring /usr/include/string.h /usr/include/strings.h \
+ /usr/include/x86_64-linux-gnu/bits/strings_fortified.h \
+ /usr/include/x86_64-linux-gnu/bits/string_fortified.h \
  /usr/local/include/websocketpp/common/platforms.hpp \
  /usr/local/include/websocketpp/processors/hybi07.hpp \
  /usr/local/include/websocketpp/processors/hybi08.hpp \
@@ -327,6 +335,7 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
  /usr/include/linux/close_range.h \
  /usr/include/boost/config/detail/select_platform_config.hpp \
@@ -452,7 +461,8 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
  /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
  /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
- /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/sys/eventfd.h \
+ /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/fcntl2.h \
+ /usr/include/x86_64-linux-gnu/sys/eventfd.h \
  /usr/include/x86_64-linux-gnu/bits/eventfd.h \
  /usr/include/boost/asio/detail/socket_types.hpp \
  /usr/include/x86_64-linux-gnu/sys/ioctl.h \
@@ -465,6 +475,7 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/include/x86_64-linux-gnu/sys/ttydefaults.h /usr/include/poll.h \
  /usr/include/x86_64-linux-gnu/sys/poll.h \
  /usr/include/x86_64-linux-gnu/bits/poll.h \
+ /usr/include/x86_64-linux-gnu/bits/poll2.h \
  /usr/include/x86_64-linux-gnu/sys/uio.h \
  /usr/include/x86_64-linux-gnu/bits/uio-ext.h \
  /usr/include/x86_64-linux-gnu/sys/un.h /usr/include/netinet/tcp.h \
@@ -1176,6 +1187,27 @@ CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o: \
  /usr/include/boost/asio/ssl/detail/write_op.hpp \
  /usr/local/include/websocketpp/config/asio_no_tls_client.hpp \
  /work/code/deribit/api/binance/aggtrade_trade_2_con/../../common.h \
+ /work/code/deribit/api/binance/aggtrade_trade_2_con/../../logger/logger.h \
+ /usr/local/include/spdlog/async.h \
+ /usr/local/include/spdlog/async_logger.h \
+ /usr/local/include/spdlog/logger.h /usr/local/include/spdlog/common.h \
+ /usr/local/include/spdlog/details/null_mutex.h \
+ /usr/local/include/spdlog/tweakme.h /usr/local/include/spdlog/fmt/fmt.h \
+ /usr/local/include/spdlog/fmt/bundled/core.h \
+ /usr/local/include/spdlog/fmt/bundled/format.h \
+ /usr/local/include/spdlog/fmt/bundled/core.h \
+ /usr/local/include/spdlog/details/backtracer.h \
+ /usr/local/include/spdlog/details/circular_q.h \
+ /usr/local/include/spdlog/details/log_msg_buffer.h \
+ /usr/local/include/spdlog/details/log_msg.h \
+ /usr/local/include/spdlog/details/registry.h \
+ /usr/local/include/spdlog/details/periodic_worker.h \
+ /usr/local/include/spdlog/details/thread_pool.h \
+ /usr/local/include/spdlog/details/mpmc_blocking_q.h \
+ /usr/local/include/spdlog/details/os.h \
+ /usr/local/include/spdlog/spdlog.h \
+ /usr/local/include/spdlog/details/synchronous_factory.h \
+ /usr/local/include/spdlog/version.h \
  /work/code/deribit/api/binance/aggtrade_trade_2_con/../../../json/single_include/nlohmann/json.hpp \
  /usr/include/c++/10/forward_list /usr/include/c++/10/bits/forward_list.h \
  /usr/include/c++/10/bits/forward_list.tcc /usr/include/c++/10/valarray \

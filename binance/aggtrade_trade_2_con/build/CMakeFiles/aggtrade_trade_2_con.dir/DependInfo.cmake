@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/work/code/deribit/api/binance/aggtrade_trade_2_con/aggtrade_trade_2_con.cpp" "CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o" "gcc" "CMakeFiles/aggtrade_trade_2_con.dir/aggtrade_trade_2_con.cpp.o.d"
   "/work/code/deribit/api/binance/ws_client.cpp" "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/binance/ws_client.cpp.o" "gcc" "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/binance/ws_client.cpp.o.d"
   "/work/code/deribit/api/common.cpp" "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/common.cpp.o" "gcc" "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/common.cpp.o.d"
+  "/work/code/deribit/api/logger/logger.cpp" "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/logger/logger.cpp.o" "gcc" "CMakeFiles/aggtrade_trade_2_con.dir/work/code/deribit/api/logger/logger.cpp.o.d"
   )
 
 # Targets to which this target links.

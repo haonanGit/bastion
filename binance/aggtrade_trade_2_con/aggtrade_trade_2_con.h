@@ -11,7 +11,7 @@ public:
     ~AggregateTradeStreamsClient() = default;
     AggregateTradeStreamsClient(const std::string_view& addr, const std::string_view& subs_msg, const std::string_view& cancel_subs_msg)
         : WSClient(addr, subs_msg, cancel_subs_msg) {}
-    void onMessage(websocketpp::connection_hdl hdl, app_client::message_ptr msg) override;
+    void onMessage(websocketpp::connection_hdl hdl, app_tls_client::message_ptr msg) override;
 };
 }  // namespace app
 
