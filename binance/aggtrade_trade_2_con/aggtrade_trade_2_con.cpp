@@ -27,22 +27,22 @@ void convertTimestampToDate(nlohmann::json& jsonObject) {
 }
 
 void AggregateTradeStreamsClient::onMessage(websocketpp::connection_hdl hdl, app_tls_client::message_ptr msg) {
-    const auto&    recv_tm = common::getTimeStampNs();
-    const auto&    ret_msg = msg->get_payload();
-    nlohmann::json jsonObject = nlohmann::json::parse(ret_msg);
-    // convertTimestampToDate(jsonObject);
+    const auto& recv_tm = common::getTimeStampNs();
+    // const auto&    ret_msg = msg->get_payload();
+    nlohmann::json jsonObject = nlohmann::json::parse(msg->get_payload());
+    convertTimestampToDate(jsonObject);
 
-    // jsonObject["received_t"] = common::timestampToDate(recv_tm, common::TimeUnit::Nanoseconds);
-    // const auto& ret_msg = jsonObject.dump();
+    jsonObject["received_t"] = common::timestampToDate(recv_tm, common::TimeUnit::Nanoseconds);
+    const auto& ret_msg = jsonObject.dump();
     // ++count;
 
     auto& logger = jsonObject["data"]["e"] == "trade" ? trade_logger : agg_logger;
-    auto  mid_tm = common::getTimeStampNs();
+    // auto  mid_tm = common::getTimeStampNs();
     logger.info(ret_msg);
-    auto        end_tm = common::getTimeStampNs();
-    std::string info = "json:[" + std::to_string(mid_tm - recv_tm) + "]ns " + "log:[" + std::to_string(end_tm - mid_tm) + "] " + "total:[" +
-                       std::to_string(end_tm - recv_tm) + "]";
-    LOG_INFO(info);
+    // auto        end_tm = common::getTimeStampNs();
+    // std::string info = "json:[" + std::to_string(mid_tm - recv_tm) + "]ns " + "log:[" + std::to_string(end_tm - mid_tm) + "] " + "total:[" +
+    //                    std::to_string(end_tm - recv_tm) + "]";
+    // LOG_INFO(info);
 }
 
 }  // namespace app
