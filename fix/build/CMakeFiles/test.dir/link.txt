@@ -1,1 +1,0 @@
-/opt/rh/devtoolset-10/root/usr/bin/c++ CMakeFiles/test.dir/market_data_request_v.cpp.o CMakeFiles/test.dir/work/code/deribit/api/common.cpp.o -o test  -lquickfix /usr/lib64/libssl.so /usr/lib64/libcrypto.so 

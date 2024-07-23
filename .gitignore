@@ -1,0 +1,67 @@
+# Ignore all build directories recursively
+**/build/
+
+# Ignore log directories and files
+/log/
+**/log/
+
+# Ignore DS_Store files
+.DS_Store
+*/.DS_Store
+
+# Ignore IDE directories
+.idea
+
+# Ignore build-related directories
+bld
+bld-Debug
+bld-Release
+
+# Ignore VS Code settings
+/.vscode
+
+# Ignore cache directories
+/.cache
+/.ccls-cache
+
+# Ignore generated files
+/compile_commands.json
+CMakeUserPresets.json
+
+# Ignore testing-related directories
+/test/Testing
+
+# Ignore protocol buffer generated files
+*.pb.h
+*.pb.cc
+*lint.sh
+
+# Ignore vcpkg directory
+/vcpkg
+
+# Ignore logs
+/log
+
+# Ignore lcov and coverage files
+lcov_*
+coverage.xml
+*.log
+/coverage
+
+# Ignore dependencies
+/deps/installed
+/deps/vcpkg
+
+# Ignore breakpad output
+/tools/breakpad/output
+
+# Ignore protocol directory
+/proto/protocol
+
+# Custom user-defined ignore patterns
+benchmark_ringbuffer/build/
+binance/build/
+fix/build/
+
+# Ignore all directories and files in /work directory
+/work/code/deribit/api/binance/aggtrade_trade_2_con/build/

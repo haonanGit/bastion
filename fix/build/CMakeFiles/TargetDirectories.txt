@@ -1,3 +1,0 @@
-/work/code/deribit/api/fix/build/CMakeFiles/fix.dir
-/work/code/deribit/api/fix/build/CMakeFiles/edit_cache.dir
-/work/code/deribit/api/fix/build/CMakeFiles/rebuild_cache.dir

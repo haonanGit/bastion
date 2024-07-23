@@ -18,7 +18,7 @@ std::string GenerateRandomNonce(size_t length);
 std::string timestampToDate(int64_t timestamp, TimeUnit unit = TimeUnit::Milliseconds);
 
 inline int64_t getTimeStampNs() {
-    return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now().time_since_epoch()).count();
+    return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
 }  // namespace common

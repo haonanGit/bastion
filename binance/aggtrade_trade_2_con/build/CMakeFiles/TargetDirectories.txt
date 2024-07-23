@@ -1,3 +1,0 @@
-/work/code/deribit/api/binance/aggtrade_trade_2_con/build/CMakeFiles/rebuild_cache.dir
-/work/code/deribit/api/binance/aggtrade_trade_2_con/build/CMakeFiles/edit_cache.dir
-/work/code/deribit/api/binance/aggtrade_trade_2_con/build/CMakeFiles/aggtrade_trade_2_con.dir
