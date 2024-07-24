@@ -71,10 +71,10 @@ int main(int argc, char* argv[]) {
     argc -= ret;
     argv += ret;
 
-    // Check that there is an even number of ports to send/receive on
+    // Check that there is at least one port to send/receive on
     nb_ports = rte_eth_dev_count_avail();
     if (nb_ports < 1)
-        rte_exit(EXIT_FAILURE, "Error: number of ports must be even\n");
+        rte_exit(EXIT_FAILURE, "Error: no available ports\n");
 
     // Creates a new mempool in memory to hold the mbufs
     mbuf_pool = rte_pktmbuf_pool_create("MBUF_POOL", NUM_MBUFS * nb_ports, MBUF_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
