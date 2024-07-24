@@ -31,7 +31,6 @@ void convertTimestampToDate(nlohmann::json& jsonObject) {
 void AggregateTradeStreamsClient::onMessage(websocketpp::connection_hdl hdl, app_tls_client::message_ptr msg) {
     const auto& recv_tm = common::getTimeStampNs();
     // const auto&    ret_msg = msg->get_payload();
-    std::cout << "payload:" << msg->get_payload() << std::endl;
     nlohmann::json jsonObject = nlohmann::json::parse(msg->get_payload());
     convertTimestampToDate(jsonObject);
 
