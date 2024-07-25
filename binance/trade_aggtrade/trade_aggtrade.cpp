@@ -38,39 +38,66 @@ void processFile(const std::string& tradefile) {
         return;
     }
 
-    std::ofstream compareFile("trade_aggtrade.json", std::ios::trunc);
+    std::ofstream compareFile("/work/agg_trade/trade_aggtrade.txt", std::ios::trunc);
 
     std::string line;
-    while (std::getline(infile, line)) {
-        if (line.empty())
+    std::string agg_str;
+    std::getline(infile, line);
+    line = line.substr(line.find("{"));
+    json currentJson = json::parse(line, nullptr, false);
+
+    agg_str = m_agg.front();
+    agg_str = agg_str.substr(agg_str.find("{"));
+    json aggJson = json::parse(agg_str, nullptr, false);
+
+    while (!line.empty() && !m_agg.empty()) {
+        if (currentJson["data"]["t"] < aggJson["data"]["f"]) {
+            std::getline(infile, line);
+            if (line.empty())
+                break;
+            line = line.substr(line.find("{"));
+            currentJson = json::parse(line, nullptr, false);
             continue;
-
-        json currentJson = json::parse(line, nullptr, false);
-
-        std::string sum_qty = currentJson["sum_qty"];
-        if (!m_agg.empty()) {
-            auto aggLine = m_agg.front();
-            json aggJson = json::parse(aggLine, nullptr, false);
-            auto trade_e_time = currentJson["e_time"];
-            auto agg_e_time = aggJson["e_time"];
-            auto trade_sum_qty = currentJson["sum_qty"];
-            auto agg_qty = aggJson["qty"];
-            int  trade_count = currentJson["count"];
-            int  agg_count = aggJson["count"];
-            if (trade_e_time > agg_e_time) {
-                std::cout << "time" << std::endl;
-                compareFile << line << " : time_trade" << std::endl;
-                compareFile << m_agg.front() << " : time_aggtrade" << std::endl << std::endl;
-                m_agg.pop();
-            } else if (trade_count > agg_count) {
-                std::cout << "count" << std::endl;
-                compareFile << line << " : count_trade" << std::endl;
-                compareFile << m_agg.front() << " : count_aggtrade" << std::endl << std::endl;
-                m_agg.pop();
-            } else if (trade_sum_qty == agg_qty) {
-                m_agg.pop();
-            }
         }
+
+        if (currentJson["data"]["t"] > aggJson["data"]["l"]) {
+            m_agg.pop();
+            if (m_agg.empty())
+                break;
+            agg_str = m_agg.front();
+            agg_str = agg_str.substr(agg_str.find("{"));
+            aggJson = json::parse(agg_str, nullptr, false);
+            continue;
+        }
+
+        // match first id
+        bool                     write = false;
+        std::vector<std::string> v;
+        while (currentJson["data"]["t"] <= aggJson["data"]["l"]) {
+            if (currentJson["received_t"] > aggJson["received_t"]) {
+                write = true;
+            }
+            v.push_back(line);
+            std::getline(infile, line);
+            if (line.empty())
+                break;
+            line = line.substr(line.find("{"));
+            currentJson = json::parse(line, nullptr, false);
+        }
+
+        if (write) {
+            compareFile << agg_str << std::endl;
+            for (auto& s : v) {
+                compareFile << s << std::endl;
+            }
+            compareFile << std::endl << std::endl;
+        }
+        m_agg.pop();
+        if (m_agg.empty())
+            break;
+        agg_str = m_agg.front();
+        agg_str = agg_str.substr(agg_str.find("{"));
+        aggJson = json::parse(agg_str, nullptr, false);
     }
 
     infile.close();

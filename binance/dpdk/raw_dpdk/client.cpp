@@ -14,9 +14,7 @@ std::atomic<long long> total_rtt{0};
 
 int64_t getCurrentTimeNs() {
     using namespace std::chrono;
-    auto now = system_clock::now();
-    auto ns = duration_cast<nanoseconds>(now.time_since_epoch()).count();
-    return ns;
+    return duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
 }
 
 void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_pool) {
@@ -33,8 +31,8 @@ void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_
             rte_exit(EXIT_FAILURE, "Error with allocating mbuf\n");
         }
 
-        char    data[40];  // Ensure enough space for "dpdk" prefix and timestamp
-        int64_t send_time = getCurrentTimeNs();
+        char data[40];  // Ensure enough space for "dpdk" prefix and timestamp
+        auto send_time = getCurrentTimeNs();
         snprintf(data, sizeof(data), "dpdk%lld", send_time);
 
         char* packet_data = rte_pktmbuf_mtod(mbuf, char*);
@@ -148,13 +146,13 @@ void runClient(int message_count) {
         rte_exit(EXIT_FAILURE, "Cannot init mbuf pool\n");
 
     std::thread sender_thread(sendMessages, tx_port_id, message_count, mbuf_pool);
-    std::thread receiver_thread(receiveMessages, rx_port_id, message_count);
+    // std::thread receiver_thread(receiveMessages, rx_port_id, message_count);
 
     sender_thread.join();
-    receiver_thread.join();
+    // receiver_thread.join();
 
-    std::cout << "Total RTT: " << total_rtt << " ns" << std::endl;
-    std::cout << "Average RTT: " << total_rtt / message_count << " ns" << std::endl;
+    // std::cout << "Total RTT: " << total_rtt << " ns" << std::endl;
+    // std::cout << "Average RTT: " << total_rtt / message_count << " ns" << std::endl;
 
     rte_eth_dev_stop(tx_port_id);
     rte_eth_dev_close(tx_port_id);

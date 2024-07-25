@@ -1,11 +1,20 @@
 #include <rte_eal.h>
 #include <rte_ethdev.h>
 #include <rte_mbuf.h>
+#include <chrono>
 #include <iostream>
 
 #define NUM_MBUFS 8191
 #define MBUF_CACHE_SIZE 250
 #define BURST_SIZE 1
+
+int64_t getCurrentTimeNs() {
+    using namespace std::chrono;
+    return duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
+}
+
+static long long total_time = 0;
+static int       count = 0;
 
 void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte_mempool* mbuf_pool) {
     struct rte_mbuf* bufs[BURST_SIZE];
@@ -30,10 +39,14 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
 
             // Echo the original message back without modification
             if (rte_pktmbuf_pkt_len(mbuf) >= 4 && strncmp(data, "dpdk", 4) == 0) {
-                int sent = rte_eth_tx_buffer(tx_port_id, 0, buffer, mbuf);
-                if (sent < BURST_SIZE) {
-                    rte_eth_tx_buffer_flush(tx_port_id, 0, buffer);
-                }
+                // int sent = rte_eth_tx_buffer(tx_port_id, 0, buffer, mbuf);
+                // if (sent < BURST_SIZE) {
+                //     rte_eth_tx_buffer_flush(tx_port_id, 0, buffer);
+                // }
+                int64_t send_time = std::stoll(data + 4);  // Assuming the timestamp starts after "dpdk"
+                auto    current_time = getCurrentTimeNs();
+                total_time += current_time - send_time;
+                ++count;
             }
             if (rte_pktmbuf_pkt_len(mbuf) >= 3 && strncmp(data, "end", 4) == 0) {
                 end = true;
@@ -44,6 +57,7 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
     }
 
     rte_eth_tx_buffer_flush(port_id, 0, buffer);
+    std::cout << "average time ns:" << (static_cast<double>(total_time) / count) << std::endl;
 }
 
 void runServer() {
