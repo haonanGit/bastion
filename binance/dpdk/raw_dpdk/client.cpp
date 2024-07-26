@@ -125,7 +125,7 @@ void runClient(int message_count) {
 }
 
 int main() {
-    int message_count = 10000;
+    int message_count = 10;
     runClient(message_count);
     return 0;
 }
