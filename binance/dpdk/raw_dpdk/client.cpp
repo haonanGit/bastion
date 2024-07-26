@@ -13,6 +13,17 @@
 
 std::atomic<long long> total_rtt{0};
 
+static const struct rte_eth_conf port_conf_default = {
+    .rxmode =
+        {
+            .mq_mode = ETH_MQ_RX_RSS,  // 接收队列模式
+        },
+    .txmode =
+        {
+            .mq_mode = ETH_MQ_TX_NONE,
+        },
+};
+
 long long getCurrentTimeNs() {
     using namespace std::chrono;
     return duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
@@ -111,7 +122,7 @@ void runClient(int message_count) {
     uint16_t rx_port_id = 0;  // Receive port ID
 
     // Initialize the transmit port
-    ret = rte_eth_dev_configure(tx_port_id, 1, 1, NULL);
+    ret = rte_eth_dev_configure(tx_port_id, 1, 1, &port_conf_default);
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with transmit port configuration\n");
     }
@@ -121,7 +132,7 @@ void runClient(int message_count) {
     }
 
     // Initialize the receive port
-    ret = rte_eth_dev_configure(rx_port_id, 1, 1, NULL);
+    ret = rte_eth_dev_configure(rx_port_id, 1, 1, &port_conf_default);
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with receive port configuration\n");
     }

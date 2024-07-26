@@ -41,6 +41,7 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
 
     while (!end) {
         int ret = 0;
+        std::cout << "run server!!!!!!!!!" << std::endl;
         while ((ret = rte_eth_rx_burst(rx_port_id, 0, bufs, BURST_SIZE)) == 0) {
             // Busy wait until a packet is received
         }
