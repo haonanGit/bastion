@@ -87,6 +87,7 @@ void receiveMessages(uint16_t port_id, const int& message_count) {
     bool             end = false;
     while (!end) {
         int ret = 0;
+        std::cout << "client start!!!!!!!!!!!" << std::endl;
         while ((ret = rte_eth_rx_burst(port_id, 0, bufs, BURST_SIZE)) == 0) {
             // Busy wait until a packet is received
         }
@@ -128,14 +129,19 @@ void runClient(int message_count) {
         rte_exit(EXIT_FAILURE, "Cannot init mbuf pool\n");
 
     // Initialize the transmit port
-    ret = rte_eth_dev_configure(tx_port_id, 1, 1, &port_conf_default);
-    if (ret < 0) {
-        rte_exit(EXIT_FAILURE, "Error with transmit port configuration\n");
-    }
-    ret = rte_eth_tx_queue_setup(tx_port_id, 0, 128, rte_eth_dev_socket_id(tx_port_id), NULL);
-    if (ret < 0) {
-        rte_exit(EXIT_FAILURE, "Error with transmit queue setup\n");
-    }
+    // ret = rte_eth_dev_configure(tx_port_id, 1, 1, &port_conf_default);
+    // if (ret < 0) {
+    //     rte_exit(EXIT_FAILURE, "Error with transmit port configuration\n");
+    // }
+    // ret = rte_eth_tx_queue_setup(tx_port_id, 0, 128, rte_eth_dev_socket_id(tx_port_id), NULL);
+    // if (ret < 0) {
+    //     rte_exit(EXIT_FAILURE, "Error with transmit queue setup\n");
+    // }
+
+    // ret = rte_eth_dev_start(tx_port_id);
+    // if (ret < 0) {
+    //     rte_exit(EXIT_FAILURE, "Error with starting transmit port\n");
+    // }
 
     // Initialize the receive port
     ret = rte_eth_dev_configure(rx_port_id, 1, 1, &port_conf_default);
@@ -145,11 +151,6 @@ void runClient(int message_count) {
     ret = rte_eth_rx_queue_setup(rx_port_id, 0, 128, rte_eth_dev_socket_id(rx_port_id), NULL, mbuf_pool);
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with receive queue setup\n");
-    }
-
-    ret = rte_eth_dev_start(tx_port_id);
-    if (ret < 0) {
-        rte_exit(EXIT_FAILURE, "Error with starting transmit port\n");
     }
 
     ret = rte_eth_dev_start(rx_port_id);
