@@ -114,8 +114,8 @@ void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_
 // }
 
 void runClient(int message_count) {
-    int         argc = 2;
-    const char* argv[] = {"client", "-l 0-1", "--file-prefix", "client_prefix", "--socket-mem=1024,1024"};
+    int         argc = 5;
+    const char* argv[] = {"client", "-l", "0-1", "--file-prefix", "client_prefix", "--socket-mem=1024,1024"};
     int         ret = rte_eal_init(argc, const_cast<char**>(argv));
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with EAL initialization\n");

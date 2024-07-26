@@ -75,8 +75,8 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
 }
 
 void runServer() {
-    int         argc = 2;
-    const char* argv[] = {"server", "-l 0-1", "--file-prefix", "server_prefix", "--socket-mem=1024,1024"};
+    int         argc = 5;
+    const char* argv[] = {"server", "-l", "0-1", "--file-prefix", "server_prefix", "--socket-mem=1024,1024"};
     int         ret = rte_eal_init(argc, const_cast<char**>(argv));
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with EAL initialization\n");
