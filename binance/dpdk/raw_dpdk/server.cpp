@@ -80,7 +80,7 @@ void runServer() {
         rte_exit(EXIT_FAILURE, "Cannot init mbuf pool\n");
 
     // Initialize the receive port
-    ret = rte_eth_dev_configure(rx_port_id, 1, 0, &port_conf_default);
+    ret = rte_eth_dev_configure(rx_port_id, 1, 1, &port_conf_default);
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with receive port configuration\n");
     }
