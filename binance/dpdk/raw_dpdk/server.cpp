@@ -17,6 +17,17 @@ long long getCurrentTimeNs() {
 static long long total_time = 0;
 static int       count = 0;
 
+static const struct rte_eth_conf port_conf_default = {
+    .rxmode =
+        {
+            .mq_mode = ETH_MQ_RX_RSS,  // 接收队列模式
+        },
+    .txmode =
+        {
+            .mq_mode = ETH_MQ_TX_NONE,
+        },
+};
+
 void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte_mempool* mbuf_pool) {
     struct rte_mbuf* bufs[BURST_SIZE];
 
@@ -73,7 +84,7 @@ void runServer() {
     uint16_t rx_port_id = 0;  // Receive port ID
 
     // Initialize the transmit port
-    // ret = rte_eth_dev_configure(tx_port_id, 1, 1, NULL);
+    // ret = rte_eth_dev_configure(rx_port_id, 1, 0, &port_conf_default);
     // if (ret < 0) {
     //     rte_exit(EXIT_FAILURE, "Error with transmit port configuration\n");
     // }
@@ -88,7 +99,7 @@ void runServer() {
     // }
 
     // Initialize the receive port
-    ret = rte_eth_dev_configure(rx_port_id, 1, 1, NULL);
+    ret = rte_eth_dev_configure(rx_port_id, 1, 0, &port_conf_default);
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with receive port configuration\n");
     }
