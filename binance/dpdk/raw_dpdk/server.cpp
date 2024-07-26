@@ -7,7 +7,7 @@
 
 #define NUM_MBUFS 8191
 #define MBUF_CACHE_SIZE 250
-#define BURST_SIZE 5
+#define BURST_SIZE 1
 
 long long getCurrentTimeNs() {
     using namespace std::chrono;
@@ -20,7 +20,7 @@ static int       count = 0;
 static const struct rte_eth_conf port_conf_default = {
     .rxmode =
         {
-            .mq_mode = ETH_MQ_RX_NONE,  // 接收队列模式
+            .mq_mode = ETH_MQ_RX_NONE,
         },
     .txmode =
         {
@@ -35,18 +35,16 @@ void receiveAndEchoMessages(uint16_t rx_port_id, struct rte_mempool* mbuf_pool) 
 
     while (!end) {
         int ret = 0;
-        std::cout << "run server!!!!!!!!!" << std::endl;
+        std::cout << "Waiting for packets..." << std::endl;
         while ((ret = rte_eth_rx_burst(rx_port_id, 0, bufs, BURST_SIZE)) == 0) {
             // Busy wait until a packet is received
         }
-        std::cout << "received " << ret << " packets" << std::endl;
+        std::cout << "Received " << ret << " packets." << std::endl;
 
         for (int j = 0; j < ret; ++j) {
             struct rte_mbuf* mbuf = bufs[j];
             char*            data = rte_pktmbuf_mtod(mbuf, char*);
-            std::cout << "received packet data: " << data << std::endl;
 
-            // Echo the original message back without modification
             if (rte_pktmbuf_pkt_len(mbuf) >= 4 && strncmp(data, "dpdk", 4) == 0) {
                 int64_t send_time = std::stoll(data + 4);  // Assuming the timestamp starts after "dpdk"
                 auto    current_time = getCurrentTimeNs();
