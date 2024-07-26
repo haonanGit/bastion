@@ -1,5 +1,6 @@
 #include <rte_eal.h>
 #include <rte_ethdev.h>
+#include <rte_malloc.h>
 #include <rte_mbuf.h>
 #include <atomic>
 #include <chrono>
@@ -12,14 +13,14 @@
 
 std::atomic<long long> total_rtt{0};
 
-int64_t getCurrentTimeNs() {
+long long getCurrentTimeNs() {
     using namespace std::chrono;
     return duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
 }
 
 void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_pool) {
     struct rte_eth_dev_tx_buffer* buffer;
-    buffer = (struct rte_eth_dev_tx_buffer*)rte_zmalloc_socket("tx_buffer", RTE_ETH_TX_BUFFER_SIZE(BURST_SIZE), 0, rte_eth_dev_socket_id(port_id));
+    buffer = (struct rte_eth_dev_tx_buffer*)rte_malloc("tx_buffer", RTE_ETH_TX_BUFFER_SIZE(BURST_SIZE), 0);
     if (buffer == NULL)
         rte_exit(EXIT_FAILURE, "Cannot allocate buffer for tx on port %u\n", (unsigned)port_id);
 

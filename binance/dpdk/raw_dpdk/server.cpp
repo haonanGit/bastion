@@ -1,5 +1,6 @@
 #include <rte_eal.h>
 #include <rte_ethdev.h>
+#include <rte_malloc.h>
 #include <rte_mbuf.h>
 #include <chrono>
 #include <iostream>
@@ -8,7 +9,7 @@
 #define MBUF_CACHE_SIZE 250
 #define BURST_SIZE 1
 
-int64_t getCurrentTimeNs() {
+long long getCurrentTimeNs() {
     using namespace std::chrono;
     return duration_cast<nanoseconds>(high_resolution_clock::now().time_since_epoch()).count();
 }
@@ -20,7 +21,7 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
     struct rte_mbuf* bufs[BURST_SIZE];
 
     struct rte_eth_dev_tx_buffer* buffer;
-    buffer = (struct rte_eth_dev_tx_buffer*)rte_zmalloc_socket("tx_buffer", RTE_ETH_TX_BUFFER_SIZE(BURST_SIZE), 0, rte_eth_dev_socket_id(tx_port_id));
+    buffer = (struct rte_eth_dev_tx_buffer*)rte_malloc("tx_buffer", RTE_ETH_TX_BUFFER_SIZE(BURST_SIZE), 0);
     if (buffer == NULL)
         rte_exit(EXIT_FAILURE, "Cannot allocate buffer for tx on port %u\n", (unsigned)tx_port_id);
 
@@ -48,7 +49,7 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
                 total_time += current_time - send_time;
                 ++count;
             }
-            if (rte_pktmbuf_pkt_len(mbuf) >= 3 && strncmp(data, "end", 4) == 0) {
+            if (rte_pktmbuf_pkt_len(mbuf) >= 3 && strncmp(data, "end", 3) == 0) {
                 end = true;
                 break;
             }
@@ -56,7 +57,7 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
         }
     }
 
-    rte_eth_tx_buffer_flush(port_id, 0, buffer);
+    rte_eth_tx_buffer_flush(tx_port_id, 0, buffer);
     std::cout << "average time ns:" << (static_cast<double>(total_time) / count) << std::endl;
 }
 
