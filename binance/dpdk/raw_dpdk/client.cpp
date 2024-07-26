@@ -58,9 +58,9 @@ void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_
 
         int sent = rte_eth_tx_buffer(port_id, 0, buffer, mbuf);
         std::cout << "send :" << sent << std::endl;
-        if (sent < BURST_SIZE) {
-            rte_eth_tx_buffer_flush(port_id, 0, buffer);
-        }
+        // if (sent < BURST_SIZE) {
+        //     rte_eth_tx_buffer_flush(port_id, 0, buffer);
+        // }
 
         rte_pktmbuf_free(mbuf);  // Free the mbuf after sending
     }
