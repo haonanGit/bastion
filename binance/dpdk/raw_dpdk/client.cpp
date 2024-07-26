@@ -97,7 +97,6 @@ void runClient(int message_count) {
     }
 
     uint16_t tx_port_id = 0;  // Transmit port ID
-    uint16_t rx_port_id = 0;  // Receive port ID
 
     struct rte_mempool* mbuf_pool =
         rte_pktmbuf_pool_create("MBUF_POOL", NUM_MBUFS * 2, MBUF_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
@@ -129,7 +128,7 @@ void runClient(int message_count) {
 }
 
 int main() {
-    int message_count = 10;
+    int message_count = 100;
     runClient(message_count);
     return 0;
 }
