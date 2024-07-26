@@ -7,7 +7,7 @@
 
 #define NUM_MBUFS 8191
 #define MBUF_CACHE_SIZE 250
-#define BURST_SIZE 1
+#define BURST_SIZE 5
 
 long long getCurrentTimeNs() {
     using namespace std::chrono;
@@ -35,9 +35,11 @@ void receiveAndEchoMessages(uint16_t rx_port_id, struct rte_mempool* mbuf_pool) 
 
     while (!end) {
         int ret = 0;
-        std::cout << "run server!!!!!!!!!" << std::endl;
+        std::cout << "run server!!!!!!!!!:end" << end << std::endl;
         while ((ret = rte_eth_rx_burst(rx_port_id, 0, bufs, BURST_SIZE)) == 0) {
             // Busy wait until a packet is received
+            rte_pause();  // 引入适当的休眠来减轻 CPU 负载
+            std::cout << "wait" << std::endl;
         }
         std::cout << "received:" << std::endl;
 
