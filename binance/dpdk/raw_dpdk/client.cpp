@@ -9,7 +9,7 @@
 
 #define NUM_MBUFS 8191
 #define MBUF_CACHE_SIZE 250
-#define BURST_SIZE 10
+#define BURST_SIZE 5
 
 std::atomic<long long> total_rtt{0};
 
@@ -128,7 +128,7 @@ void runClient(int message_count) {
 }
 
 int main() {
-    int message_count = 100;
+    int message_count = 20;
     runClient(message_count);
     return 0;
 }
