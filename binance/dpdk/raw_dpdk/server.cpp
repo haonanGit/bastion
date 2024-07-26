@@ -35,17 +35,16 @@ void receiveAndEchoMessages(uint16_t rx_port_id, struct rte_mempool* mbuf_pool) 
 
     while (!end) {
         int ret = 0;
-        std::cout << "run server!!!!!!!!!:end" << end << std::endl;
+        std::cout << "run server!!!!!!!!!" << std::endl;
         while ((ret = rte_eth_rx_burst(rx_port_id, 0, bufs, BURST_SIZE)) == 0) {
             // Busy wait until a packet is received
-            rte_pause();  // 引入适当的休眠来减轻 CPU 负载
-            std::cout << "wait" << std::endl;
         }
-        std::cout << "received:" << std::endl;
+        std::cout << "received " << ret << " packets" << std::endl;
 
         for (int j = 0; j < ret; ++j) {
             struct rte_mbuf* mbuf = bufs[j];
             char*            data = rte_pktmbuf_mtod(mbuf, char*);
+            std::cout << "received packet data: " << data << std::endl;
 
             // Echo the original message back without modification
             if (rte_pktmbuf_pkt_len(mbuf) >= 4 && strncmp(data, "dpdk", 4) == 0) {
