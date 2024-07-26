@@ -20,12 +20,12 @@ static int       count = 0;
 void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte_mempool* mbuf_pool) {
     struct rte_mbuf* bufs[BURST_SIZE];
 
-    struct rte_eth_dev_tx_buffer* buffer;
-    buffer = (struct rte_eth_dev_tx_buffer*)rte_malloc("tx_buffer", RTE_ETH_TX_BUFFER_SIZE(BURST_SIZE), 0);
-    if (buffer == NULL)
-        rte_exit(EXIT_FAILURE, "Cannot allocate buffer for tx on port %u\n", (unsigned)tx_port_id);
+    // struct rte_eth_dev_tx_buffer* buffer;
+    // buffer = (struct rte_eth_dev_tx_buffer*)rte_malloc("tx_buffer", RTE_ETH_TX_BUFFER_SIZE(BURST_SIZE), 0);
+    // if (buffer == NULL)
+    //     rte_exit(EXIT_FAILURE, "Cannot allocate buffer for tx on port %u\n", (unsigned)tx_port_id);
 
-    rte_eth_tx_buffer_init(buffer, BURST_SIZE);
+    // rte_eth_tx_buffer_init(buffer, BURST_SIZE);
     bool end = false;
 
     while (!end) {
@@ -57,7 +57,7 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
         }
     }
 
-    rte_eth_tx_buffer_flush(tx_port_id, 0, buffer);
+    // rte_eth_tx_buffer_flush(tx_port_id, 0, buffer);
     std::cout << "average time ns:" << (static_cast<double>(total_time) / count) << std::endl;
 }
 
@@ -70,17 +70,22 @@ void runServer() {
     }
 
     uint16_t tx_port_id = 0;  // Transmit port ID
-    uint16_t rx_port_id = 1;  // Receive port ID
+    uint16_t rx_port_id = 0;  // Receive port ID
 
     // Initialize the transmit port
-    ret = rte_eth_dev_configure(tx_port_id, 1, 1, NULL);
-    if (ret < 0) {
-        rte_exit(EXIT_FAILURE, "Error with transmit port configuration\n");
-    }
-    ret = rte_eth_tx_queue_setup(tx_port_id, 0, 128, rte_eth_dev_socket_id(tx_port_id), NULL);
-    if (ret < 0) {
-        rte_exit(EXIT_FAILURE, "Error with transmit queue setup\n");
-    }
+    // ret = rte_eth_dev_configure(tx_port_id, 1, 1, NULL);
+    // if (ret < 0) {
+    //     rte_exit(EXIT_FAILURE, "Error with transmit port configuration\n");
+    // }
+    // ret = rte_eth_tx_queue_setup(tx_port_id, 0, 128, rte_eth_dev_socket_id(tx_port_id), NULL);
+    // if (ret < 0) {
+    //     rte_exit(EXIT_FAILURE, "Error with transmit queue setup\n");
+    // }
+
+    // ret = rte_eth_dev_start(tx_port_id);
+    // if (ret < 0) {
+    //     rte_exit(EXIT_FAILURE, "Error with starting transmit port\n");
+    // }
 
     // Initialize the receive port
     ret = rte_eth_dev_configure(rx_port_id, 1, 1, NULL);
@@ -90,11 +95,6 @@ void runServer() {
     ret = rte_eth_rx_queue_setup(rx_port_id, 0, 128, rte_eth_dev_socket_id(rx_port_id), NULL, NULL);
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with receive queue setup\n");
-    }
-
-    ret = rte_eth_dev_start(tx_port_id);
-    if (ret < 0) {
-        rte_exit(EXIT_FAILURE, "Error with starting transmit port\n");
     }
 
     ret = rte_eth_dev_start(rx_port_id);
@@ -110,8 +110,8 @@ void runServer() {
 
     receiveAndEchoMessages(tx_port_id, rx_port_id, mbuf_pool);
 
-    rte_eth_dev_stop(tx_port_id);
-    rte_eth_dev_close(tx_port_id);
+    // rte_eth_dev_stop(tx_port_id);
+    // rte_eth_dev_close(tx_port_id);
     rte_eth_dev_stop(rx_port_id);
     rte_eth_dev_close(rx_port_id);
     rte_eal_cleanup();

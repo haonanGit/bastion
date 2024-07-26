@@ -108,7 +108,7 @@ void runClient(int message_count) {
     }
 
     uint16_t tx_port_id = 0;  // Transmit port ID
-    uint16_t rx_port_id = 1;  // Receive port ID
+    uint16_t rx_port_id = 0;  // Receive port ID
 
     // Initialize the transmit port
     ret = rte_eth_dev_configure(tx_port_id, 1, 1, NULL);
@@ -155,11 +155,11 @@ void runClient(int message_count) {
     // std::cout << "Total RTT: " << total_rtt << " ns" << std::endl;
     // std::cout << "Average RTT: " << total_rtt / message_count << " ns" << std::endl;
 
-    rte_eth_dev_stop(tx_port_id);
-    rte_eth_dev_close(tx_port_id);
-    rte_eth_dev_stop(rx_port_id);
-    rte_eth_dev_close(rx_port_id);
-    rte_eal_cleanup();
+    // rte_eth_dev_stop(tx_port_id);
+    // rte_eth_dev_close(tx_port_id);
+    // rte_eth_dev_stop(rx_port_id);
+    // rte_eth_dev_close(rx_port_id);
+    // rte_eal_cleanup();
 }
 
 int main() {
