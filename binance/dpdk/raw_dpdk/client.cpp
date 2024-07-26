@@ -54,10 +54,10 @@ void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_
         mbuf->pkt_len = mbuf->data_len;
 
         int sent = rte_eth_tx_buffer(port_id, 0, buffer, mbuf);
+        std::cout << "send :" << sent << std::endl;
         if (sent < BURST_SIZE) {
             rte_eth_tx_buffer_flush(port_id, 0, buffer);
         }
-        std::cout << "send :" << sent << std::endl;
 
         rte_pktmbuf_free(mbuf);  // Free the mbuf after sending
     }
@@ -83,35 +83,6 @@ void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_
     rte_eth_tx_buffer_flush(port_id, 0, buffer);
     rte_free(buffer);  // Free the allocated tx buffer
 }
-
-// void receiveMessages(uint16_t port_id, const int& message_count) {
-//     struct rte_mbuf* bufs[BURST_SIZE];
-//     int              count = 0;
-//     bool             end = false;
-//     while (!end) {
-//         int ret = 0;
-//         while ((ret = rte_eth_rx_burst(port_id, 0, bufs, BURST_SIZE)) == 0) {
-//             // Busy wait until a packet is received
-//         }
-//         auto receive_time = getCurrentTimeNs();
-
-//         for (int j = 0; j < ret; ++j) {
-//             struct rte_mbuf* mbuf = bufs[j];
-//             char*            data = rte_pktmbuf_mtod(mbuf, char*);
-//             const auto&      data_len = rte_pktmbuf_pkt_len(mbuf);
-
-//             // Ensure the data length is sufficient to contain "dpdk"
-//             if (data_len > 4 && strncmp(data, "dpdk", 4) == 0) {
-//                 int64_t send_time = std::stoll(data + 4);  // Assuming the timestamp starts after "dpdk"
-//                 total_rtt += receive_time - send_time;
-//             } else if (data_len >= 3 && strncmp(data, "end", 3) == 0) {
-//                 end = true;
-//                 break;
-//             }
-//             rte_pktmbuf_free(mbuf);  // Free the mbuf after processing
-//         }
-//     }
-// }
 
 void runClient(int message_count) {
     int         argc = 5;
@@ -145,35 +116,12 @@ void runClient(int message_count) {
         rte_exit(EXIT_FAILURE, "Error with starting transmit port\n");
     }
 
-    // Initialize the receive port
-    // ret = rte_eth_dev_configure(rx_port_id, 1, 1, &port_conf_default);
-    // if (ret < 0) {
-    //     rte_exit(EXIT_FAILURE, "Error with receive port configuration\n");
-    // }
-    // ret = rte_eth_rx_queue_setup(rx_port_id, 0, 128, rte_eth_dev_socket_id(rx_port_id), NULL, mbuf_pool);
-    // if (ret < 0) {
-    //     rte_exit(EXIT_FAILURE, "Error with receive queue setup\n");
-    // }
-
-    // ret = rte_eth_dev_start(rx_port_id);
-    // if (ret < 0) {
-    //     rte_exit(EXIT_FAILURE, "Error with starting receive port\n");
-    // }
-
     std::thread sender_thread(sendMessages, tx_port_id, message_count, mbuf_pool);
-    // std::thread receiver_thread(receiveMessages, rx_port_id, message_count);
 
     sender_thread.join();
-    // receiver_thread.join();
-
-    // std::cout << "Total RTT: " << total_rtt << " ns" << std::endl;
-    // std::cout << "Average RTT: " << total_rtt / message_count << " ns" << std::endl;
 
     rte_eth_dev_stop(tx_port_id);
     rte_eth_dev_close(tx_port_id);
-    // rte_eth_dev_stop(rx_port_id);
-    // rte_eth_dev_close(rx_port_id);
-    // rte_eal_cleanup();
 }
 
 int main() {
