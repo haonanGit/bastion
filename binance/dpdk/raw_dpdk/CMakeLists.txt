@@ -6,8 +6,9 @@ project(DPDKExample)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mssse3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mssse3")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mssse3 -g")
 
 
 # 设置DPDK路径
