@@ -45,6 +45,7 @@ void receiveAndEchoMessages(uint16_t tx_port_id, uint16_t rx_port_id, struct rte
         while ((ret = rte_eth_rx_burst(rx_port_id, 0, bufs, BURST_SIZE)) == 0) {
             // Busy wait until a packet is received
         }
+        std::cout << "received:" << std::endl;
 
         for (int j = 0; j < ret; ++j) {
             struct rte_mbuf* mbuf = bufs[j];
