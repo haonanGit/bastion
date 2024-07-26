@@ -83,6 +83,12 @@ void runServer() {
     uint16_t tx_port_id = 0;  // Transmit port ID
     uint16_t rx_port_id = 0;  // Receive port ID
 
+    struct rte_mempool* mbuf_pool =
+        rte_pktmbuf_pool_create("MBUF_POOL", NUM_MBUFS * 2, MBUF_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
+
+    if (mbuf_pool == NULL)
+        rte_exit(EXIT_FAILURE, "Cannot init mbuf pool\n");
+
     // Initialize the transmit port
     // ret = rte_eth_dev_configure(rx_port_id, 1, 0, &port_conf_default);
     // if (ret < 0) {
@@ -103,7 +109,9 @@ void runServer() {
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with receive port configuration\n");
     }
-    ret = rte_eth_rx_queue_setup(rx_port_id, 0, 128, rte_eth_dev_socket_id(rx_port_id), NULL, NULL);
+
+    ret = rte_eth_rx_queue_setup(rx_port_id, 0, 128, rte_eth_dev_socket_id(rx_port_id), NULL, mbuf_pool);
+
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with receive queue setup\n");
     }
@@ -112,12 +120,6 @@ void runServer() {
     if (ret < 0) {
         rte_exit(EXIT_FAILURE, "Error with starting receive port\n");
     }
-
-    struct rte_mempool* mbuf_pool =
-        rte_pktmbuf_pool_create("MBUF_POOL", NUM_MBUFS * 2, MBUF_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
-
-    if (mbuf_pool == NULL)
-        rte_exit(EXIT_FAILURE, "Cannot init mbuf pool\n");
 
     receiveAndEchoMessages(tx_port_id, rx_port_id, mbuf_pool);
 
