@@ -20,7 +20,7 @@ static int       count = 0;
 static const struct rte_eth_conf port_conf_default = {
     .rxmode =
         {
-            .mq_mode = ETH_MQ_RX_RSS,  // 接收队列模式
+            .mq_mode = ETH_MQ_RX_NONE,  // 接收队列模式
         },
     .txmode =
         {
