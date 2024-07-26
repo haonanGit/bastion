@@ -39,7 +39,6 @@ void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_
     rte_eth_tx_buffer_init(buffer, BURST_SIZE);
 
     for (int i = 0; i < message_count; ++i) {
-        std::cout << "count :" << message_count << std::endl;
         struct rte_mbuf* mbuf = rte_pktmbuf_alloc(mbuf_pool);
         if (mbuf == nullptr) {
             rte_exit(EXIT_FAILURE, "Error with allocating mbuf\n");
@@ -58,6 +57,7 @@ void sendMessages(uint16_t port_id, int message_count, struct rte_mempool* mbuf_
         if (sent < BURST_SIZE) {
             rte_eth_tx_buffer_flush(port_id, 0, buffer);
         }
+        std::cout << "send :" << sent << std::endl;
 
         rte_pktmbuf_free(mbuf);  // Free the mbuf after sending
     }
