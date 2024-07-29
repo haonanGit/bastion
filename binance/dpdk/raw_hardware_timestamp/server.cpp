@@ -4,9 +4,14 @@
 #include <string.h>
 #include <unistd.h>
 
+#define PORT 12345
+#define BUFFER_SIZE 1024
+
 int main() {
-    int                sockfd;
-    struct sockaddr_in servaddr;
+    int                sockfd, newsockfd;
+    struct sockaddr_in servaddr, cliaddr;
+    socklen_t          cliaddr_len;
+    char               buffer[BUFFER_SIZE];
 
     // 创建套接字
     if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -16,7 +21,8 @@ int main() {
 
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(12345);  // 绑定到端口 12345
+    servaddr.sin_port = htons(PORT);
+    servaddr.sin_addr.s_addr = INADDR_ANY;
 
     // 使用inet_pton代替inet_addr来转换IPv4地址
     if (inet_pton(AF_INET, "127.0.0.1", &servaddr.sin_addr) <= 0) {
@@ -39,16 +45,14 @@ int main() {
         return 1;
     }
 
-    printf("Server is listening on 127.0.0.1:12345\n");
+    printf("Server is listening on 127.0.0.1:%d\n", PORT);
 
     // 处理连接请求
     while (1) {
-        int                newsockfd;
-        struct sockaddr_in cliaddr;
-        socklen_t          len = sizeof(cliaddr);
+        cliaddr_len = sizeof(cliaddr);
 
         // 接受连接
-        if ((newsockfd = accept(sockfd, (struct sockaddr*)&cliaddr, &len)) < 0) {
+        if ((newsockfd = accept(sockfd, (struct sockaddr*)&cliaddr, &cliaddr_len)) < 0) {
             perror("accept failed");
             close(sockfd);
             return 1;
@@ -56,7 +60,14 @@ int main() {
 
         printf("Accepted a connection\n");
 
-        // 处理客户端请求...
+        // 接收消息
+        ssize_t n = read(newsockfd, buffer, BUFFER_SIZE - 1);
+        if (n < 0) {
+            perror("read failed");
+        } else {
+            buffer[n] = '\0';  // 确保字符串以null结尾
+            printf("Received message: %s\n", buffer);
+        }
 
         // 关闭连接
         close(newsockfd);
