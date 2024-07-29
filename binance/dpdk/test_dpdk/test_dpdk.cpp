@@ -34,6 +34,8 @@ static void init_port(uint16_t port_id, struct rte_mempool* mbuf_pool) {
     struct rte_eth_dev_info dev_info;
     struct rte_eth_txconf   txconf;
 
+    printf("Initializing port %u\n", port_id);
+
     if (!rte_eth_dev_is_valid_port(port_id))
         rte_exit(EXIT_FAILURE, "Invalid port id %u\n", port_id);
 
@@ -59,6 +61,8 @@ static void init_port(uint16_t port_id, struct rte_mempool* mbuf_pool) {
 
     // 启用混杂模式
     rte_eth_promiscuous_enable(port_id);
+
+    printf("Port %u initialized successfully\n", port_id);
 }
 
 // 初始化KNI接口
@@ -70,18 +74,26 @@ static void init_kni(uint16_t port_id) {
     conf.group_id = port_id;                                   // 设置组ID
     conf.mbuf_size = RTE_MBUF_DEFAULT_BUF_SIZE;
 
+    printf("Creating KNI interface for port %u\n", port_id);
+
     // 创建KNI接口
     kni =
         rte_kni_alloc(rte_pktmbuf_pool_create("MBUF_POOL", NB_MBUF, MEMPOOL_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id()), &conf, NULL);
     if (!kni)
         rte_exit(EXIT_FAILURE, "Could not create KNI for port %d\n", port_id);
+
+    printf("KNI interface created successfully for port %u\n", port_id);
 }
 
 // 初始化KNI接口的IP地址
 static void configure_kni_ip() {
+    printf("Configuring KNI interface IP\n");
+
     system("ip link set dev vEth0 up");
     system("ip addr add " SERVER_IP "/24 dev vEth0");
     system("ip route add default via 192.168.1.1 dev vEth0");
+
+    printf("KNI interface IP configured successfully\n");
 }
 
 // 处理接收到的数据包
@@ -126,14 +138,26 @@ int main(int argc, char* argv[]) {
     uint16_t            port_id = 0;  // DPDK端口ID
     struct rte_mempool* mbuf_pool;    // 内存池
 
+    // 添加调试信息，打印EAL初始化参数
+    printf("EAL initialization arguments:\n");
+    for (int i = 0; i < argc; i++) {
+        printf("argv[%d] = %s\n", i, argv[i]);
+    }
+
     // 初始化DPDK环境
-    if (rte_eal_init(argc, argv) < 0)
+    if (rte_eal_init(argc, argv) < 0) {
+        perror("EAL initialization failed");
         rte_exit(EXIT_FAILURE, "Error with EAL initialization\n");
+    }
+
+    printf("EAL initialization succeeded\n");
 
     // 创建内存池
     mbuf_pool = rte_pktmbuf_pool_create("MBUF_POOL", NB_MBUF, MEMPOOL_CACHE_SIZE, 0, RTE_MBUF_DEFAULT_BUF_SIZE, rte_socket_id());
     if (mbuf_pool == NULL)
         rte_exit(EXIT_FAILURE, "Cannot create mbuf pool\n");
+
+    printf("Memory pool created successfully\n");
 
     // 初始化以太网端口
     init_port(port_id, mbuf_pool);
