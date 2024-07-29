@@ -1,4 +1,3 @@
-#include <arpa/inet.h>
 #include <rte_eal.h>
 #include <rte_ethdev.h>
 #include <rte_ip.h>
@@ -8,19 +7,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 
 #define MAX_PKT_BURST 32          // 每次从网卡接收的最大数据包数量
 #define MEMPOOL_CACHE_SIZE 256    // 内存池缓存大小
 #define NB_MBUF 8192              // 内存池中mbuf的数量
 #define SERVER_IP "192.168.1.10"  // KNI接口的IP地址
-#define SERVER_PORT 12345         // 监听端口
 
 // 默认端口配置
 static const struct rte_eth_conf port_conf_default = {
     .rxmode =
         {
-            .split_hdr_size = 0,
             .offloads = RTE_ETH_RX_OFFLOAD_CHECKSUM,
         },
 };
@@ -149,7 +145,7 @@ int main(int argc, char* argv[]) {
     struct rte_mbuf* bufs[MAX_PKT_BURST];  // 用于接收数据包的数组
     uint16_t         nb_rx;
 
-    // 主循环：从ens6网卡接收数据包并处理
+    // 主循环：从网卡接收数据包并处理
     while (1) {
         // 从网卡接收数据包
         nb_rx = rte_eth_rx_burst(port_id, 0, bufs, MAX_PKT_BURST);
