@@ -1,3 +1,4 @@
+#include <arpa/inet.h>
 #include <rte_eal.h>
 #include <rte_ethdev.h>
 #include <rte_ip.h>
@@ -7,10 +8,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
-#define MAX_PKT_BURST 32        // 每次从网卡接收的最大数据包数量
-#define MEMPOOL_CACHE_SIZE 256  // 内存池缓存大小
-#define NB_MBUF 8192            // 内存池中mbuf的数量
+#define MAX_PKT_BURST 32          // 每次从网卡接收的最大数据包数量
+#define MEMPOOL_CACHE_SIZE 256    // 内存池缓存大小
+#define NB_MBUF 8192              // 内存池中mbuf的数量
+#define SERVER_IP "192.168.1.10"  // KNI接口的IP地址
+#define SERVER_PORT 12345         // 监听端口
 
 // 默认端口配置
 static const struct rte_eth_conf port_conf_default = {
@@ -75,6 +79,13 @@ static void init_kni(uint16_t port_id) {
         rte_exit(EXIT_FAILURE, "Could not create KNI for port %d\n", port_id);
 }
 
+// 初始化KNI接口的IP地址
+static void configure_kni_ip() {
+    system("ip link set dev vEth0 up");
+    system("ip addr add " SERVER_IP "/24 dev vEth0");
+    system("ip route add default via 192.168.1.1 dev vEth0");
+}
+
 // 处理接收到的数据包
 void process_packet(struct rte_mbuf* mbuf) {
     struct rte_ether_hdr* eth_hdr;       // 以太网帧头
@@ -131,6 +142,9 @@ int main(int argc, char* argv[]) {
 
     // 初始化KNI接口
     init_kni(port_id);
+
+    // 在系统中配置KNI接口的IP地址
+    configure_kni_ip();
 
     struct rte_mbuf* bufs[MAX_PKT_BURST];  // 用于接收数据包的数组
     uint16_t         nb_rx;

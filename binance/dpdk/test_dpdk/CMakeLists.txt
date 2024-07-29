@@ -25,9 +25,9 @@ message(STATUS "DPDK libraries: ${DPDK_LIBRARIES}")
 
 # 服务器源文件
 set(SERVER_SOURCES
-test_dpdk.cpp
+    test_dpdk.cpp
 )
 
 # 编译服务器
 add_executable(test_dpdk ${SERVER_SOURCES})
-target_link_libraries(test_dpdk ${DPDK_LIBRARIES})
+target_link_libraries(test_dpdk ${DPDK_LIBRARIES} pthread)
