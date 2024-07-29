@@ -17,7 +17,9 @@
 static const struct rte_eth_conf port_conf_default = {
     .rxmode =
         {
-            .offloads = RTE_ETH_RX_OFFLOAD_CHECKSUM,
+            .split_hdr_size = 0,
+            // 不启用任何offloads
+            .offloads = 0,
         },
 };
 
