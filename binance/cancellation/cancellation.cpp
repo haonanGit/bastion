@@ -299,8 +299,8 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 6) {
-        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <log_type> <symbol>" << endl;
+    if (argc != 7) {
+        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <log_type> <symbol> <trigger_type>" << endl;
         return 1;
     }
 
