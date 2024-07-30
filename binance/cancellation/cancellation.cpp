@@ -81,7 +81,6 @@ string getSymbol(const string& cur) {
     }
     auto start = cur.find("Symbol") + 7;  // Symbol SOLUSDT,
     auto end = cur.find(",", start);
-    cout << "symbol:" << cur.substr(start, end - start) << endl;
     return cur.substr(start, end - start);
 }
 
