@@ -16,13 +16,13 @@ using json = nlohmann::json;
 namespace fs = std::filesystem;
 
 struct CancelInfo {
-    string type;
-    string source;
-    string id;
-    string symbol;
-    int    result;
-    int    usOut;
-    int    usDiff;
+    string    type;
+    string    source;
+    string    id;
+    string    symbol;
+    int       result;
+    long long usOut;
+    long long usDiff;
 };
 
 struct CalculationInfo {
@@ -270,8 +270,8 @@ void readTradeLog(const vector<string>& files) {
 
                 tradeFile << trade_cancel[idx].type << ",";
                 tradeFile << trade_cancel[idx].usDiff << ",";
-                tradeFile << trade_cancel[idx].usOut;
-                tradeFile << "\n";
+                tradeFile << common::timestampToDate(trade_cancel[idx].usOut, common::TimeUnit::Microseconds);
+                timestampToDate tradeFile << "\n";
 
                 pre_id = trade_cancel[idx].id;
                 ++idx;
