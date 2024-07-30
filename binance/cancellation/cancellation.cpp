@@ -220,6 +220,7 @@ void readTradeLog(const string& file) {
               << "pre 500ms diff price nums,";
     tradeFile << "cancel type,"
               << "processing time us";
+    tradeFile << "\n";
 
     size_t idx = 0;
     string line;
@@ -232,10 +233,9 @@ void readTradeLog(const string& file) {
         json currentJson = json::parse(line, nullptr, false);
         trade_all.emplace_back(currentJson);
 
-        cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
-
         if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
-            cout << "!!!!!!!!!!!!!" << endl;
+            cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
+
             CalculationInfo cal;
             getCalculationInfo(cal);
             cout << " match trade cancel fail,id:[" << currentJson["data"]["t"] << "]" << endl;
@@ -258,6 +258,7 @@ void readTradeLog(const string& file) {
             tradeFile << trade_cancel[idx].type << ",";
             tradeFile << trade_cancel[idx].usDiff << ",";
             tradeFile << trade_cancel[idx].usOut;
+            tradeFile << "\n";
             ++idx;
         }
     }
