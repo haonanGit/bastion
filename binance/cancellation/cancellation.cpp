@@ -188,6 +188,7 @@ void readCancellation(const vector<string>& files) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
+        cout << "cancle file :" << file << endl;
 
         string line;
         while (getline(infile, line)) {
