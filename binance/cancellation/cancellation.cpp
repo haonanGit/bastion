@@ -110,7 +110,7 @@ void setCancelInfo(const string& cur) {
     info.result = currentJson["result"];
     info.usDiff = currentJson["usDiff"];
     info.usOut = currentJson["usOut"];
-    cout << "id:" << id << "source:" << info.source << endl;
+    cout << "id:" << id << "sourceid:" << info.id << endl;
     auto& v = info.source == "trade" ? trade_cancel : agg_cancel;
     v.emplace_back(info);
     if (log_symbol != info.symbol) {
@@ -183,11 +183,9 @@ void readCancellation(const string& file) {
             continue;
 
         if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
-            cout << "setreq" << endl;
             setCancelReq(line);
             ++total_cancel_no;
         } else if (line.find("Final Cancel Result") != string::npos) {
-            cout << "setCancelInfo" << endl;
             setCancelInfo(line);
         }
     }
@@ -228,6 +226,8 @@ void readTradeLog(const string& file) {
         line = line.substr(line.find("{"));
         json currentJson = json::parse(line, nullptr, false);
         trade_all.emplace_back(currentJson);
+
+        cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
         if (trade_cancel[idx].id == currentJson["data"]["t"]) {
             CalculationInfo cal;
