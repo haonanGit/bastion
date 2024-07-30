@@ -223,6 +223,7 @@ void readTradeLog(const vector<string>& files) {
     tradeFile << "\n";
 
     size_t idx = 0;
+
     for (const auto& file : files) {
         cout << "new file!!!!!!!!" << endl;
         ifstream infile(file);
@@ -230,7 +231,7 @@ void readTradeLog(const vector<string>& files) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
-
+        string pre_id("");
         string line;
         cout << "trade cancel size:" << trade_cancel.size() << ",idx:" << idx << endl;
         while (getline(infile, line) && idx < trade_cancel.size()) {
@@ -240,6 +241,9 @@ void readTradeLog(const vector<string>& files) {
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
             trade_all.emplace_back(currentJson);
+            while (trade_cancel[idx].id < pre_id) {
+                ++idx;
+            }
             if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
                 cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
@@ -266,6 +270,8 @@ void readTradeLog(const vector<string>& files) {
                 tradeFile << trade_cancel[idx].usDiff << ",";
                 tradeFile << trade_cancel[idx].usOut;
                 tradeFile << "\n";
+
+                pre_id = trade_cancel[idx].id;
                 ++idx;
             }
         }
