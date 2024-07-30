@@ -271,7 +271,7 @@ void readTradeLog(const vector<string>& files) {
                 tradeFile << trade_cancel[idx].type << ",";
                 tradeFile << trade_cancel[idx].usDiff << ",";
                 tradeFile << common::timestampToDate(trade_cancel[idx].usOut, common::TimeUnit::Microseconds);
-                timestampToDate tradeFile << "\n";
+                tradeFile << "\n";
 
                 pre_id = trade_cancel[idx].id;
                 ++idx;
