@@ -166,6 +166,7 @@ void getCalculationInfo(const CancelInfo&, CalculationInfo& cal) {
 }
 
 void readCancellation(const string& file) {
+    cout << "start readCancellation" << endl;
     ifstream infile(file);
     if (!infile.is_open()) {
         cerr << "Error opening file: " << file << endl;
@@ -191,6 +192,7 @@ void readCancellation(const string& file) {
 }
 
 void readTradeLog(const string& file) {
+    cout << "start readTradeLog" << endl;
     ifstream infile(file);
     if (!infile.is_open()) {
         cerr << "Error opening file: " << file << endl;
@@ -258,6 +260,8 @@ int main(int argc, char* argv[]) {
     string logFile = argv[2];
     string type = argv[3];
     log_symbol = argv[4];
+
+    cout << "cancelFile:" << argv[1] << ",logfile:" << argv[2] << ",type:" << argv[3] << ",log_symbol" << argv[4] << endl;
 
     readCancellation(cancelFile);
     if (type == "trade") {
