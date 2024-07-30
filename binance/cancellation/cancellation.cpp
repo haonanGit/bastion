@@ -229,7 +229,8 @@ void readTradeLog(const string& file) {
 
         cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
-        if (trade_cancel[idx].id == currentJson["data"]["t"]) {
+        if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
+            cout << "!!!!!!!!!!!!!" << endl;
             CalculationInfo cal;
             getCalculationInfo(trade_cancel[idx], cal);
             cout << " match trade cancel fail,id:[" << currentJson["data"]["t"] << "]" << endl;
