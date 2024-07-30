@@ -145,7 +145,7 @@ void getCalculationInfo(CalculationInfo& cal) {
         }
     }
     for (auto it = trade_all.rbegin(); it != trade_all.rend(); ++it) {
-        const auto& cur = trade_all.back();
+        const auto& cur = *it;
         auto        cur_time = common::convertToTimestamp(cur["data"]["T"], common::TimeUnit::Milliseconds);
         diff = base_time - cur_time;
         if (diff == 0) {
@@ -219,7 +219,8 @@ void readTradeLog(const vector<string>& files) {
               << "pre 500ms nums,"
               << "pre 500ms diff price nums,";
     tradeFile << "cancel type,"
-              << "processing time us";
+              << "processing time us,"
+              << "deribit output time us";
     tradeFile << "\n";
 
     size_t idx = 0;
