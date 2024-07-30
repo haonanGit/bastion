@@ -199,7 +199,7 @@ void readTradeLog(const string& file) {
         return;
     }
 
-    ofstream tradeFile("/work/agg_trade/cancel/trade.csv", ios::trunc);
+    ofstream tradeFile("./trade.csv", ios::trunc);
     tradeFile << "trigger symbol,"
               << "trigger qty,"
               << "trigger trade id,"
