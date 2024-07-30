@@ -181,7 +181,7 @@ void getCalculationInfo(CalculationInfo& cal) {
 
 void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
-
+    string base_id = "4200000000";
     for (const auto& file : files) {
         ifstream infile(file);
         if (!infile.is_open()) {
@@ -196,7 +196,7 @@ void readCancellation(const vector<string>& files) {
                 continue;
 
             if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
-                if (getType(line) != trigger_type) {
+                if (getType(line) != trigger_type || getSourceId(line) < base_id) {
                     continue;
                 }
                 setCancelReq(line);
