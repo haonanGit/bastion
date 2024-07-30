@@ -234,7 +234,7 @@ void readTradeLog(const vector<string>& files) {
     size_t idx = 0;
 
     for (const auto& file : files) {
-        cout << "new file!!!!!!!!" << endl;
+        cout << "new file!!!!!!!!" << file << endl;
         ifstream infile(file);
         if (!infile.is_open()) {
             cerr << "Error opening file: " << file << endl;
