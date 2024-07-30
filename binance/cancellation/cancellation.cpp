@@ -40,7 +40,10 @@ string                            log_symbol;
 int                               total_cancel_no = 0;
 
 string getId(const string& cur) {
-    auto id_start = cur.find("cancel id") + 10;  // Trigger cancel, cancel id SOL_USDC_1
+    auto id_start = cur.find("cancel id") + 10;  // Trigger cancel, cancel id SOL_USDC_1;cancel id: SOL_USDC_535
+    if (cur.find("cancel id:") != string::npos) {
+        id_start++;
+    }
     auto id_end = cur.find(",", id_start);
     auto id = cur.substr(id_start, id_end - id_start);
     return id;
