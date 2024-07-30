@@ -256,8 +256,8 @@ int main(int argc, char* argv[]) {
 
     string cancelFile = argv[1];
     string logFile = argv[2];
-    string type = argv[4];
-    log_symbol = argv[5];
+    string type = argv[3];
+    log_symbol = argv[4];
 
     readCancellation(cancelFile);
     if (type == "trade") {

@@ -31,6 +31,6 @@ target_link_libraries(cancellation PRIVATE Threads::Threads ${Boost_LIBRARIES} p
 
 # Set core dump settings
 add_custom_command(TARGET cancellation POST_BUILD
-    COMMAND ulimit -c 2097152   && echo "/tmp/core.%e.%p" | sudo tee /proc/sys/kernel/core_pattern
+    COMMAND ulimit -c 2097152   && echo "/tmp/core/core.%e.%p" | sudo tee /proc/sys/kernel/core_pattern
     COMMENT "Enable core dumps"
 )
