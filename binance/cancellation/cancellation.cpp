@@ -17,9 +17,9 @@ struct CancelInfo {
     string source;
     string id;
     string symbol;
-    string result;
-    string usOut;
-    string usDiff;
+    int    result;
+    int    usOut;
+    int    usDiff;
 };
 
 struct CalculationInfo {
@@ -98,7 +98,7 @@ void setCancelReq(const string& cur) {
 void setCancelInfo(const string& cur) {
     auto id = getId(cur);
     if (cancel_all.count(id) == 0) {
-        cout << "matching cancel failed :" << id << endl;
+        return;
     }
 
     json currentJson = json::parse(cur.substr(cur.find("{")), nullptr, false);
@@ -199,7 +199,8 @@ void readTradeLog(const string& file) {
     }
 
     ofstream tradeFile("./trade.csv", ios::trunc);
-    tradeFile << "trigger symbol,"
+    tradeFile << "result,"
+              << "trigger symbol,"
               << "trigger qty,"
               << "trigger trade id,"
               << "trigger trade at binance time,"
@@ -229,6 +230,7 @@ void readTradeLog(const string& file) {
             CalculationInfo cal;
             getCalculationInfo(trade_cancel[idx], cal);
             cout << " match trade cancel fail,id:[" << currentJson["data"]["t"] << "]" << endl;
+            tradeFile << trade_cancel[idx].result << ",";
             tradeFile << trade_cancel[idx].symbol << ",";         // symbol
             tradeFile << currentJson["data"]["q"] << ",";         // trigger qty
             tradeFile << currentJson["data"]["t"] << ",";         // trigger trade id
