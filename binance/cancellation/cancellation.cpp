@@ -179,16 +179,11 @@ void readCancellation(const string& file) {
         if (line.empty())
             continue;
 
-        if ((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s")) {
-            continue;
-        }
-
-        if (line.find("Trigger cancel, cancel id") != string::npos) {
+        if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
             cout << "setreq" << endl;
             setCancelReq(line);
             ++total_cancel_no;
-        }
-        if (line.find("Final Cancel Result") != string::npos) {
+        } else if (line.find("Final Cancel Result") != string::npos) {
             cout << "setCancelInfo" << endl;
             setCancelInfo(line);
         }
