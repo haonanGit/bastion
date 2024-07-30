@@ -23,14 +23,15 @@ struct CancelInfo {
 };
 
 struct CalculationInfo {
-    int64_t total_qty_trigger_time;       // total qty at same binance time
-    int64_t diff_price_qty_trigger_time;  // different price at same biance time
-    int64_t pre_100ms_qty;
-    int64_t pre_100ms_diff_price_qty;
-    int64_t pre_300ms_qty;
-    int64_t pre_300ms_diff_price_qty;
-    int64_t pre_500ms_qty;
-    int64_t pre_500ms_diff_price_qty;
+    double  total_trade_qty_trigger_time;  // total trade qty at same binance time
+    int64_t total_nums_trigger_time;       // total nums at same binance time
+    int64_t diff_price_nums_trigger_time;  // different price at same biance time
+    int64_t pre_100ms_nums;
+    int64_t pre_100ms_diff_price_nums;
+    int64_t pre_300ms_nums;
+    int64_t pre_300ms_diff_price_nums;
+    int64_t pre_500ms_nums;
+    int64_t pre_500ms_diff_price_nums;
 };
 
 unordered_map<string, CancelInfo> cancel_all;
@@ -118,19 +119,20 @@ void setCancelInfo(const string& cur) {
     }
 }
 
-void getCalculationInfo(const CancelInfo&, CalculationInfo& cal) {
-    int  diff = 0;
-    int  pre_price = 0;
-    auto base_time = common::convertToTimestamp(trade_all.back()["data"]["T"], common::TimeUnit::Milliseconds);
+void getCalculationInfo(CalculationInfo& cal) {
+    int    diff = 0;
+    string pre_price;
+    auto   base_time = common::convertToTimestamp(trade_all.back()["data"]["T"], common::TimeUnit::Milliseconds);
 
-    cal.total_qty_trigger_time = 0;
-    cal.diff_price_qty_trigger_time = 0;
-    cal.pre_100ms_qty = 0;
-    cal.pre_100ms_diff_price_qty = 0;
-    cal.pre_300ms_qty = 0;
-    cal.pre_300ms_diff_price_qty = 0;
-    cal.pre_500ms_qty = 0;
-    cal.pre_500ms_diff_price_qty = 0;
+    cal.total_trade_qty_trigger_time = 0.0;
+    cal.total_nums_trigger_time = 0;
+    cal.diff_price_nums_trigger_time = 0;
+    cal.pre_100ms_nums = 0;
+    cal.pre_100ms_diff_price_nums = 0;
+    cal.pre_300ms_nums = 0;
+    cal.pre_300ms_diff_price_nums = 0;
+    cal.pre_500ms_nums = 0;
+    cal.pre_500ms_diff_price_nums = 0;
 
     while (!trade_all.empty()) {
         auto cur_time = common::convertToTimestamp(trade_all.front()["data"]["T"], common::TimeUnit::Milliseconds);
@@ -145,25 +147,27 @@ void getCalculationInfo(const CancelInfo&, CalculationInfo& cal) {
         auto        cur_time = common::convertToTimestamp(cur["data"]["T"], common::TimeUnit::Milliseconds);
         diff = base_time - cur_time;
         if (diff == 0) {
-            if (pre_price != cur["data"]["p"] || cal.total_qty_trigger_time == 0) {
-                ++cal.diff_price_qty_trigger_time;
+            if (pre_price != cur["data"]["p"] || cal.total_nums_trigger_time == 0) {
+                ++cal.diff_price_nums_trigger_time;
             }
-            ++cal.total_qty_trigger_time;
+            ++cal.total_nums_trigger_time;
+            cal.total_trade_qty_trigger_time += stod(pre_price != cur["data"]["q"]);
+
         } else if (diff <= 100) {
-            if (pre_price != cur["data"]["p"] || cal.pre_100ms_qty == 0) {
-                ++cal.pre_100ms_diff_price_qty;
+            if (pre_price != cur["data"]["p"] || cal.pre_100ms_nums == 0) {
+                ++cal.pre_100ms_diff_price_nums;
             }
-            ++cal.pre_100ms_qty;
+            ++cal.pre_100ms_nums;
         } else if (diff <= 300) {
-            if (pre_price != cur["data"]["p"] || cal.pre_300ms_qty == 0) {
-                ++cal.pre_300ms_diff_price_qty;
+            if (pre_price != cur["data"]["p"] || cal.pre_300ms_nums == 0) {
+                ++cal.pre_300ms_diff_price_nums;
             }
-            ++cal.pre_300ms_qty;
+            ++cal.pre_300ms_nums;
         } else if (diff <= 500) {
-            if (pre_price != cur["data"]["p"] || cal.pre_500ms_qty == 0) {
-                ++cal.pre_500ms_diff_price_qty;
+            if (pre_price != cur["data"]["p"] || cal.pre_500ms_nums == 0) {
+                ++cal.pre_500ms_diff_price_nums;
             }
-            ++cal.pre_500ms_qty;
+            ++cal.pre_500ms_nums;
         }
         pre_price = cur["data"]["p"];
     }
@@ -204,15 +208,16 @@ void readTradeLog(const string& file) {
               << "trigger symbol,"
               << "trigger qty,"
               << "trigger trade id,"
-              << "trigger trade at binance time,"
-              << "total qty at same binance time,"
+              << "trigger trade time by binance time,"
+              << "total trade qty at same binance time,"
+              << "total trade nums at same binance time,"
               << "different price at same biance time,"
-              << "pre 100ms qty,"
-              << "pre 100ms diff price qty,"
-              << "pre 300ms qty,"
-              << "pre 300ms diff price qty,"
-              << "pre 500ms qty,"
-              << "pre 500ms diff price qty,";
+              << "pre 100ms nums,"
+              << "pre 100ms diff price nums,"
+              << "pre 300ms nums,"
+              << "pre 300ms diff price nums,"
+              << "pre 500ms nums,"
+              << "pre 500ms diff price nums,";
     tradeFile << "cancel type,"
               << "processing time us";
 
@@ -235,18 +240,21 @@ void readTradeLog(const string& file) {
             getCalculationInfo(trade_cancel[idx], cal);
             cout << " match trade cancel fail,id:[" << currentJson["data"]["t"] << "]" << endl;
             tradeFile << trade_cancel[idx].result << ",";
-            tradeFile << trade_cancel[idx].symbol << ",";         // symbol
-            tradeFile << currentJson["data"]["q"] << ",";         // trigger qty
-            tradeFile << currentJson["data"]["t"] << ",";         // trigger trade id
-            tradeFile << currentJson["data"]["T"] << ",";         // trigger trade at binance time
-            tradeFile << cal.total_qty_trigger_time << ",";       // total qty at same binance time
-            tradeFile << cal.diff_price_qty_trigger_time << ",";  // different price at same biance time
-            tradeFile << cal.pre_100ms_qty << ",";                // pre 100ms qty
-            tradeFile << cal.pre_100ms_diff_price_qty << ",";     // pre 100ms diff price qty
-            tradeFile << cal.pre_300ms_qty << ",";
-            tradeFile << cal.pre_300ms_diff_price_qty << ",";
-            tradeFile << cal.pre_500ms_qty << ",";
-            tradeFile << cal.pre_500ms_diff_price_qty << ",";
+            tradeFile << trade_cancel[idx].symbol << ",";  // symbol
+            tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
+            tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
+            tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
+            // cal info
+            tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
+            tradeFile << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
+            tradeFile << cal.diff_price_nums_trigger_time << ",";  // different price at same biance time
+            tradeFile << cal.pre_100ms_nums << ",";                // pre 100ms nums
+            tradeFile << cal.pre_100ms_diff_price_nums << ",";     // pre 100ms diff price nums
+            tradeFile << cal.pre_300ms_nums << ",";
+            tradeFile << cal.pre_300ms_diff_price_nums << ",";
+            tradeFile << cal.pre_500ms_nums << ",";
+            tradeFile << cal.pre_500ms_diff_price_nums << ",";
+
             tradeFile << trade_cancel[idx].type << ",";
             tradeFile << trade_cancel[idx].usDiff << ",";
             tradeFile << trade_cancel[idx].usOut;
