@@ -240,7 +240,6 @@ void readTradeLog(const vector<string>& files) {
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
             trade_all.emplace_back(currentJson);
-            cout << "cur idx:" << trade_cancel[idx].id << endl;
             if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
                 cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
@@ -270,6 +269,8 @@ void readTradeLog(const vector<string>& files) {
                 ++idx;
             }
         }
+        if (idx < trade_cancel.size())
+            cout << "cur idx:" << trade_cancel[idx].id << endl;
     }
 
     tradeFile.close();
