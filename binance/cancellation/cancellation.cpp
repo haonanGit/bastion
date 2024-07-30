@@ -1,16 +1,19 @@
 #include <chrono>
 #include <ctime>
+#include <filesystem>  // C++17标准库文件系统支持
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <queue>
 #include <sstream>
 #include <string>
+#include <vector>
 #include <nlohmann/json.hpp>
 #include "common.h"
 
 using namespace std;
 using json = nlohmann::json;
+namespace fs = std::filesystem;
 
 struct CancelInfo {
     string type;
@@ -173,35 +176,33 @@ void getCalculationInfo(CalculationInfo& cal) {
     }
 }
 
-void readCancellation(const string& file) {
+void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
-    ifstream infile(file);
-    if (!infile.is_open()) {
-        cerr << "Error opening file: " << file << endl;
-        return;
-    }
 
-    string line;
-    while (getline(infile, line)) {
-        if (line.empty())
+    for (const auto& file : files) {
+        ifstream infile(file);
+        if (!infile.is_open()) {
+            cerr << "Error opening file: " << file << endl;
             continue;
+        }
 
-        if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
-            setCancelReq(line);
-            ++total_cancel_no;
-        } else if (line.find("Final Cancel Result") != string::npos) {
-            setCancelInfo(line);
+        string line;
+        while (getline(infile, line)) {
+            if (line.empty())
+                continue;
+
+            if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
+                setCancelReq(line);
+                ++total_cancel_no;
+            } else if (line.find("Final Cancel Result") != string::npos) {
+                setCancelInfo(line);
+            }
         }
     }
 }
 
-void readTradeLog(const string& file) {
+void readTradeLog(const vector<string>& files) {
     cout << "start readTradeLog" << endl;
-    ifstream infile(file);
-    if (!infile.is_open()) {
-        cerr << "Error opening file: " << file << endl;
-        return;
-    }
 
     ofstream tradeFile("./trade.csv", ios::trunc);
     tradeFile << "result,"
@@ -223,66 +224,88 @@ void readTradeLog(const string& file) {
     tradeFile << "\n";
 
     size_t idx = 0;
-    string line;
-    cout << "trade cancel size:" << trade_cancel.size() << endl;
-    while (getline(infile, line) && idx < trade_cancel.size()) {
-        if (line.empty())
+    for (const auto& file : files) {
+        ifstream infile(file);
+        if (!infile.is_open()) {
+            cerr << "Error opening file: " << file << endl;
             continue;
+        }
 
-        line = line.substr(line.find("{"));
-        json currentJson = json::parse(line, nullptr, false);
-        trade_all.emplace_back(currentJson);
+        string line;
+        cout << "trade cancel size:" << trade_cancel.size() << endl;
+        while (getline(infile, line) && idx < trade_cancel.size()) {
+            if (line.empty())
+                continue;
 
-        if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
-            cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
+            line = line.substr(line.find("{"));
+            json currentJson = json::parse(line, nullptr, false);
+            trade_all.emplace_back(currentJson);
 
-            CalculationInfo cal;
-            getCalculationInfo(cal);
-            cout << " match trade cancel fail,id:[" << currentJson["data"]["t"] << "]" << endl;
-            tradeFile << trade_cancel[idx].result << ",";
-            tradeFile << trade_cancel[idx].symbol << ",";  // symbol
-            tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
-            tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
-            tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
-            // cal info
-            tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
-            tradeFile << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
-            tradeFile << cal.diff_price_nums_trigger_time << ",";  // different price at same biance time
-            tradeFile << cal.pre_100ms_nums << ",";                // pre 100ms nums
-            tradeFile << cal.pre_100ms_diff_price_nums << ",";     // pre 100ms diff price nums
-            tradeFile << cal.pre_300ms_nums << ",";
-            tradeFile << cal.pre_300ms_diff_price_nums << ",";
-            tradeFile << cal.pre_500ms_nums << ",";
-            tradeFile << cal.pre_500ms_diff_price_nums << ",";
+            if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
+                cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
-            tradeFile << trade_cancel[idx].type << ",";
-            tradeFile << trade_cancel[idx].usDiff << ",";
-            tradeFile << trade_cancel[idx].usOut;
-            tradeFile << "\n";
-            ++idx;
+                CalculationInfo cal;
+                getCalculationInfo(cal);
+                cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "]" << endl;
+                tradeFile << trade_cancel[idx].result << ",";
+                tradeFile << trade_cancel[idx].symbol << ",";  // symbol
+                tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
+                tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
+                tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
+                // cal info
+                tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
+                tradeFile << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
+                tradeFile << cal.diff_price_nums_trigger_time << ",";  // different price at same biance time
+                tradeFile << cal.pre_100ms_nums << ",";                // pre 100ms nums
+                tradeFile << cal.pre_100ms_diff_price_nums << ",";     // pre 100ms diff price nums
+                tradeFile << cal.pre_300ms_nums << ",";
+                tradeFile << cal.pre_300ms_diff_price_nums << ",";
+                tradeFile << cal.pre_500ms_nums << ",";
+                tradeFile << cal.pre_500ms_diff_price_nums << ",";
+
+                tradeFile << trade_cancel[idx].type << ",";
+                tradeFile << trade_cancel[idx].usDiff << ",";
+                tradeFile << trade_cancel[idx].usOut;
+                tradeFile << "\n";
+                ++idx;
+            }
         }
     }
 
     tradeFile.close();
 }
 
+vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
+    vector<string> files;
+    for (const auto& entry : fs::directory_iterator(dirPath)) {
+        if (entry.is_regular_file() && entry.path().filename().string().find(prefix) == 0) {
+            files.push_back(entry.path().string());
+        }
+    }
+    return files;
+}
+
 int main(int argc, char* argv[]) {
-    if (argc != 5) {
-        cerr << "Usage: " << argv[0] << " <cancel_file_path> <log_file_path> <trade/agg> <symbol>" << endl;
+    if (argc != 6) {
+        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <log_type> <symbol>" << endl;
         return 1;
     }
 
-    string cancelFile = argv[1];
-    string logFile = argv[2];
-    string type = argv[3];
-    log_symbol = argv[4];
+    string filePath = argv[1];
+    string cancelPrefix = argv[2];
+    string logPrefix = argv[3];
+    string log_type = argv[4];
+    log_symbol = argv[5];
 
-    cout << "cancelFile:" << argv[1] << ",logfile:" << argv[2] << ",type:" << argv[3] << ",log_symbol" << argv[4] << endl;
+    cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",logPrefix:" << logPrefix << ",log_type" << log_type
+         << ",log_symbol:" << log_symbol << endl;
 
-    readCancellation(cancelFile);
-    if (type == "trade") {
-        readTradeLog(logFile);
-    }
+    vector<string> cancelFiles = getFilesWithPrefix(filePath, cancelPrefix);
+    vector<string> logFiles = getFilesWithPrefix(filePath, logPrefix);
+
+    readCancellation(cancelFiles);
+    if (log_type == "trade")
+        readTradeLog(logFiles);
 
     return 0;
 }
