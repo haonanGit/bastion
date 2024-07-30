@@ -299,6 +299,7 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
             files.push_back(entry.path().string());
         }
     }
+    sort(files.begin(), files.end(), greater<string>());
     return files;
 }
 
