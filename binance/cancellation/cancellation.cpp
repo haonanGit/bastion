@@ -21,6 +21,7 @@ struct CancelInfo {
     string    id;
     string    symbol;
     int       result;
+    long long usIn;
     long long usOut;
     long long usDiff;
 };
@@ -114,6 +115,7 @@ void setCancelInfo(const string& cur) {
     auto info = cancel_all[id];
     info.result = currentJson["result"];
     info.usDiff = currentJson["usDiff"];
+    info.usIn = currentJson["usIn"];
     info.usOut = currentJson["usOut"];
     auto& v = info.source == "trade" ? trade_cancel : agg_cancel;
     v.emplace_back(info);
@@ -225,6 +227,7 @@ void readTradeLog(const vector<string>& files) {
               << "pre 500ms diff price nums,";
     tradeFile << "cancel type,"
               << "processing time us,"
+              << "deribit input time us,"
               << "deribit output time us";
     tradeFile << "\n";
 
@@ -274,6 +277,7 @@ void readTradeLog(const vector<string>& files) {
 
                 tradeFile << trade_cancel[idx].type << ",";
                 tradeFile << trade_cancel[idx].usDiff << ",";
+                tradeFile << common::timestampToDate(trade_cancel[idx].usIn, common::TimeUnit::Microseconds);
                 tradeFile << common::timestampToDate(trade_cancel[idx].usOut, common::TimeUnit::Microseconds);
                 tradeFile << "\n";
 
