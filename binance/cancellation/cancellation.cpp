@@ -205,6 +205,7 @@ void readCancellation(const vector<string>& files) {
                 setCancelInfo(line);
             }
         }
+        cout << "trade_cancel size :" << trade_cancel << endl;
     }
 }
 
