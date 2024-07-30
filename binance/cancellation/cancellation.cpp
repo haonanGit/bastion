@@ -319,16 +319,11 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
         if (end_b != std::string::npos) {
             ib = std::stoi(b.substr(start_b, end_b - start_b));
         }
-        cout << a << ", " << ia << endl;
-        cout << b << ", " << ib << endl;
 
         return ia > ib;  // Use > for descending order
     };
 
     sort(files.begin(), files.end(), comp);
-    for (auto f : files) {
-        cout << f << endl;
-    }
 
     return files;
 }
