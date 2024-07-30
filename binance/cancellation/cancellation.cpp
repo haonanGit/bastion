@@ -207,6 +207,8 @@ void readCancellation(const vector<string>& files) {
         }
         cout << "trade_cancel size :" << trade_cancel.size() << endl;
     }
+    auto comp = [](const auto& a, const auto& b) { return a.id < b.id; };
+    sort(trade_cancel.begin(), trade_cancel.end(), comp);
 }
 
 void readTradeLog(const vector<string>& files) {
