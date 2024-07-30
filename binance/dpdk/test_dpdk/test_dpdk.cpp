@@ -137,6 +137,7 @@ void process_packet(struct rte_mbuf* mbuf) {
 int main(int argc, char* argv[]) {
     uint16_t            port_id = 0;  // DPDK端口ID
     struct rte_mempool* mbuf_pool;    // 内存池
+    initialize_trace_points();
 
     // 添加调试信息，打印EAL初始化参数
     printf("EAL initialization arguments:\n");

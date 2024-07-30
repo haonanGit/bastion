@@ -25,7 +25,7 @@ void readAggTrade(const std::string& file) {
         if (line.empty())
             continue;
 
-        json currentJson = json::parse(line, nullptr, false);
+        // json currentJson = json::parse(line, nullptr, false);
         m_agg.push(line);
         // m_agg[currentJson["qty"]] = line;
     }

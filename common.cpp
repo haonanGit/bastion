@@ -77,7 +77,7 @@ char* Base64Encode(const unsigned char* input, size_t length) {  // Encodes a bi
 int Base64Decode(char* b64message, unsigned char** buffer, size_t* length) {  // Decodes a base64 encoded string
     BIO *bio, *b64;
 
-    int decodeLen = calcDecodeLength(b64message);
+    auto decodeLen = calcDecodeLength(b64message);
     *buffer = (unsigned char*)malloc(decodeLen + 1);
     (*buffer)[decodeLen] = '\0';
 
@@ -125,6 +125,42 @@ std::string timestampToDate(int64_t timestamp, TimeUnit unit) {
     ss << '.' << std::setw(width) << std::setfill('0') << milliseconds;
 
     return ss.str();
+}
+
+long long convertToTimestamp(const std::string& dateTimeStr, TimeUnit unit) {
+    // 定义时间结构
+    std::tm            tm = {};
+    std::istringstream ss(dateTimeStr.substr(0, 19));  // 只解析到秒部分
+
+    // 解析日期和时间
+    ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+
+    // 将解析出的时间转换为时间戳
+    std::time_t time = std::mktime(&tm);
+
+    // 根据时间单位获取对应的比例尺和宽度
+    int scale = 1000;  // 默认是毫秒
+    switch (unit) {
+    case TimeUnit::Milliseconds:
+        scale = 1000;
+        break;
+    case TimeUnit::Microseconds:
+        scale = 1000000;
+        break;
+    case TimeUnit::Nanoseconds:
+        scale = 1000000000;
+        break;
+    }
+
+    // 获取毫秒、微秒或纳秒部分
+    std::string subsecondStr = dateTimeStr.substr(20);  // 假设子秒部分在第20个字符后
+    int         subsecond = 0;
+    if (!subsecondStr.empty()) {
+        subsecond = std::stoi(subsecondStr);
+    }
+
+    // 转换为对应单位的时间戳
+    return static_cast<int64_t>(time) * scale + subsecond * (scale / 1000);
 }
 
 }  // namespace common
