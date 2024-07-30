@@ -41,6 +41,7 @@ unordered_map<string, CancelInfo> cancel_all;
 vector<CancelInfo>                trade_cancel, agg_cancel;
 deque<json>                       trade_all, aggtrade_all;
 string                            log_symbol;
+string                            trigger_type;
 int                               total_cancel_no = 0;
 
 string getId(const string& cur) {
@@ -192,6 +193,9 @@ void readCancellation(const vector<string>& files) {
                 continue;
 
             if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
+                if (getType(cur) != trigger_type) {
+                    continue;
+                }
                 setCancelReq(line);
                 ++total_cancel_no;
             } else if (line.find("Final Cancel Result") != string::npos) {
@@ -304,10 +308,12 @@ int main(int argc, char* argv[]) {
     string cancelPrefix = argv[2];
     string logPrefix = argv[3];
     string log_type = argv[4];
+
     log_symbol = argv[5];
+    trigger_type = argv[6];
 
     cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",logPrefix:" << logPrefix << ",log_type" << log_type
-         << ",log_symbol:" << log_symbol << endl;
+         << ",log_symbol:" << log_symbol << "trigger_type" << trigger_type << endl;
 
     vector<string> cancelFiles = getFilesWithPrefix(filePath, cancelPrefix);
     vector<string> logFiles = getFilesWithPrefix(filePath, logPrefix);
