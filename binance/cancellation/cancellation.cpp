@@ -187,7 +187,8 @@ void readCancellation(const string& file) {
             cout << "setreq" << endl;
             setCancelReq(line);
             ++total_cancel_no;
-        } else if (line.find("Final Cancel Result") != string::npos) {
+        }
+        if (line.find("Final Cancel Result") != string::npos) {
             cout << "setCancelInfo" << endl;
             setCancelInfo(line);
         }
