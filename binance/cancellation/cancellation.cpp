@@ -151,7 +151,7 @@ void getCalculationInfo(CalculationInfo& cal) {
                 ++cal.diff_price_nums_trigger_time;
             }
             ++cal.total_nums_trigger_time;
-            cal.total_trade_qty_trigger_time += stod(cur["data"]["q"]);
+            cal.total_trade_qty_trigger_time += stod(cur["data"]["q"].get<string>());
 
         } else if (diff <= 100) {
             if (pre_price != cur["data"]["p"] || cal.pre_100ms_nums == 0) {
