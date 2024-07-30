@@ -262,6 +262,7 @@ void readTradeLog(const string& file) {
             ++idx;
         }
     }
+
     tradeFile.close();
 }
 
