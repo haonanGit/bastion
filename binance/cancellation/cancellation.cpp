@@ -303,7 +303,28 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
             files.push_back(entry.path().string());
         }
     }
-    sort(files.begin(), files.end(), greater<string>());
+
+    auto comp = [](const std::string& a, const std::string& b) {
+        int ia = 0;
+        int ib = 0;
+
+        size_t start_a = a.rfind('.') + 1;
+        size_t end_a = a.find('.', start_a);
+        if (end_a != std::string::npos) {
+            ia = std::stoi(a.substr(start_a, end_a - start_a));
+        }
+
+        size_t start_b = b.rfind('.') + 1;
+        size_t end_b = b.find('.', start_b);
+        if (end_b != std::string::npos) {
+            ib = std::stoi(b.substr(start_b, end_b - start_b));
+        }
+
+        return ia > ib;  // Use > for descending order
+    };
+
+    sort(files.begin(), files.end(), comp);
+
     return files;
 }
 
