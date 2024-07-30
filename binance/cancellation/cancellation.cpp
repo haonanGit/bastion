@@ -324,6 +324,9 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
     };
 
     sort(files.begin(), files.end(), comp);
+    for (auto f : files) {
+        cout << f << endl;
+    }
 
     return files;
 }
