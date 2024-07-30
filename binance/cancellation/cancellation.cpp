@@ -144,7 +144,7 @@ void getCalculationInfo(CalculationInfo& cal) {
             break;
         }
     }
-    cout << "cal trade all size:" << trade_all.size() << endl;
+
     for (auto it = trade_all.rbegin(); it != trade_all.rend(); ++it) {
         const auto& cur = *it;
         auto        cur_time = common::convertToTimestamp(cur["data"]["T"], common::TimeUnit::Milliseconds);
