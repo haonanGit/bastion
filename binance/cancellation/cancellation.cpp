@@ -249,6 +249,7 @@ void readCancellation(const vector<string>& files) {
     }
     auto comp = [](const auto& a, const auto& b) { return a.id < b.id; };
     sort(trade_cancel.begin(), trade_cancel.end(), comp);
+    sort(agg_cancel.begin(), agg_cancel.end(), comp);
 }
 
 void readTradeLog(const vector<string>& files) {
