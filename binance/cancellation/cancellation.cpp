@@ -15,35 +15,6 @@ using namespace std;
 using json = nlohmann::json;
 namespace fs = std::filesystem;
 
-#include <ctime>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-
-std::string convertToUtc(const std::string& input) {
-    std::tm tm = {};
-    int     milliseconds;
-
-    std::istringstream ss(input);
-    ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
-    ss.ignore(1, ',');
-    ss >> milliseconds;
-
-    // Convert to time_t and adjust for UTC+1 to UTC
-    tm.tm_isdst = -1;                            // Not considering daylight saving time
-    std::time_t time = std::mktime(&tm) - 3600;  // Subtract one hour
-
-    // Convert back to tm structure
-    std::tm* utc_tm = std::gmtime(&time);
-
-    // Format the time string and replace the millisecond separator
-    std::ostringstream result;
-    result << std::put_time(utc_tm, "%Y-%m-%d %H:%M:%S");
-    result << '.' << std::setw(3) << std::setfill('0') << milliseconds;
-
-    return result.str();
-}
-
 struct CancelInfo {
     string    type;
     string    source;
@@ -136,7 +107,7 @@ void setCancelReq(const string& cur) {
     info.source = getSource(cur);
     info.id = getSourceId(cur);
     info.symbol = getSymbol(cur);
-    info.logTime = convertToUtc(getLogTime(cur));
+    info.logTime = getLogTime(cur);
 
     cancel_all[id] = info;
 }
@@ -252,7 +223,7 @@ void readTradeLog(const vector<string>& files) {
     cout << "start readTradeLog" << endl;
 
     ofstream tradeFile("./trade.csv", ios::trunc);
-    tradeFile << "cancel log time,"
+    tradeFile << "log time,"
               << "result,"
               << "trigger symbol,"
               << "trigger qty,"
@@ -274,7 +245,7 @@ void readTradeLog(const vector<string>& files) {
     tradeFile << "\n";
 
     size_t idx = 0;
-    string pre_id = "4200000000";
+
     for (const auto& file : files) {
         cout << "new file!!!!!!!!" << file << endl;
         ifstream infile(file);
@@ -282,31 +253,31 @@ void readTradeLog(const vector<string>& files) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
-
+        string pre_id("");
         string line;
-        while (getline(infile, line) && idx < cancel_all.size()) {
+        cout << "trade cancel size:" << trade_cancel.size() << ",idx:" << idx << endl;
+        while (getline(infile, line) && idx < trade_cancel.size()) {
             if (line.empty())
                 continue;
 
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
             trade_all.emplace_back(currentJson);
-            while (cancel_all[idx].id < pre_id) {
+            while (trade_cancel[idx].id < pre_id) {
                 ++idx;
             }
-            if (cancel_all[idx].id == to_string(currentJson["data"]["t"])) {
-                cout << "idx:" << idx << ",sourceid:" << cancel_all[idx].id << endl;
+            if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
+                cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
                 CalculationInfo cal;
                 getCalculationInfo(cal);
                 cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "]" << endl;
-                tradeFile << cancel_all[idx].logTime << ",";  // internal cancel log time
-                tradeFile << cancel_all[idx].result << ",";
-                tradeFile << cancel_all[idx].symbol << ",";    // symbol
+                tradeFile << trade_cancel[idx].logTime << ",";
+                tradeFile << trade_cancel[idx].result << ",";
+                tradeFile << trade_cancel[idx].symbol << ",";  // symbol
                 tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
                 tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
-                tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time by binance time
-
+                tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
                 // cal info
                 tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
                 tradeFile << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
@@ -318,18 +289,18 @@ void readTradeLog(const vector<string>& files) {
                 tradeFile << cal.pre_500ms_nums << ",";
                 tradeFile << cal.pre_500ms_diff_price_nums << ",";
 
-                tradeFile << cancel_all[idx].type << ",";
-                tradeFile << cancel_all[idx].usDiff << ",";
-                tradeFile << common::timestampToDate(cancel_all[idx].usIn, common::TimeUnit::Microseconds);
-                tradeFile << common::timestampToDate(cancel_all[idx].usOut, common::TimeUnit::Microseconds);
+                tradeFile << trade_cancel[idx].type << ",";
+                tradeFile << trade_cancel[idx].usDiff << ",";
+                tradeFile << common::timestampToDate(trade_cancel[idx].usIn, common::TimeUnit::Microseconds);
+                tradeFile << common::timestampToDate(trade_cancel[idx].usOut, common::TimeUnit::Microseconds);
                 tradeFile << "\n";
 
-                pre_id = cancel_all[idx].id;
+                pre_id = trade_cancel[idx].id;
                 ++idx;
             }
         }
-        if (idx < cancel_all.size())
-            cout << "cur idx:" << cancel_all[idx].id << endl;
+        if (idx < trade_cancel.size())
+            cout << "cur idx:" << trade_cancel[idx].id << endl;
     }
 
     tradeFile.close();
