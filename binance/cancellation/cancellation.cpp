@@ -277,9 +277,13 @@ void readTradeLog(const vector<string>& files) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
+        if (idx >= trade_cancel.size()) {
+            break;
+        }
+
         string pre_id("");
         string line;
-        cout << "trade cancel size:" << trade_cancel.size() << ",idx:" << idx << endl;
+        cout << "trade cancel size:" << trade_cancel.size() << ",idx:" << idx << ",id:" << trade_cancel[idx].id << endl;
         while (getline(infile, line) && idx < trade_cancel.size()) {
             if (line.empty())
                 continue;

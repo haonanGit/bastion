@@ -34,7 +34,7 @@ struct CalculationInfo {
 vector<CancelInfo> cancel_all;
 vector<string>     cancel_log;
 string             title;
-int                gap = 100;
+int                gap = 500;
 
 std::string removeQuotes(const std::string& str) {
     std::string result = str;
