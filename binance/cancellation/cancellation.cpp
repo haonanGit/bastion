@@ -64,7 +64,7 @@ string getType(const string& cur) {
     } else if (cur.find("by FDUSD") != string::npos) {
         return "FDUSD";
     } else if (cur.find("Deribit 1s") != string::npos) {
-        return "Deribit 1s";
+        return "deribit1s";
     }
     return "";
 }
@@ -240,8 +240,11 @@ void readCancellation(const vector<string>& files) {
             if (line.empty())
                 continue;
 
-            if (line.find("Trigger cancel, cancel id") != string::npos && getSymbol(line) == log_symbol) {
-                if (getType(line) != trigger_type && getType(line) != "Deribit 1s") {
+            if (line.find("Trigger cancel, cancel id") != string::npos) {
+                if (getSymbol(line) != log_symbol && !getSymbol().empty()) {
+                    continue;
+                }
+                if (getType(line) != trigger_type && getType(line) != "deribit1s") {
                     continue;
                 }
                 if (line.find("Stream: trade") != string::npos && getSourceId(line) < base_trade_id) {
