@@ -474,14 +474,14 @@ void readDeribit1sLog() {
     tradeFile << "\n";
 
     size_t idx = 0;
-    while (idx < agg_cancel.size()) {
-        tradeFile << convertToUtc(agg_cancel[idx].logTime) << ",";
-        tradeFile << agg_cancel[idx].result << ",";
+    while (idx < within1s.size()) {
+        tradeFile << convertToUtc(within1s[idx].logTime) << ",";
+        tradeFile << within1s[idx].result << ",";
         tradeFile << "deribit within 1s trading,";
-        tradeFile << agg_cancel[idx].symbol << ",";  // symbol
-        tradeFile << ",";                            // trigger qty
-        tradeFile << ",";                            // trigger trade id
-        tradeFile << ",";                            // trigger trade time at binance time
+        tradeFile << within1s[idx].symbol << ",";  // symbol
+        tradeFile << ",";                          // trigger qty
+        tradeFile << ",";                          // trigger trade id
+        tradeFile << ",";                          // trigger trade time at binance time
         // cal info
         tradeFile << ",";  // total trade nums at same binance time
         tradeFile << ",";  // total trade nums at same binance time
@@ -493,10 +493,10 @@ void readDeribit1sLog() {
         tradeFile << ",";
         tradeFile << ",";
 
-        tradeFile << agg_cancel[idx].type << ",";
-        tradeFile << agg_cancel[idx].usDiff << ",";
-        tradeFile << common::timestampToDate(agg_cancel[idx].usIn, common::TimeUnit::Microseconds);
-        tradeFile << common::timestampToDate(agg_cancel[idx].usOut, common::TimeUnit::Microseconds);
+        tradeFile << within1s[idx].type << ",";
+        tradeFile << within1s[idx].usDiff << ",";
+        tradeFile << common::timestampToDate(within1s[idx].usIn, common::TimeUnit::Microseconds);
+        tradeFile << common::timestampToDate(within1s[idx].usOut, common::TimeUnit::Microseconds);
         tradeFile << "\n";
 
         ++idx;
