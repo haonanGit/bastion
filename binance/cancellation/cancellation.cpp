@@ -213,7 +213,8 @@ std::string convertToUtc(const std::string& input) {
 
 void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
-    string base_id = match_type == "trade" ? "4200000000" : "1700000000";
+    string base_trade_id = "4200000000";
+    string base_agg_id = "1700000000";
     for (const auto& file : files) {
         ifstream infile(file);
         if (!infile.is_open()) {
@@ -228,9 +229,16 @@ void readCancellation(const vector<string>& files) {
                 continue;
 
             if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
-                if (getType(line) != trigger_type || getSourceId(line) < base_id) {
+                if (getType(line) != trigger_type) {
                     continue;
                 }
+                if (line.find("Stream: trade") != string::npos && getSourceId(line) < base_trade_id) {
+                    continue;
+                }
+                if (line.find("Stream: aggTrade") != string::npos && getSourceId(line) < base_agg_id) {
+                    continue;
+                }
+
                 setCancelReq(line, file);
                 ++total_cancel_no;
             } else if (line.find("Final Cancel Result") != string::npos) {
