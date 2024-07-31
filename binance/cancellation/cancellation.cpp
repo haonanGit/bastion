@@ -391,7 +391,7 @@ void readAggTradeLog(const vector<string>& files) {
 
                 CalculationInfo cal;
                 getCalculationInfo(cal);
-                cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "], trade id :" << trade_cancel[idx].id << endl;
+                cout << " match trade cancel,id:[" << currentJson["data"]["a"] << "], trade id :" << trade_cancel[idx].id << endl;
                 tradeFile << convertToUtc(trade_cancel[idx].logTime) << ",";
                 tradeFile << trade_cancel[idx].result << ",";
                 tradeFile << "aggtrade,";
