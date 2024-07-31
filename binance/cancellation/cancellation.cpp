@@ -459,7 +459,7 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
 
 int main(int argc, char* argv[]) {
     if (argc != 7) {
-        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <log_type> <symbol> <trigger_type>" << endl;
+        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <aggLogPrefix> <symbol> <trigger_type>" << endl;
         return 1;
     }
 
@@ -476,7 +476,7 @@ int main(int argc, char* argv[]) {
 
     vector<string> cancelFiles = getFilesWithPrefix(filePath, cancelPrefix);
     vector<string> logFiles = getFilesWithPrefix(filePath, logPrefix);
-    vector<string> aggLogFiles = getFilesWithPrefix(filePath, logPrefix);
+    vector<string> aggLogFiles = getFilesWithPrefix(filePath, aggLogPrefix);
 
     readCancellation(cancelFiles);
 
