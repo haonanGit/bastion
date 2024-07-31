@@ -67,6 +67,7 @@ void setDeribitInfo(const std::string& cur) {
 
     std::getline(ss, token, ',');
     info.id = removeQuotes(token);
+    info.id.resize(info.id.size() - 1);  // remove '\n'
 
     cancel_all.emplace_back(info);  // Using map with unique id as key
 }
