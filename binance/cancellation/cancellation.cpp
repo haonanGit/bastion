@@ -213,7 +213,7 @@ std::string convertToUtc(const std::string& input) {
 
 void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
-    string base_id = match_type == "trade" ? "4200000000" : base_agg;
+    string base_id = match_type == "trade" ? "4200000000" : "1700000000";
     for (const auto& file : files) {
         ifstream infile(file);
         if (!infile.is_open()) {
