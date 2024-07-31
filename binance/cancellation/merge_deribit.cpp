@@ -88,6 +88,7 @@ void getCalculationInfo(const long long& deribit_time, CalculationInfo& cal) {
 
         if (cal.start == -1 && (deribit_time - cur_time <= gap && deribit_time - cur_time >= 0)) {
             cal.start = idx;  // cancel before deribit trade
+            cal.end = idx;
         } else if (cur_time - deribit_time <= gap && cur_time - deribit_time >= 0) {
             cal.end = idx;  // cancel after deribit trade
         } else if (cur_time - deribit_time > gap) {
