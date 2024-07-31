@@ -126,6 +126,9 @@ void setCancelInfo(const string& cur) {
     info.usIn = currentJson["usIn"];
     info.usOut = currentJson["usOut"];
     auto& v = info.source == "trade" ? trade_cancel : agg_cancel;
+    if (v.size() > 0 && v[v.size() - 1].id == info.id) {
+        cout << "req id:" << id << ", trade id:" << info.id << endl;
+    }
     v.emplace_back(info);
     if (log_symbol != info.symbol) {
         cout << "symbol matching failed!!!!!!!!!!!!!!! :" << id << endl;
@@ -327,8 +330,6 @@ void readTradeLog(const vector<string>& files) {
                 ++idx;
             }
         }
-        if (idx < trade_cancel.size())
-            cout << "cur idx:" << trade_cancel[idx].id << endl;
     }
 
     tradeFile.close();
