@@ -223,7 +223,7 @@ void readTradeLog(const vector<string>& files) {
     cout << "start readTradeLog" << endl;
 
     ofstream tradeFile("./trade.csv", ios::trunc);
-    tradeFile << "log time,"
+    tradeFile << "calcel log time,"
               << "result,"
               << "trigger symbol,"
               << "trigger qty,"
