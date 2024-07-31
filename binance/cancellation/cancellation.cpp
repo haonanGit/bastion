@@ -129,6 +129,9 @@ void setCancelInfo(const string& cur) {
     if (v.size() > 0 && v[v.size() - 1].id == info.id) {
         cout << "!!!!!!!!!!!!!!!!!!!!!!!!req id:" << id << ", trade id:" << info.id << endl;
     }
+    if (info.id == "4249677441") {
+        cout << "4249677441!!!!!!!!!!!!!!!!!!!!!!!!req id:" << id << ", trade id:" << info.id << endl;
+    }
     v.emplace_back(info);
     if (log_symbol != info.symbol) {
         cout << "symbol matching failed!!!!!!!!!!!!!!! :" << id << endl;
