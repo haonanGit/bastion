@@ -213,7 +213,7 @@ std::string convertToUtc(const std::string& input) {
 
 void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
-    string base_id = "4200000000";
+    string base_id = match_type == "trade" ? "4200000000" : base_agg;
     for (const auto& file : files) {
         ifstream infile(file);
         if (!infile.is_open()) {
@@ -369,33 +369,33 @@ void readAggTradeLog(const vector<string>& files) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
-        if (idx >= trade_cancel.size()) {
+        if (idx >= agg_cancel.size()) {
             break;
         }
 
         string pre_id("");
         string line;
-        cout << "trade cancel size:" << trade_cancel.size() << ",idx:" << idx << ",id:" << trade_cancel[idx].id << endl;
-        while (getline(infile, line) && idx < trade_cancel.size()) {
+        cout << "agg cancel size:" << agg_cancel.size() << ",idx:" << idx << ",id:" << agg_cancel[idx].id << endl;
+        while (getline(infile, line) && idx < agg_cancel.size()) {
             if (line.empty())
                 continue;
 
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
             trade_all.emplace_back(currentJson);
-            while (trade_cancel[idx].id < pre_id) {
+            while (agg_cancel[idx].id < pre_id) {
                 ++idx;
             }
-            if (trade_cancel[idx].id == to_string(currentJson["data"]["a"])) {
-                cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
+            if (agg_cancel[idx].id == to_string(currentJson["data"]["a"])) {
+                cout << "idx:" << idx << ",sourceid:" << agg_cancel[idx].id << endl;
 
                 CalculationInfo cal;
                 getCalculationInfo(cal);
-                cout << " match trade cancel,id:[" << currentJson["data"]["a"] << "], trade id :" << trade_cancel[idx].id << endl;
-                tradeFile << convertToUtc(trade_cancel[idx].logTime) << ",";
-                tradeFile << trade_cancel[idx].result << ",";
+                cout << " match trade cancel,id:[" << currentJson["data"]["a"] << "], trade id :" << agg_cancel[idx].id << endl;
+                tradeFile << convertToUtc(agg_cancel[idx].logTime) << ",";
+                tradeFile << agg_cancel[idx].result << ",";
                 tradeFile << "aggtrade,";
-                tradeFile << trade_cancel[idx].symbol << ",";  // symbol
+                tradeFile << agg_cancel[idx].symbol << ",";    // symbol
                 tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
                 tradeFile << currentJson["data"]["a"] << ",";  // trigger trade id
                 tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
@@ -410,13 +410,13 @@ void readAggTradeLog(const vector<string>& files) {
                 tradeFile << cal.pre_500ms_nums << ",";
                 tradeFile << cal.pre_500ms_diff_price_nums << ",";
 
-                tradeFile << trade_cancel[idx].type << ",";
-                tradeFile << trade_cancel[idx].usDiff << ",";
-                tradeFile << common::timestampToDate(trade_cancel[idx].usIn, common::TimeUnit::Microseconds);
-                tradeFile << common::timestampToDate(trade_cancel[idx].usOut, common::TimeUnit::Microseconds);
+                tradeFile << agg_cancel[idx].type << ",";
+                tradeFile << agg_cancel[idx].usDiff << ",";
+                tradeFile << common::timestampToDate(agg_cancel[idx].usIn, common::TimeUnit::Microseconds);
+                tradeFile << common::timestampToDate(agg_cancel[idx].usOut, common::TimeUnit::Microseconds);
                 tradeFile << "\n";
 
-                pre_id = trade_cancel[idx].id;
+                pre_id = agg_cancel[idx].id;
                 ++idx;
             }
         }
