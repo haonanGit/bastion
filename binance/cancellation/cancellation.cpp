@@ -100,9 +100,9 @@ string getLogTime(const string& cur) {
     return cur.substr(start, end - start);
 }
 
-void setCancelReq(const string& cur) {
+void setCancelReq(const string& cur, const string& file) {
     CancelInfo info;
-    auto       id = getId(cur);
+    auto       id = getId(cur) + file;
     info.type = getType(cur);
     info.source = getSource(cur);
     info.id = getSourceId(cur);
@@ -112,8 +112,8 @@ void setCancelReq(const string& cur) {
     cancel_all[id] = info;
 }
 
-void setCancelInfo(const string& cur) {
-    auto id = getId(cur);
+void setCancelInfo(const string& cur, const string& file) {
+    auto id = getId(cur) + file;
     if (cancel_all.count(id) == 0) {
         return;
     }
@@ -126,12 +126,6 @@ void setCancelInfo(const string& cur) {
     info.usIn = currentJson["usIn"];
     info.usOut = currentJson["usOut"];
     auto& v = info.source == "trade" ? trade_cancel : agg_cancel;
-    if (v.size() > 0 && v[v.size() - 1].id == info.id) {
-        cout << "!!!!!!!!!!!!!!!!!!!!!!!!req id:" << id << ", trade id:" << info.id << endl;
-    }
-    if (info.id == "4249677441") {
-        cout << "4249677441!!!!!!!!!!!!!!!!!!!!!!!!req id:" << id << ", trade id:" << info.id << endl;
-    }
     v.emplace_back(info);
     if (log_symbol != info.symbol) {
         cout << "symbol matching failed!!!!!!!!!!!!!!! :" << id << endl;
@@ -237,7 +231,7 @@ void readCancellation(const vector<string>& files) {
                 if (getType(line) != trigger_type || getSourceId(line) < base_id) {
                     continue;
                 }
-                setCancelReq(line);
+                setCancelReq(line, file);
                 ++total_cancel_no;
             } else if (line.find("Final Cancel Result") != string::npos) {
                 setCancelInfo(line);
