@@ -154,12 +154,13 @@ void mergeFile() {
             tradeFile << item.size << ",";
             tradeFile << "no cancel log match";
             tradeFile << "\n";
+            continue;
         }
         for (int i = cal.start; i <= cal.end; ++i) {
             tradeFile << item.id << ",";
             tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
             tradeFile << item.size << ",";
-            cout << "idx :" << i << ", size:" << cancel_log.size() << endl;
+            // cout << "idx :" << i << ", size:" << cancel_log.size() << endl;
             tradeFile << cancel_log[i];
         }
         tradeFile << "\n";
