@@ -477,10 +477,10 @@ void readDeribit1sLog() {
         tradeFile << convertToUtc(agg_cancel[idx].logTime) << ",";
         tradeFile << agg_cancel[idx].result << ",";
         tradeFile << "deribit within 1s trading,";
-        tradeFile << agg_cancel[idx].symbol << ",";    // symbol
-        tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
-        tradeFile << currentJson["data"]["a"] << ",";  // trigger trade id
-        tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
+        tradeFile << agg_cancel[idx].symbol << ",";  // symbol
+        tradeFile << ",";                            // trigger qty
+        tradeFile << ",";                            // trigger trade id
+        tradeFile << ",";                            // trigger trade time at binance time
         // cal info
         tradeFile << ",";  // total trade nums at same binance time
         tradeFile << ",";  // total trade nums at same binance time
