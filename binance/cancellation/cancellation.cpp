@@ -249,6 +249,7 @@ void readTradeLog(const vector<string>& files) {
     ofstream tradeFile("./trade.csv", ios::trunc);
     tradeFile << "calcel log time,"
               << "result,"
+              << "trigger type,"
               << "trigger symbol,"
               << "trigger qty,"
               << "trigger trade id,"
@@ -302,9 +303,101 @@ void readTradeLog(const vector<string>& files) {
                 cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "], trade id :" << trade_cancel[idx].id << endl;
                 tradeFile << convertToUtc(trade_cancel[idx].logTime) << ",";
                 tradeFile << trade_cancel[idx].result << ",";
+                tradeFile << "trade,";
                 tradeFile << trade_cancel[idx].symbol << ",";  // symbol
                 tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
                 tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
+                tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
+                // cal info
+                tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
+                tradeFile << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
+                tradeFile << cal.diff_price_nums_trigger_time << ",";  // different price at same biance time
+                tradeFile << cal.pre_100ms_nums << ",";                // pre 100ms nums
+                tradeFile << cal.pre_100ms_diff_price_nums << ",";     // pre 100ms diff price nums
+                tradeFile << cal.pre_300ms_nums << ",";
+                tradeFile << cal.pre_300ms_diff_price_nums << ",";
+                tradeFile << cal.pre_500ms_nums << ",";
+                tradeFile << cal.pre_500ms_diff_price_nums << ",";
+
+                tradeFile << trade_cancel[idx].type << ",";
+                tradeFile << trade_cancel[idx].usDiff << ",";
+                tradeFile << common::timestampToDate(trade_cancel[idx].usIn, common::TimeUnit::Microseconds);
+                tradeFile << common::timestampToDate(trade_cancel[idx].usOut, common::TimeUnit::Microseconds);
+                tradeFile << "\n";
+
+                pre_id = trade_cancel[idx].id;
+                ++idx;
+            }
+        }
+    }
+
+    tradeFile.close();
+}
+
+void readAggTradeLog(const vector<string>& files) {
+    cout << "start readAggTradeLog" << endl;
+
+    ofstream tradeFile("./aggtrade.csv", ios::trunc);
+    tradeFile << "calcel log time,"
+              << "result,"
+              << "trigger type,"
+              << "trigger symbol,"
+              << "trigger qty,"
+              << "trigger trade id,"
+              << "trigger trade time by binance time,"
+              << "total trade qty at same binance time,"
+              << "total trade nums at same binance time,"
+              << "different price at same biance time,"
+              << "pre 100ms nums,"
+              << "pre 100ms diff price nums,"
+              << "pre 300ms nums,"
+              << "pre 300ms diff price nums,"
+              << "pre 500ms nums,"
+              << "pre 500ms diff price nums,";
+    tradeFile << "cancel type,"
+              << "processing time us,"
+              << "deribit input time us,"
+              << "deribit output time us";
+    tradeFile << "\n";
+
+    size_t idx = 0;
+
+    for (const auto& file : files) {
+        cout << "new file!!!!!!!!" << file << endl;
+        ifstream infile(file);
+        if (!infile.is_open()) {
+            cerr << "Error opening file: " << file << endl;
+            continue;
+        }
+        if (idx >= trade_cancel.size()) {
+            break;
+        }
+
+        string pre_id("");
+        string line;
+        cout << "trade cancel size:" << trade_cancel.size() << ",idx:" << idx << ",id:" << trade_cancel[idx].id << endl;
+        while (getline(infile, line) && idx < trade_cancel.size()) {
+            if (line.empty())
+                continue;
+
+            line = line.substr(line.find("{"));
+            json currentJson = json::parse(line, nullptr, false);
+            trade_all.emplace_back(currentJson);
+            while (trade_cancel[idx].id < pre_id) {
+                ++idx;
+            }
+            if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
+                cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
+
+                CalculationInfo cal;
+                getCalculationInfo(cal);
+                cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "], trade id :" << trade_cancel[idx].id << endl;
+                tradeFile << convertToUtc(trade_cancel[idx].logTime) << ",";
+                tradeFile << trade_cancel[idx].result << ",";
+                tradeFile << "aggtrade,";
+                tradeFile << trade_cancel[idx].symbol << ",";  // symbol
+                tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
+                tradeFile << currentJson["data"]["a"] << ",";  // trigger trade id
                 tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
                 // cal info
                 tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
@@ -373,20 +466,22 @@ int main(int argc, char* argv[]) {
     string filePath = argv[1];
     string cancelPrefix = argv[2];
     string logPrefix = argv[3];
-    string log_type = argv[4];
+    string aggLogPrefix = argv[4];
 
     log_symbol = argv[5];
     trigger_type = argv[6];
 
-    cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",logPrefix:" << logPrefix << ",log_type" << log_type
+    cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",logPrefix:" << logPrefix << ",aggLogPrefix" << aggLogPrefix
          << ",log_symbol:" << log_symbol << "trigger_type" << trigger_type << endl;
 
     vector<string> cancelFiles = getFilesWithPrefix(filePath, cancelPrefix);
     vector<string> logFiles = getFilesWithPrefix(filePath, logPrefix);
+    vector<string> aggLogFiles = getFilesWithPrefix(filePath, logPrefix);
 
     readCancellation(cancelFiles);
-    if (log_type == "trade")
-        readTradeLog(logFiles);
+
+    // readTradeLog(logFiles);
+    readAggTradeLog(aggLogFiles);
 
     return 0;
 }
