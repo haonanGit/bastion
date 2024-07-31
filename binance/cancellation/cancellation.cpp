@@ -144,7 +144,7 @@ void setCancelInfo(const string& cur, const string& file) {
     }
 }
 
-void getCalculationInfo(CalculationInfo& cal, const deque<json>& trade_que) {
+void getCalculationInfo(CalculationInfo& cal, deque<json>& trade_que) {
     int    diff = 0;
     string pre_price;
     auto   base_time = common::convertToTimestamp(trade_que.back()["data"]["T"], common::TimeUnit::Milliseconds);
