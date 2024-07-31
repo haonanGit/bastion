@@ -158,6 +158,7 @@ void mergeFile() {
             tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << ",";
             tradeFile << cancel_log[i];
         }
+        tradeFile << "\n";
     }
 }
 
