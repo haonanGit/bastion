@@ -36,33 +36,39 @@ vector<string>     cancel_log;
 string             title;
 int                gap = 100;
 
-void setDeribitInfo(const string& cur) {
+std::string removeQuotes(const std::string& str) {
+    std::string result = str;
+    result.erase(std::remove(result.begin(), result.end(), '\"'), result.end());
+    return result;
+}
+
+void setDeribitInfo(const std::string& cur) {
     CancelInfo        info;
     std::string       token;
     std::stringstream ss(cur);
 
     std::getline(ss, token, ',');
-    info.cur_time = token;
+    info.cur_time = removeQuotes(token);
 
     std::getline(ss, token, ',');
-    info.timestamp = std::stoll(token);
+    info.timestamp = std::stoll(removeQuotes(token));
 
     std::getline(ss, token, ',');
-    info.side = token;
+    info.side = removeQuotes(token);
 
     std::getline(ss, token, ',');
-    info.price = std::stod(token);
+    info.price = std::stod(removeQuotes(token));
 
     std::getline(ss, token, ',');
-    info.size = std::stod(token);
+    info.size = std::stod(removeQuotes(token));
 
     std::getline(ss, token, ',');
-    info.symbol = token;
+    info.symbol = removeQuotes(token);
 
     std::getline(ss, token, ',');
-    info.id = token;
+    info.id = removeQuotes(token);
 
-    cancel_all.emplace_back(info);
+    cancel_all.emplace(info);  // Using map with unique id as key
 }
 
 long long getLogTimestamp(const string& line) {
