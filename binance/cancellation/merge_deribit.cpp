@@ -68,7 +68,7 @@ void setDeribitInfo(const std::string& cur) {
     std::getline(ss, token, ',');
     info.id = removeQuotes(token);
 
-    cancel_all.emplace(info);  // Using map with unique id as key
+    cancel_all.emplace_back(info);  // Using map with unique id as key
 }
 
 long long getLogTimestamp(const string& line) {
