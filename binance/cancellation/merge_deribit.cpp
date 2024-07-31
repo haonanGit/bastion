@@ -75,7 +75,7 @@ long long getLogTimestamp(const string& line) {
     std::stringstream ss(line);
     std::string       item;
     std::getline(ss, item, ',');  // cancel log time is the first item
-    return stoll(item);
+    return common::convertToTimestamp(item, common::TimeUnit::Milliseconds);
 }
 
 void getCalculationInfo(const long long& deribit_time, CalculationInfo& cal) {
@@ -149,7 +149,7 @@ void mergeFile() {
         getCalculationInfo(item.timestamp, cal);
         if (cal.start == -1) {
             tradeFile << item.id << ",";
-            tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << ",";
+            tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
             cout << item.timestamp << "," << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << endl;
             tradeFile << "no cancel log match";
             tradeFile << "\n";

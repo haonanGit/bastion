@@ -187,6 +187,30 @@ void getCalculationInfo(CalculationInfo& cal) {
     }
 }
 
+std::string convertToUtc(const std::string& input) {
+    std::tm tm = {};
+    int     milliseconds;
+
+    std::istringstream ss(input);
+    ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
+    ss.ignore(1, ',');
+    ss >> milliseconds;
+
+    // Convert to time_t and adjust for UTC+1 to UTC
+    tm.tm_isdst = -1;                            // Not considering daylight saving time
+    std::time_t time = std::mktime(&tm) - 3600;  // Subtract one hour
+
+    // Convert back to tm structure
+    std::tm* utc_tm = std::gmtime(&time);
+
+    // Format the time string and replace the millisecond separator
+    std::ostringstream result;
+    result << std::put_time(utc_tm, "%Y-%m-%d %H:%M:%S");
+    result << '.' << std::setw(3) << std::setfill('0') << milliseconds;
+
+    return result.str();
+}
+
 void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
     string base_id = "4200000000";
@@ -272,7 +296,7 @@ void readTradeLog(const vector<string>& files) {
                 CalculationInfo cal;
                 getCalculationInfo(cal);
                 cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "]" << endl;
-                tradeFile << trade_cancel[idx].logTime << ",";
+                tradeFile << convertToUtc(trade_cancel[idx].logTime) << ",";
                 tradeFile << trade_cancel[idx].result << ",";
                 tradeFile << trade_cancel[idx].symbol << ",";  // symbol
                 tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
