@@ -234,7 +234,7 @@ void readCancellation(const vector<string>& files) {
                 setCancelReq(line, file);
                 ++total_cancel_no;
             } else if (line.find("Final Cancel Result") != string::npos) {
-                setCancelInfo(line);
+                setCancelInfo(line, file);
             }
         }
         cout << "trade_cancel size :" << trade_cancel.size() << endl;
