@@ -202,6 +202,10 @@ void mergeFile() {
 
         for (const auto& it : total_log) {
             stringstream ss;
+            if (cal[it.first].start == -1) {
+                continue;
+            }
+
             for (int i = cal[it.first].start; i <= cal[it.first].end; ++i) {
                 ss << item.id << ",";
                 ss << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
