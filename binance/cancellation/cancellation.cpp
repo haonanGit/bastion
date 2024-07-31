@@ -73,7 +73,7 @@ string getSource(const string& cur) {
     if (cur.find("Stream: trade") != string::npos) {
         return "trade";
     } else if (cur.find("Stream: aggTrade") != string::npos) {
-        return "aggTrade";
+        return "aggtrade";
     }
 
     return "deribit";
@@ -257,7 +257,7 @@ void readCancellation(const vector<string>& files) {
                 setCancelInfo(line, file);
             }
         }
-        cout << "trade_cancel size :" << trade_cancel.size() << endl;
+        cout << "trade_cancel size :" << trade_cancel.size() << "agg cancel size:" << agg_cancel.size() << endl;
     }
     auto comp = [](const auto& a, const auto& b) { return a.id < b.id; };
     sort(trade_cancel.begin(), trade_cancel.end(), comp);
@@ -390,10 +390,11 @@ void readAggTradeLog(const vector<string>& files) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
-        cout << "agg cancel size:" << agg_cancel.size() << ",idx:" << idx << ",id:" << agg_cancel[idx].id << endl;
+
         if (idx >= agg_cancel.size()) {
             break;
         }
+        cout << "agg cancel size:" << agg_cancel.size() << ",idx:" << idx << ",id:" << agg_cancel[idx].id << endl;
         string pre_id("");
         string line;
 
