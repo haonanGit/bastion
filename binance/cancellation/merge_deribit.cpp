@@ -75,6 +75,7 @@ long long getLogTimestamp(const string& line) {
     std::stringstream ss(line);
     std::string       item;
     std::getline(ss, item, ',');  // cancel log time is the first item
+    cout << item << endl;
     return common::convertToTimestamp(item, common::TimeUnit::Milliseconds);
 }
 
@@ -84,6 +85,7 @@ void getCalculationInfo(const long long& deribit_time, CalculationInfo& cal) {
     size_t idx = 0;
     while (idx < cancel_log.size()) {
         auto cur_time = getLogTimestamp(cancel_log[idx]);
+
         if (cal.start == -1 && (deribit_time - cur_time <= gap && deribit_time - cur_time >= 0)) {
             cal.start = idx;  // cancel before deribit trade
         } else if (cur_time - deribit_time <= gap && cur_time - deribit_time >= 0) {
