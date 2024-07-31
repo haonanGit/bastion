@@ -138,7 +138,7 @@ void setCancelInfo(const string& cur, const string& file) {
         within1s.emplace_back(info);
     }
 
-    if (log_symbol != info.symbol) {
+    if (log_symbol != info.symbol && !info.symbol.empty()) {
         cout << "symbol matching failed!!!!!!!!!!!!!!! :" << id << endl;
         exit(1);
     }
