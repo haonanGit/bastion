@@ -40,7 +40,7 @@ struct CalculationInfo {
 };
 
 unordered_map<string, CancelInfo> cancel_all;
-vector<CancelInfo>                trade_cancel, agg_cancel;
+vector<CancelInfo>                trade_cancel, agg_cancel, within1s;
 deque<json>                       trade_all, aggtrade_all;
 string                            log_symbol;
 string                            trigger_type;
@@ -76,10 +76,13 @@ string getSource(const string& cur) {
         return "aggTrade";
     }
 
-    return "";
+    return "deribit";
 }
 
 string getSourceId(const string& cur) {
+    if (cur.find("Trade Id") == string::npos) {
+        return "";
+    }
     auto start = cur.find("Trade Id") + 10;  // Agg Trade Id: 134235614
     auto end = cur.find(",", start);
     return cur.substr(start, end - start);
@@ -125,17 +128,26 @@ void setCancelInfo(const string& cur, const string& file) {
     info.usDiff = currentJson["usDiff"];
     info.usIn = currentJson["usIn"];
     info.usOut = currentJson["usOut"];
-    auto& v = info.source == "trade" ? trade_cancel : agg_cancel;
-    v.emplace_back(info);
+
+    if (info.source == "trade") {
+        trade_cancel.emplace_back(info);
+    } else if (info.source == "aggtrade") {
+        agg_cancel.emplace_back(info);
+    }
+    if (info.source == "deribit") {
+        within1s.emplace_back(info);
+    }
+
     if (log_symbol != info.symbol) {
         cout << "symbol matching failed!!!!!!!!!!!!!!! :" << id << endl;
+        exit(1);
     }
 }
 
-void getCalculationInfo(CalculationInfo& cal) {
+void getCalculationInfo(CalculationInfo& cal, const deque<json>& trade_que) {
     int    diff = 0;
     string pre_price;
-    auto   base_time = common::convertToTimestamp(trade_all.back()["data"]["T"], common::TimeUnit::Milliseconds);
+    auto   base_time = common::convertToTimestamp(trade_que.back()["data"]["T"], common::TimeUnit::Milliseconds);
 
     cal.total_trade_qty_trigger_time = 0.0;
     cal.total_nums_trigger_time = 0;
@@ -147,16 +159,16 @@ void getCalculationInfo(CalculationInfo& cal) {
     cal.pre_500ms_nums = 0;
     cal.pre_500ms_diff_price_nums = 0;
 
-    while (!trade_all.empty()) {
-        auto cur_time = common::convertToTimestamp(trade_all.front()["data"]["T"], common::TimeUnit::Milliseconds);
+    while (!trade_que.empty()) {
+        auto cur_time = common::convertToTimestamp(trade_que.front()["data"]["T"], common::TimeUnit::Milliseconds);
         if (base_time - cur_time > 500) {
-            trade_all.pop_front();
+            trade_que.pop_front();
         } else {
             break;
         }
     }
 
-    for (auto it = trade_all.rbegin(); it != trade_all.rend(); ++it) {
+    for (auto it = trade_que.rbegin(); it != trade_que.rend(); ++it) {
         const auto& cur = *it;
         auto        cur_time = common::convertToTimestamp(cur["data"]["T"], common::TimeUnit::Milliseconds);
         diff = base_time - cur_time;
@@ -228,7 +240,7 @@ void readCancellation(const vector<string>& files) {
             if (line.empty())
                 continue;
 
-            if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
+            if (line.find("Trigger cancel, cancel id") != string::npos && getSymbol(line) == log_symbol) {
                 if (getType(line) != trigger_type) {
                     continue;
                 }
@@ -308,7 +320,7 @@ void readTradeLog(const vector<string>& files) {
                 cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
                 CalculationInfo cal;
-                getCalculationInfo(cal);
+                getCalculationInfo(cal, trade_all);
                 cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "], trade id :" << trade_cancel[idx].id << endl;
                 tradeFile << convertToUtc(trade_cancel[idx].logTime) << ",";
                 tradeFile << trade_cancel[idx].result << ",";
@@ -391,7 +403,7 @@ void readAggTradeLog(const vector<string>& files) {
 
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
-            trade_all.emplace_back(currentJson);
+            aggtrade_all.emplace_back(currentJson);
             while (agg_cancel[idx].id < pre_id) {
                 ++idx;
             }
@@ -399,7 +411,7 @@ void readAggTradeLog(const vector<string>& files) {
                 cout << "idx:" << idx << ",sourceid:" << agg_cancel[idx].id << endl;
 
                 CalculationInfo cal;
-                getCalculationInfo(cal);
+                getCalculationInfo(cal, aggtrade_all);
                 cout << " match trade cancel,id:[" << currentJson["data"]["a"] << "], trade id :" << agg_cancel[idx].id << endl;
                 tradeFile << convertToUtc(agg_cancel[idx].logTime) << ",";
                 tradeFile << agg_cancel[idx].result << ",";
@@ -429,6 +441,64 @@ void readAggTradeLog(const vector<string>& files) {
                 ++idx;
             }
         }
+    }
+
+    tradeFile.close();
+}
+
+void readDeribit1sLog() {
+    cout << "start readDeribit1sLog" << endl;
+
+    ofstream tradeFile("./deribit1strade.csv", ios::trunc);
+    tradeFile << "calcel log time,"
+              << "result,"
+              << "trigger type,"
+              << "trigger symbol,"
+              << "trigger qty,"
+              << "trigger trade id,"
+              << "trigger trade time by binance time,"
+              << "total trade qty at same binance time,"
+              << "total trade nums at same binance time,"
+              << "different price at same biance time,"
+              << "pre 100ms nums,"
+              << "pre 100ms diff price nums,"
+              << "pre 300ms nums,"
+              << "pre 300ms diff price nums,"
+              << "pre 500ms nums,"
+              << "pre 500ms diff price nums,";
+    tradeFile << "cancel type,"
+              << "processing time us,"
+              << "deribit input time us,"
+              << "deribit output time us";
+    tradeFile << "\n";
+
+    size_t idx = 0;
+    while (idx < agg_cancel.size()) {
+        tradeFile << convertToUtc(agg_cancel[idx].logTime) << ",";
+        tradeFile << agg_cancel[idx].result << ",";
+        tradeFile << "deribit within 1s trading,";
+        tradeFile << agg_cancel[idx].symbol << ",";    // symbol
+        tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
+        tradeFile << currentJson["data"]["a"] << ",";  // trigger trade id
+        tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
+        // cal info
+        tradeFile << ",";  // total trade nums at same binance time
+        tradeFile << ",";  // total trade nums at same binance time
+        tradeFile << ",";  // different price at same biance time
+        tradeFile << ",";  // pre 100ms nums
+        tradeFile << ",";  // pre 100ms diff price nums
+        tradeFile << ",";
+        tradeFile << ",";
+        tradeFile << ",";
+        tradeFile << ",";
+
+        tradeFile << agg_cancel[idx].type << ",";
+        tradeFile << agg_cancel[idx].usDiff << ",";
+        tradeFile << common::timestampToDate(agg_cancel[idx].usIn, common::TimeUnit::Microseconds);
+        tradeFile << common::timestampToDate(agg_cancel[idx].usOut, common::TimeUnit::Microseconds);
+        tradeFile << "\n";
+
+        ++idx;
     }
 
     tradeFile.close();
@@ -491,6 +561,7 @@ int main(int argc, char* argv[]) {
 
     // readTradeLog(logFiles);
     readAggTradeLog(aggLogFiles);
+    readDeribit1sLog();
 
     return 0;
 }
