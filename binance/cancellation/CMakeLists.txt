@@ -22,15 +22,26 @@ if(Boost_FOUND)
     add_definitions(-DBOOST_ALL_NO_LIB)
 endif()
 
-# Add executable
+# Add executable for cancellation
 add_executable(cancellation cancellation.cpp ../../common.cpp)
+
+# Add executable for merge_deribit
+add_executable(merge_deribit merge_deribit.cpp ../../common.cpp)
 
 # Link pthread library
 find_package(Threads REQUIRED)
 target_link_libraries(cancellation PRIVATE Threads::Threads ${Boost_LIBRARIES} pthread ssl crypto)
+target_link_libraries(merge_deribit PRIVATE Threads::Threads ${Boost_LIBRARIES} pthread ssl crypto)
+
 
 # Set core dump settings
 add_custom_command(TARGET cancellation POST_BUILD
     COMMAND ulimit -c 2097152   && echo "/tmp/core/core.%e.%p" | sudo tee /proc/sys/kernel/core_pattern
+    COMMENT "Enable core dumps"
+)
+
+# Set core dump settings for merge_deribit
+add_custom_command(TARGET merge_deribit POST_BUILD
+    COMMAND ulimit -c 2097152 && echo "/tmp/core/core.%e.%p" | sudo tee /proc/sys/kernel/core_pattern
     COMMENT "Enable core dumps"
 )
