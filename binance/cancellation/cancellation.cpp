@@ -386,7 +386,7 @@ void readAggTradeLog(const vector<string>& files) {
             while (trade_cancel[idx].id < pre_id) {
                 ++idx;
             }
-            if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
+            if (trade_cancel[idx].id == to_string(currentJson["data"]["a"])) {
                 cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
 
                 CalculationInfo cal;
