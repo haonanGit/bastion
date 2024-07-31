@@ -241,7 +241,7 @@ void readCancellation(const vector<string>& files) {
                 continue;
 
             if (line.find("Trigger cancel, cancel id") != string::npos) {
-                if (getSymbol(line) != log_symbol && !getSymbol().empty()) {
+                if (getSymbol(line) != log_symbol && !getSymbol(line).empty()) {
                     continue;
                 }
                 if (getType(line) != trigger_type && getType(line) != "deribit1s") {
