@@ -15,150 +15,44 @@ using namespace std;
 using json = nlohmann::json;
 namespace fs = std::filesystem;
 
-#include <ctime>
-#include <iomanip>
-#include <iostream>
-#include <sstream>
-
-std::string convertToUtc(const std::string& input) {
-    std::tm tm = {};
-    int     milliseconds;
-
-    std::istringstream ss(input);
-    ss >> std::get_time(&tm, "%Y-%m-%d %H:%M:%S");
-    ss.ignore(1, ',');
-    ss >> milliseconds;
-
-    // Convert to time_t and adjust for UTC+1 to UTC
-    tm.tm_isdst = -1;                            // Not considering daylight saving time
-    std::time_t time = std::mktime(&tm) - 3600;  // Subtract one hour
-
-    // Convert back to tm structure
-    std::tm* utc_tm = std::gmtime(&time);
-
-    // Format the time string and replace the millisecond separator
-    std::ostringstream result;
-    result << std::put_time(utc_tm, "%Y-%m-%d %H:%M:%S");
-    result << '.' << std::setw(3) << std::setfill('0') << milliseconds;
-
-    return result.str();
-}
-
 struct CancelInfo {
-    string    type;
-    string    source;
-    string    id;
+    string    cur_time;
+    long long timestamp;
+    string    side;
+    double    price;
+    double    size;
     string    symbol;
-    string    logTime;
-    int       result;
-    long long usIn;
-    long long usOut;
-    long long usDiff;
+    string    id;
 };
 
-struct CalculationInfo {
-    double  total_trade_qty_trigger_time;  // total trade qty at same binance time
-    int64_t total_nums_trigger_time;       // total nums at same binance time
-    int64_t diff_price_nums_trigger_time;  // different price at same biance time
-    int64_t pre_100ms_nums;
-    int64_t pre_100ms_diff_price_nums;
-    int64_t pre_300ms_nums;
-    int64_t pre_300ms_diff_price_nums;
-    int64_t pre_500ms_nums;
-    int64_t pre_500ms_diff_price_nums;
-};
+vector<CancelInfo> cancel_all;
 
-unordered_map<string, CancelInfo> cancel_all;
-vector<CancelInfo>                trade_cancel, agg_cancel;
-deque<json>                       trade_all, aggtrade_all;
-string                            log_symbol;
-string                            trigger_type;
-int                               total_cancel_no = 0;
+void setDeribitInfo(const string& cur) {
+    CancelInfo  info;
+    std::string token;
 
-string getId(const string& cur) {
-    auto id_start = cur.find("cancel id") + 10;  // Trigger cancel, cancel id SOL_USDC_1;cancel id: SOL_USDC_535
-    if (cur.find("cancel id:") != string::npos) {
-        id_start++;
-    }
-    auto id_end = cur.find(",", id_start);
-    auto id = cur.substr(id_start, id_end - id_start);
-    return id;
-}
+    std::getline(ss, token, ',');
+    info.cur_time = token;
 
-string getType(const string& cur) {
-    if (cur.find("by SWAP") != string::npos) {
-        return "SWAP";
-    } else if (cur.find("by USDT") != string::npos) {
-        return "USDT";
-    } else if (cur.find("by FDUSD") != string::npos) {
-        return "FDUSD";
-    } else if (cur.find("Deribit 1s") != string::npos) {
-        return "Deribit 1s";
-    }
-    return "";
-}
+    std::getline(ss, token, ',');
+    info.timestamp = std::stoll(token);
 
-string getSource(const string& cur) {
-    if (cur.find("Stream: trade") != string::npos) {
-        return "trade";
-    } else if (cur.find("Stream: aggTrade") != string::npos) {
-        return "aggTrade";
-    }
+    std::getline(ss, token, ',');
+    info.side = token;
 
-    return "";
-}
+    std::getline(ss, token, ',');
+    info.price = std::stod(token);
 
-string getSourceId(const string& cur) {
-    auto start = cur.find("Trade Id") + 10;  // Agg Trade Id: 134235614
-    auto end = cur.find(",", start);
-    return cur.substr(start, end - start);
-}
+    std::getline(ss, token, ',');
+    info.size = std::stod(token);
 
-string getSymbol(const string& cur) {
-    if (cur.find("Symbol") == string::npos) {
-        return "";
-    }
-    auto start = cur.find("Symbol") + 7;  // Symbol SOLUSDT,
-    auto end = cur.find(",", start);
-    return cur.substr(start, end - start);
-}
+    std::getline(ss, token, ',');
+    info.symbol = token;
 
-string getLogTime(const string& cur) {
-    auto start = cur.find("INFO") + 6;  // INFO  2024-07-29 04:28:47,236 [
-    auto end = cur.find(" [");
-    return cur.substr(start, end - start);
-}
+    std::getline(ss, token, ',');
+    info.id = token;
 
-void setCancelReq(const string& cur) {
-    CancelInfo info;
-    auto       id = getId(cur);
-    info.type = getType(cur);
-    info.source = getSource(cur);
-    info.id = getSourceId(cur);
-    info.symbol = getSymbol(cur);
-    info.logTime = convertToUtc(getLogTime(cur));
-
-    cancel_all[id] = info;
-}
-
-void setCancelInfo(const string& cur) {
-    auto id = getId(cur);
-    if (cancel_all.count(id) == 0) {
-        return;
-    }
-
-    json currentJson = json::parse(cur.substr(cur.find("{")), nullptr, false);
-
-    auto info = cancel_all[id];
-    info.result = currentJson["result"];
-    info.usDiff = currentJson["usDiff"];
-    info.usIn = currentJson["usIn"];
-    info.usOut = currentJson["usOut"];
-    auto& v = info.source == "trade" ? trade_cancel : agg_cancel;
-    v.emplace_back(info);
-    if (log_symbol != info.symbol) {
-        cout << "symbol matching failed!!!!!!!!!!!!!!! :" << id << endl;
-    }
+    cancel_all.emplace_back(info);
 }
 
 void getCalculationInfo(CalculationInfo& cal) {
@@ -216,35 +110,27 @@ void getCalculationInfo(CalculationInfo& cal) {
     }
 }
 
-void readCancellation(const vector<string>& files) {
-    cout << "start readCancellation" << endl;
-    string base_id = "4200000000";
+void readDeribit(const vector<string>& files) {
+    cout << "start readDeribit" << endl;
     for (const auto& file : files) {
         ifstream infile(file);
         if (!infile.is_open()) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
-        cout << "cancle file :" << file << endl;
+        cout << "deribit file :" << file << endl;
 
         string line;
         while (getline(infile, line)) {
-            if (line.empty())
+            if (line.empty() || line.find("cur_time") != sting::string::npos) {
                 continue;
-
-            if (line.find("Trigger cancel, cancel id") != string::npos && !((getSymbol(line) != log_symbol) || (getType(line) == "Deribit 1s"))) {
-                if (getType(line) != trigger_type || getSourceId(line) < base_id) {
-                    continue;
-                }
-                setCancelReq(line);
-                ++total_cancel_no;
-            } else if (line.find("Final Cancel Result") != string::npos) {
-                setCancelInfo(line);
             }
+
+            setDeribitInfo(line);
         }
-        cout << "trade_cancel size :" << trade_cancel.size() << endl;
+        cout << "cancel_all size :" << cancel_all.size() << endl;
     }
-    auto comp = [](const auto& a, const auto& b) { return a.id < b.id; };
+    auto comp = [](const auto& a, const auto& b) { return a.timestamp < b.timestamp; };
     sort(trade_cancel.begin(), trade_cancel.end(), comp);
 }
 
@@ -253,7 +139,6 @@ void readTradeLog(const vector<string>& files) {
 
     ofstream tradeFile("./trade.csv", ios::trunc);
     tradeFile << "result,"
-              << "log time,"
               << "trigger symbol,"
               << "trigger qty,"
               << "trigger trade id,"
@@ -302,7 +187,6 @@ void readTradeLog(const vector<string>& files) {
                 getCalculationInfo(cal);
                 cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "]" << endl;
                 tradeFile << trade_cancel[idx].result << ",";
-                tradeFile << trade_cancel[idx].logTime << ",";
                 tradeFile << trade_cancel[idx].symbol << ",";  // symbol
                 tradeFile << currentJson["data"]["q"] << ",";  // trigger qty
                 tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
