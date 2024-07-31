@@ -26,15 +26,14 @@ struct CancelInfo {
 };
 
 struct CalculationInfo {
-    int    start;
-    int    end;
-    string cancel_log_time;
+    int start;
+    int end;
 };
 
-vector<CancelInfo> cancel_all;
-vector<string>     cancel_log;
-string             title;
-int                gap = 500;
+vector<CancelInfo>                    cancel_all;
+unordered_map<string, vector<string>> total_log;
+string                                title;
+int                                   gap = 500;
 
 std::string removeQuotes(const std::string& str) {
     std::string result = str;
@@ -79,12 +78,12 @@ long long getLogTimestamp(const string& line) {
     return common::convertToTimestamp(item, common::TimeUnit::Milliseconds);
 }
 
-void getCalculationInfo(const long long& deribit_time, CalculationInfo& cal) {
+void getCalculationInfo(const long long& deribit_time, const vector<string>& log, CalculationInfo& cal) {
     cal.start = -1;
     cal.end = -1;
     size_t idx = 0;
-    while (idx < cancel_log.size()) {
-        auto cur_time = getLogTimestamp(cancel_log[idx]);
+    while (idx < log.size()) {
+        auto cur_time = getLogTimestamp(log[idx]);
 
         if (cal.start == -1 && (deribit_time - cur_time <= gap && deribit_time - cur_time >= 0)) {
             cal.start = idx;  // cancel before deribit trade
@@ -98,8 +97,8 @@ void getCalculationInfo(const long long& deribit_time, CalculationInfo& cal) {
     }
 }
 
-void readDeribit(const string& file) {
-    cout << "deribit file :" << file << endl;
+void readDatabase(const string& file) {
+    cout << "database file :" << file << endl;
     ifstream infile(file);
     if (!infile.is_open()) {
         cerr << "Error opening file: " << file << endl;
@@ -119,8 +118,8 @@ void readDeribit(const string& file) {
     sort(cancel_all.begin(), cancel_all.end(), comp);
 }
 
-void readCancelLog(const string& file) {
-    cout << "cancel file :" << file << endl;
+void readTradeLog(const string& file) {
+    cout << "trade file :" << file << endl;
     ifstream infile(file);
     if (!infile.is_open()) {
         cerr << "Error opening file: " << file << endl;
@@ -137,7 +136,51 @@ void readCancelLog(const string& file) {
             continue;
         }
 
-        cancel_log.emplace_back(line);
+        total_log["trade"].emplace_back(line);
+    }
+}
+
+void readAggLog(const string& file) {
+    cout << "agg file :" << file << endl;
+    ifstream infile(file);
+    if (!infile.is_open()) {
+        cerr << "Error opening file: " << file << endl;
+        return;
+    }
+
+    string line;
+    while (getline(infile, line)) {
+        if (line.empty()) {
+            continue;
+        }
+        if (line.find("result") != string::npos) {
+            title = line;
+            continue;
+        }
+
+        total_log["agg"].emplace_back(line);
+    }
+}
+
+void readDeribitLog(const string& file) {
+    cout << "deribit file :" << file << endl;
+    ifstream infile(file);
+    if (!infile.is_open()) {
+        cerr << "Error opening file: " << file << endl;
+        return;
+    }
+
+    string line;
+    while (getline(infile, line)) {
+        if (line.empty()) {
+            continue;
+        }
+        if (line.find("result") != string::npos) {
+            title = line;
+            continue;
+        }
+
+        total_log["deribit"].emplace_back(line);
     }
 }
 
@@ -147,43 +190,62 @@ void mergeFile() {
     ofstream tradeFile("./cancel_trade.csv", ios::trunc);
     tradeFile << "deribit id,deribit trade time,deribit trade size," << title;
 
+    // get all result
     for (const auto& item : cancel_all) {
-        CalculationInfo cal;
-        getCalculationInfo(item.timestamp, cal);
-        if (cal.start == -1) {
+        vector<string> result;
+
+        unordered_map<string, CalculationInfo> cal;
+
+        getCalculationInfo(item.timestamp, total_log["trade"], cal["trade"]);
+        getCalculationInfo(item.timestamp, total_log["agg"], cal["agg"]);
+        getCalculationInfo(item.timestamp, total_log["deribit"], cal["deribit"]);
+
+        for (const auto& it : total_log) {
+            stringstream ss;
+            for (int i = cal[it.first].start; i <= cal[it.first].end; ++i) {
+                ss << item.id << ",";
+                ss << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
+                ss << item.size << ",";
+                // cout << "idx :" << i << ", size:" << trade_log.size() << endl;
+                ss << it.second[i];
+                ss << "\n\n";
+            }
+            if (!ss.str().empty()) {
+                result.emplace_back(ss.str());
+            }
+        }
+
+        for (auto s : result) {
+            tradeFile << s;
+        }
+        if (result.empty()) {
             tradeFile << item.id << ",";
             tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
             tradeFile << item.size << ",";
-            tradeFile << "no cancel log match";
-            tradeFile << "\n";
+            tradeFile << "no cancel log match\n";
             continue;
         }
-        cout << " start:" << cal.start << ",end:" << cal.end << endl;
-        for (int i = cal.start; i <= cal.end; ++i) {
-            tradeFile << item.id << ",";
-            tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
-            tradeFile << item.size << ",";
-            // cout << "idx :" << i << ", size:" << cancel_log.size() << endl;
-            tradeFile << cancel_log[i];
-            tradeFile << "\n";
-        }
-        tradeFile << "\n";
     }
 }
 
 int main(int argc, char* argv[]) {
-    if (argc != 3) {
-        cerr << "Usage: " << argv[0] << " <cancel_file> <deribitfile>" << endl;
+    if (argc != 5) {
+        cerr << "Usage: " << argv[0] << " <trade_file> <agg_file> <deribit1s_file> <database_file>" << endl;
         return 1;
     }
 
-    string cancel_file = argv[1];
-    string deribitfile = argv[2];
+    string trade_file = argv[1];
+    string agg_file = argv[2];
+    string deribit1s_file = argv[3];
+    string datebase_file = argv[4];
 
-    cout << "cancel_file:" << cancel_file << ",deribitfile:" << deribitfile << endl;
+    cout << "trade_file:" << trade_file << ",agg_file:" << agg_file << ",deribit1s_file:" << deribit1s_file << ",datebase_file:" << datebase_file
+         << endl;
 
-    readCancelLog(cancel_file);
-    readDeribit(deribitfile);
+    readTradeLog(trade_file);
+    readAggLog(agg_file);
+    readDeribitLog(deribit1s_file);
+    readDatabase(datebase_file);
     mergeFile();
 
     return 0;
