@@ -157,6 +157,7 @@ void mergeFile() {
             tradeFile << "\n";
             continue;
         }
+        cout << i << ", start:" << cal.start << ",end:" << cal.end << endl;
         for (int i = cal.start; i <= cal.end; ++i) {
             tradeFile << item.id << ",";
             tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
