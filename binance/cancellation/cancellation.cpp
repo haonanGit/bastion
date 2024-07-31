@@ -390,13 +390,13 @@ void readAggTradeLog(const vector<string>& files) {
             cerr << "Error opening file: " << file << endl;
             continue;
         }
+        cout << "agg cancel size:" << agg_cancel.size() << ",idx:" << idx << ",id:" << agg_cancel[idx].id << endl;
         if (idx >= agg_cancel.size()) {
             break;
         }
-
         string pre_id("");
         string line;
-        cout << "agg cancel size:" << agg_cancel.size() << ",idx:" << idx << ",id:" << agg_cancel[idx].id << endl;
+
         while (getline(infile, line) && idx < agg_cancel.size()) {
             if (line.empty())
                 continue;
