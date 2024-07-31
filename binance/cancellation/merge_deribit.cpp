@@ -52,6 +52,7 @@ void setDeribitInfo(const std::string& cur) {
 
     std::getline(ss, token, ',');
     info.timestamp = std::stoll(removeQuotes(token));
+    cout << info.timestamp << endl;
 
     std::getline(ss, token, ',');
     info.side = removeQuotes(token);
@@ -148,8 +149,8 @@ void mergeFile() {
         CalculationInfo cal;
         getCalculationInfo(item.timestamp, cal);
         if (cal.start == -1) {
-            tradeFile << item.id;
-            tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds);
+            tradeFile << item.id << ",";
+            tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << ",";
             tradeFile << "no cancel log match";
             tradeFile << "\n";
         }
