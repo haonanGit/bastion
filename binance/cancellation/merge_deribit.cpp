@@ -187,7 +187,7 @@ void readDeribitLog(const string& file) {
 void mergeFile() {
     cout << "start merge" << endl;
 
-    ofstream tradeFile("./cancel_trade.csv", ios::trunc);
+    ofstream tradeFile("./cancel_trade_result.csv", ios::trunc);
     tradeFile << "deribit id,deribit trade time,deribit trade size," << title;
 
     // get all result
