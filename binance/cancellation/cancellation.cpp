@@ -274,8 +274,7 @@ void readTradeLog(const vector<string>& files) {
     tradeFile << "\n";
 
     size_t idx = 0;
-
-    for (const auto& file : files) {
+    string pre_id = "4200000000" for (const auto& file : files) {
         cout << "new file!!!!!!!!" << file << endl;
         ifstream infile(file);
         if (!infile.is_open()) {
