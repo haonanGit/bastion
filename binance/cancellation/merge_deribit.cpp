@@ -165,6 +165,7 @@ void mergeFile() {
             tradeFile << item.size << ",";
             // cout << "idx :" << i << ", size:" << cancel_log.size() << endl;
             tradeFile << cancel_log[i];
+            tradeFile << "\n";
         }
         tradeFile << "\n";
     }
