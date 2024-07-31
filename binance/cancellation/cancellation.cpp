@@ -563,7 +563,7 @@ int main(int argc, char* argv[]) {
 
     readCancellation(cancelFiles);
 
-    // readTradeLog(logFiles);
+    readTradeLog(logFiles);
     readAggTradeLog(aggLogFiles);
     readDeribit1sLog();
 
