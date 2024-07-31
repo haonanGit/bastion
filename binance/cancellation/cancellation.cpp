@@ -241,7 +241,7 @@ void readCancellation(const vector<string>& files) {
                 continue;
 
             if (line.find("Trigger cancel, cancel id") != string::npos && getSymbol(line) == log_symbol) {
-                if (getType(line) != trigger_type) {
+                if (getType(line) != trigger_type && getType(line) != "Deribit 1s") {
                     continue;
                 }
                 if (line.find("Stream: trade") != string::npos && getSourceId(line) < base_trade_id) {
