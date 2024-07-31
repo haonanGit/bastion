@@ -143,7 +143,7 @@ void mergeFile() {
     cout << "start merge" << endl;
 
     ofstream tradeFile("./cancel_trade.csv", ios::trunc);
-    tradeFile << "deribit id,deribit trade time," << title;
+    tradeFile << "deribit id,deribit trade time,deribit trade size," << title;
 
     for (const auto& item : cancel_all) {
         CalculationInfo cal;
@@ -151,13 +151,14 @@ void mergeFile() {
         if (cal.start == -1) {
             tradeFile << item.id << ",";
             tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
-            cout << item.timestamp << "," << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << endl;
+            tradeFile << item.size << ",";
             tradeFile << "no cancel log match";
             tradeFile << "\n";
         }
         for (int i = cal.start; i < cal.end; ++i) {
             tradeFile << item.id << ",";
-            tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << ",";
+            tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
+            tradeFile << item.size << ",";
             tradeFile << cancel_log[i];
         }
         tradeFile << "\n";
