@@ -150,7 +150,7 @@ void mergeFile() {
         if (cal.start == -1) {
             tradeFile << item.id << ",";
             tradeFile << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << ",";
-            cout << info.timestamp << "," << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << endl;
+            cout << item.timestamp << "," << common::timestampToDate(item.timestamp, common::TimeUnit::Microseconds) << endl;
             tradeFile << "no cancel log match";
             tradeFile << "\n";
         }
