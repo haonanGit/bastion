@@ -119,7 +119,7 @@ std::string timestampToDate(int64_t timestamp, TimeUnit unit) {
     std::time_t time = timestamp / scale;
     int         milliseconds = timestamp % scale;
 
-    std::tm*          tm = std::gmtime(&time);
+    std::tm*          tm = std::gmtime(&time);  // utc时间
     std::stringstream ss;
     ss << std::put_time(tm, "%Y-%m-%d %H:%M:%S");
     ss << '.' << std::setw(width) << std::setfill('0') << milliseconds;
