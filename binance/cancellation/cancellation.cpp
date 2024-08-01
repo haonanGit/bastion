@@ -421,7 +421,7 @@ void readAggTradeLog(const vector<string>& files, const string& prefix) {
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
 
-            if ((!currentJson.contains("data") || !currentJson["data"].contains("t"))) {
+            if ((!currentJson.contains("data") || !currentJson["data"].contains("a"))) {
                 continue;
             }
 
