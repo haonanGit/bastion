@@ -225,8 +225,8 @@ std::string convertToUtc(const std::string& input) {
 
 void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
-    string base_trade_id = "4200000000";
-    string base_agg_id = "1700000000";
+    // string base_trade_id = "4200000000";
+    // string base_agg_id = "1700000000";
     for (const auto& file : files) {
         ifstream infile(file);
         if (!infile.is_open()) {
@@ -559,7 +559,7 @@ int main(int argc, char* argv[]) {
     log_symbol = argv[5];
     trigger_type = argv[6];
 
-    cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",tradePrefix:" << tradePrefix << ",aggPrefix" << aggPrefix
+    cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",tradePrefix:" << tradePrefix << ",aggPrefix:" << aggPrefix
          << ",log_symbol:" << log_symbol << ",trigger_type:" << trigger_type << endl;
 
     vector<string> cancelFiles = getFilesWithPrefix(filePath, cancelPrefix);
