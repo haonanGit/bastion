@@ -113,14 +113,16 @@ void setCancelReq(const string& cur, const string& num) {
     info.logTime = getLogTime(cur);
 
     cancel_all[id] = info;
-    cout << "set id:" << id << endl;
+    if (cur.find("ETH") != string::npos) {
+        cout << "set id:" << id << endl;
+    }
 }
 
 void setCancelInfo(const string& cur, const string& num) {
     auto id = num + "_" + getId(cur);
     if (cancel_all.count(id) == 0) {
         if (cur.find("ETH") != string::npos) {
-            cout << "not fund" << id << endl;
+            cout << "not fund:" << id << endl;
         }
 
         return;
