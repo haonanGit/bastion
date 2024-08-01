@@ -103,9 +103,9 @@ string getLogTime(const string& cur) {
     return cur.substr(start, end - start);
 }
 
-void setCancelReq(const string& cur, const string& file) {
+void setCancelReq(const string& cur, const string& num) {
     CancelInfo info;
-    auto       id = getId(cur) + file;
+    auto       id = num + "_" + getId(cur);
     info.type = getType(cur);
     info.source = getSource(cur);
     info.id = getSourceId(cur);
@@ -116,10 +116,13 @@ void setCancelReq(const string& cur, const string& file) {
     cout << "set id:" << id << endl;
 }
 
-void setCancelInfo(const string& cur, const string& file) {
-    auto id = getId(cur) + file;
+void setCancelInfo(const string& cur, const string& num) {
+    auto id = num + "_" + getId(cur);
     if (cancel_all.count(id) == 0) {
-        cout << "not fund" << id << endl;
+        if (cur.find("ETH") != string::npos) {
+            cout << "not fund" << id << endl;
+        }
+
         return;
     }
 
