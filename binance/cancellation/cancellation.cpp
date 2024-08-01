@@ -58,11 +58,11 @@ string getId(const string& cur) {
 
 string getType(const string& cur) {
     if (cur.find("by SWAP") != string::npos) {
-        return "SWAP";
+        return "by SWAP";
     } else if (cur.find("by USDT") != string::npos) {
-        return "USDT";
+        return "by USDT";
     } else if (cur.find("by FDUSD") != string::npos) {
-        return "FDUSD";
+        return "by FDUSD";
     } else if (cur.find("Deribit 1s") != string::npos) {
         return "deribit1s";
     }
