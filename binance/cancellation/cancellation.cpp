@@ -322,12 +322,13 @@ void readTradeLog(const vector<string>& files, const string& prefix) {
 
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
+            if ((!currentJson.contains("data") || !currentJson["data"].contains("t"))) {
+                continue;
+            }
+
             trade_all.emplace_back(currentJson);
             while (trade_cancel[idx].id < pre_id) {
                 ++idx;
-            }
-            if ((!currentJson.contains("data") || !currentJson["data"].contains("t"))) {
-                continue;
             }
             if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
                 cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
@@ -419,6 +420,11 @@ void readAggTradeLog(const vector<string>& files, const string& prefix) {
 
             line = line.substr(line.find("{"));
             json currentJson = json::parse(line, nullptr, false);
+
+            if ((!currentJson.contains("data") || !currentJson["data"].contains("t"))) {
+                continue;
+            }
+
             aggtrade_all.emplace_back(currentJson);
             while (agg_cancel[idx].id < pre_id) {
                 ++idx;
