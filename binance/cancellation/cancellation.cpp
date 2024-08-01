@@ -106,9 +106,6 @@ string getLogTime(const string& cur) {
 void setCancelReq(const string& cur, const string& num) {
     CancelInfo info;
     auto       id = num + "_" + getId(cur);
-    if (getId(cur) == "ETH_USDC_12410") {
-        cout << "set ETH_USDC_12410 : " << id << endl;
-    }
     info.type = getType(cur);
     info.source = getSource(cur);
     info.id = getSourceId(cur);
@@ -124,10 +121,6 @@ void setCancelReq(const string& cur, const string& num) {
 void setCancelInfo(const string& cur, const string& num) {
     auto id = num + "_" + getId(cur);
     if (cancel_all.count(id) == 0) {
-        if (getId(cur) == "ETH_USDC_12410") {
-            cout << "not fund:" << id << endl;
-        }
-
         return;
     }
 
@@ -253,15 +246,6 @@ void readCancellation(const vector<string>& files) {
                 continue;
 
             if (line.find("Trigger cancel, cancel id") != string::npos) {
-                if (getId(line) == "ETH_USDC_12410") {
-                    cout << "!!!!!!!!!! set ETH_USDC_12410 : " << to_string(num) + "_" + getId(line) << endl;
-                    if (getSymbol(line) != log_symbol && !getSymbol(line).empty()) {
-                        cout << "symbol:" << getSymbol(line) << "log symbol:" << log_symbol << endl;
-                    }
-                    if (getType(line) != trigger_type && getType(line) != "deribit1s") {
-                        cout << "type :" << getType(line) << " trigger type :" << trigger_type << endl;
-                    }
-                }
                 if (getSymbol(line) != log_symbol && !getSymbol(line).empty()) {
                     continue;
                 }
@@ -341,6 +325,9 @@ void readTradeLog(const vector<string>& files, const string& prefix) {
             trade_all.emplace_back(currentJson);
             while (trade_cancel[idx].id < pre_id) {
                 ++idx;
+            }
+            if ((!currentJson.contains("data") || !currentJson["data"].contains("t"))) {
+                continue;
             }
             if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
                 cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
