@@ -106,6 +106,9 @@ string getLogTime(const string& cur) {
 void setCancelReq(const string& cur, const string& num) {
     CancelInfo info;
     auto       id = num + "_" + getId(cur);
+    if (getId(cur) == "ETH_USDC_12410") {
+        cout << "ETH_USDC_12410 : " << id << endl;
+    }
     info.type = getType(cur);
     info.source = getSource(cur);
     info.id = getSourceId(cur);
