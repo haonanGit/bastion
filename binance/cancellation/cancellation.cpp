@@ -113,12 +113,13 @@ void setCancelReq(const string& cur, const string& file) {
     info.logTime = getLogTime(cur);
 
     cancel_all[id] = info;
+    cout << "set id:" << id << endl;
 }
 
 void setCancelInfo(const string& cur, const string& file) {
     auto id = getId(cur) + file;
     if (cancel_all.count(id) == 0) {
-        cout << "not fund" << total_cancel_no << endl;
+        cout << "not fund" << id << endl;
         return;
     }
 
