@@ -260,7 +260,7 @@ void readCancellation(const vector<string>& files) {
                 setCancelInfo(line, file);
             }
         }
-        cout << "trade_cancel size :" << trade_cancel.size() << "agg cancel size:" << agg_cancel.size() << endl;
+        cout << "trade_cancel size :" << trade_cancel.size() << ",agg cancel size:" << agg_cancel.size() << endl;
     }
     auto comp = [](const auto& a, const auto& b) { return a.id < b.id; };
     sort(trade_cancel.begin(), trade_cancel.end(), comp);
@@ -547,7 +547,7 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
 
 int main(int argc, char* argv[]) {
     if (argc != 7) {
-        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <aggPrefix> <symbol> <trigger_type>" << endl;
+        cerr << "Usage: " << argv[0] << " <file_path> <cancelPrefix> <tradePrefix> <aggPrefix> <log_symbol> <trigger_type>" << endl;
         return 1;
     }
 
@@ -560,7 +560,7 @@ int main(int argc, char* argv[]) {
     trigger_type = argv[6];
 
     cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",tradePrefix:" << tradePrefix << ",aggPrefix" << aggPrefix
-         << ",log_symbol:" << log_symbol << "trigger_type" << trigger_type << endl;
+         << ",log_symbol:" << log_symbol << ",trigger_type:" << trigger_type << endl;
 
     vector<string> cancelFiles = getFilesWithPrefix(filePath, cancelPrefix);
     vector<string> logFiles = getFilesWithPrefix(filePath, tradePrefix);
