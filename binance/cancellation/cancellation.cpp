@@ -124,9 +124,9 @@ void setCancelReq(const string& cur, const string& num) {
 void setCancelInfo(const string& cur, const string& num) {
     auto id = num + "_" + getId(cur);
     if (cancel_all.count(id) == 0) {
-        // if (cur.find("ETH") != string::npos) {
-        //     cout << "not fund:" << id << endl;
-        // }
+        if (getId(cur) == "ETH_USDC_12410") {
+            cout << "not fund:" << id << endl;
+        }
 
         return;
     }
