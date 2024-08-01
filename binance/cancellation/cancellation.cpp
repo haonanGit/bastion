@@ -247,10 +247,10 @@ void readCancellation(const vector<string>& files) {
                 if (getType(line) != trigger_type && getType(line) != "deribit1s") {
                     continue;
                 }
-                if (line.find("Stream: trade") != string::npos && getSourceId(line) < base_trade_id) {
+                if (line.find("Stream: trade") != string::npos) {
                     continue;
                 }
-                if (line.find("Stream: aggTrade") != string::npos && getSourceId(line) < base_agg_id) {
+                if (line.find("Stream: aggTrade") != string::npos) {
                     continue;
                 }
 
