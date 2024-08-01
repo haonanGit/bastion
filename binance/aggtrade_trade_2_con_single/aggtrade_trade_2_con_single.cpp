@@ -69,32 +69,32 @@ int main(int argc, char* argv[]) {
 
     // init log
     utils::Logger::Options opt_agg_xrp;
-    opt_agg_xrp.name = "agg_xrp";
-    opt_agg_xrp.file = "agg_xrp.txt";
+    opt_agg_xrp.name = "f_agg_xrp";
+    opt_agg_xrp.file = "f_agg_xrp.txt";
     opt_agg_xrp.dir = "../log";
     opt_agg_xrp.is_async = true;
     opt_agg_xrp.max_size = 1024L * 1024 * 100;  // 100 MB per file
     opt_agg_xrp.max_files = 50;                 // up to X GB total
 
     utils::Logger::Options opt_agg_eth;
-    opt_agg_eth.name = "agg_eth";
-    opt_agg_eth.file = "agg_eth.txt";
+    opt_agg_eth.name = "f_agg_eth";
+    opt_agg_eth.file = "f_agg_eth.txt";
     opt_agg_eth.dir = "../log";
     opt_agg_eth.is_async = true;
     opt_agg_eth.max_size = 1024L * 1024 * 100;  // 100 MB per file
     opt_agg_eth.max_files = 50;                 // up to X GB total
 
     utils::Logger::Options opt_trade_xrp;
-    opt_trade_xrp.name = "trade_xrp";
-    opt_trade_xrp.file = "trade_xrp.txt";
+    opt_trade_xrp.name = "f_trade_xrp";
+    opt_trade_xrp.file = "f_trade_xrp.txt";
     opt_trade_xrp.dir = "../log";
     opt_trade_xrp.is_async = true;
     opt_trade_xrp.max_size = 1024L * 1024 * 100;  // 100 MB per file
     opt_trade_xrp.max_files = 50;                 // up to X GB total
 
     utils::Logger::Options opt_trade_eth;
-    opt_trade_eth.name = "trade_eth";
-    opt_trade_eth.file = "trade_eth.txt";
+    opt_trade_eth.name = "f_trade_eth";
+    opt_trade_eth.file = "f_trade_eth.txt";
     opt_trade_eth.dir = "../log";
     opt_trade_eth.is_async = true;
     opt_trade_eth.max_size = 1024L * 1024 * 100;  // 100 MB per file

@@ -267,10 +267,13 @@ void readCancellation(const vector<string>& files) {
     sort(agg_cancel.begin(), agg_cancel.end(), comp);
 }
 
-void readTradeLog(const vector<string>& files) {
+void readTradeLog(const vector<string>& files, const string& prefix) {
     cout << "start readTradeLog" << endl;
+    string resultPath = "./";
+    string resultName = prefix + ".csv";
+    string resuleFile = resultPath + resultName;
 
-    ofstream tradeFile("./trade.csv", ios::trunc);
+    ofstream tradeFile(resuleFile, ios::trunc);
     tradeFile << "calcel log time,"
               << "result,"
               << "trigger type,"
@@ -358,10 +361,12 @@ void readTradeLog(const vector<string>& files) {
     tradeFile.close();
 }
 
-void readAggTradeLog(const vector<string>& files) {
-    cout << "start readAggTradeLog" << endl;
+void readAggTradeLog(const vector<string>& files, const string& prefix) {
+    string resultPath = "./";
+    string resultName = prefix + ".csv";
+    string resuleFile = resultPath + resultName;
 
-    ofstream tradeFile("./aggtrade.csv", ios::trunc);
+    ofstream tradeFile(resuleFile, ios::trunc);
     tradeFile << "calcel log time,"
               << "result,"
               << "trigger type,"
@@ -542,29 +547,29 @@ vector<string> getFilesWithPrefix(const string& dirPath, const string& prefix) {
 
 int main(int argc, char* argv[]) {
     if (argc != 7) {
-        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <aggLogPrefix> <symbol> <trigger_type>" << endl;
+        cerr << "Usage: " << argv[0] << " <file_path> <cancel_file_prefix> <log_file_prefix> <aggPrefix> <symbol> <trigger_type>" << endl;
         return 1;
     }
 
     string filePath = argv[1];
     string cancelPrefix = argv[2];
-    string logPrefix = argv[3];
-    string aggLogPrefix = argv[4];
+    string tradePrefix = argv[3];
+    string aggPrefix = argv[4];
 
     log_symbol = argv[5];
     trigger_type = argv[6];
 
-    cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",logPrefix:" << logPrefix << ",aggLogPrefix" << aggLogPrefix
+    cout << "filePath:" << filePath << ",cancelPrefix:" << cancelPrefix << ",tradePrefix:" << tradePrefix << ",aggPrefix" << aggPrefix
          << ",log_symbol:" << log_symbol << "trigger_type" << trigger_type << endl;
 
     vector<string> cancelFiles = getFilesWithPrefix(filePath, cancelPrefix);
-    vector<string> logFiles = getFilesWithPrefix(filePath, logPrefix);
-    vector<string> aggLogFiles = getFilesWithPrefix(filePath, aggLogPrefix);
+    vector<string> logFiles = getFilesWithPrefix(filePath, tradePrefix);
+    vector<string> aggLogFiles = getFilesWithPrefix(filePath, aggPrefix);
 
     readCancellation(cancelFiles);
 
-    readTradeLog(logFiles);
-    readAggTradeLog(aggLogFiles);
+    readTradeLog(logFiles, tradePrefix);
+    readAggTradeLog(aggLogFiles, aggPrefix);
     readDeribit1sLog();
 
     return 0;

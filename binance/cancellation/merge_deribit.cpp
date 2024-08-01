@@ -11,6 +11,10 @@
 #include <nlohmann/json.hpp>
 #include "common.h"
 
+#define trade_prefix "trade"
+#define agg_prefix "agg"
+#define deribit_prefix "deribit"
+
 using namespace std;
 using json = nlohmann::json;
 namespace fs = std::filesystem;
@@ -30,10 +34,10 @@ struct CalculationInfo {
     int end;
 };
 
-vector<CancelInfo>                    cancel_all;
-unordered_map<string, vector<string>> total_log;
-string                                title;
-int                                   gap = 500;
+vector<CancelInfo>     cancel_all;
+vector<vector<string>> total_log;
+string                 title;
+int                    gap = 500;
 
 std::string removeQuotes(const std::string& str) {
     std::string result = str;
@@ -118,71 +122,74 @@ void readDatabase(const string& file) {
     sort(cancel_all.begin(), cancel_all.end(), comp);
 }
 
-void readTradeLog(const string& file) {
-    cout << "trade file :" << file << endl;
-    ifstream infile(file);
-    if (!infile.is_open()) {
-        cerr << "Error opening file: " << file << endl;
-        return;
-    }
-
-    string line;
-    while (getline(infile, line)) {
-        if (line.empty()) {
-            continue;
-        }
-        if (line.find("result") != string::npos) {
-            title = line;
-            continue;
+void readTradeLog(const vector<string>& files) {
+    for (const auto& file : files) {
+        cout << "file :" << file << endl;
+        vector<string> v;
+        ifstream       infile(file);
+        if (!infile.is_open()) {
+            cerr << "Error opening file: " << file << endl;
+            return;
         }
 
-        total_log["trade"].emplace_back(line);
-    }
-}
-
-void readAggLog(const string& file) {
-    cout << "agg file :" << file << endl;
-    ifstream infile(file);
-    if (!infile.is_open()) {
-        cerr << "Error opening file: " << file << endl;
-        return;
-    }
-
-    string line;
-    while (getline(infile, line)) {
-        if (line.empty()) {
-            continue;
+        string line;
+        while (getline(infile, line)) {
+            if (line.empty()) {
+                continue;
+            }
+            if (line.find("result") != string::npos) {
+                title = line;
+                continue;
+            }
+            v.emplace_back(line);
         }
-        if (line.find("result") != string::npos) {
-            title = line;
-            continue;
-        }
-
-        total_log["agg"].emplace_back(line);
+        total_log.emplace_back(v);
     }
 }
 
-void readDeribitLog(const string& file) {
-    cout << "deribit file :" << file << endl;
-    ifstream infile(file);
-    if (!infile.is_open()) {
-        cerr << "Error opening file: " << file << endl;
-        return;
-    }
+// void readAggLog(const string& file) {
+//     cout << "agg file :" << file << endl;
+//     ifstream infile(file);
+//     if (!infile.is_open()) {
+//         cerr << "Error opening file: " << file << endl;
+//         return;
+//     }
 
-    string line;
-    while (getline(infile, line)) {
-        if (line.empty()) {
-            continue;
-        }
-        if (line.find("result") != string::npos) {
-            title = line;
-            continue;
-        }
+//     string line;
+//     while (getline(infile, line)) {
+//         if (line.empty()) {
+//             continue;
+//         }
+//         if (line.find("result") != string::npos) {
+//             title = line;
+//             continue;
+//         }
 
-        total_log["deribit"].emplace_back(line);
-    }
-}
+//         total_log["agg"].emplace_back(line);
+//     }
+// }
+
+// void readDeribitLog(const string& file) {
+//     cout << "deribit file :" << file << endl;
+//     ifstream infile(file);
+//     if (!infile.is_open()) {
+//         cerr << "Error opening file: " << file << endl;
+//         return;
+//     }
+
+//     string line;
+//     while (getline(infile, line)) {
+//         if (line.empty()) {
+//             continue;
+//         }
+//         if (line.find("result") != string::npos) {
+//             title = line;
+//             continue;
+//         }
+
+//         total_log["deribit"].emplace_back(line);
+//     }
+// }
 
 void mergeFile() {
     cout << "start merge" << endl;
@@ -194,24 +201,20 @@ void mergeFile() {
     for (const auto& item : cancel_all) {
         vector<string> result;
 
-        unordered_map<string, CalculationInfo> cal;
-
-        getCalculationInfo(item.timestamp, total_log["trade"], cal["trade"]);
-        getCalculationInfo(item.timestamp, total_log["agg"], cal["agg"]);
-        getCalculationInfo(item.timestamp, total_log["deribit"], cal["deribit"]);
-
         for (const auto& it : total_log) {
-            stringstream ss;
-            if (cal[it.first].start == -1) {
+            CalculationInfo cal;
+            getCalculationInfo(item.timestamp, it, cal);
+            if (cal.start == -1) {
                 continue;
             }
 
-            for (int i = cal[it.first].start; i <= cal[it.first].end; ++i) {
+            stringstream ss;
+            for (int i = cal.start; i <= cal.end; ++i) {
                 ss << item.id << ",";
                 ss << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
                 ss << item.size << ",";
                 // cout << "idx :" << i << ", size:" << trade_log.size() << endl;
-                ss << it.second[i];
+                ss << it[i];
                 ss << "\n\n";
             }
             if (!ss.str().empty()) {
@@ -232,24 +235,30 @@ void mergeFile() {
     }
 }
 
+std::vector<std::string> getAllFilesInDirectory(const std::string& dirPath) {
+    std::vector<std::string> files;
+    for (const auto& entry : fs::directory_iterator(dirPath)) {
+        if (entry.is_regular_file()) {
+            files.push_back(entry.path().string());
+        }
+    }
+    return files;
+}
+
 int main(int argc, char* argv[]) {
-    if (argc != 5) {
-        cerr << "Usage: " << argv[0] << " <trade_file> <agg_file> <deribit1s_file> <database_file>" << endl;
+    if (argc != 3) {
+        cerr << "Usage: " << argv[0] << " <log_file_path:find all files> <database_path>" << endl;
         return 1;
     }
 
-    string trade_file = argv[1];
-    string agg_file = argv[2];
-    string deribit1s_file = argv[3];
-    string datebase_file = argv[4];
+    string log_file_path = argv[1];
+    string database_path = argv[2];
 
-    cout << "trade_file:" << trade_file << ",agg_file:" << agg_file << ",deribit1s_file:" << deribit1s_file << ",datebase_file:" << datebase_file
-         << endl;
+    cout << "log_file_path:" << log_file_path << ",database_path:" << database_path << endl;
 
-    readTradeLog(trade_file);
-    readAggLog(agg_file);
-    readDeribitLog(deribit1s_file);
-    readDatabase(datebase_file);
+    readTradeLog(getAllFilesInDirectory(log_file_path));
+
+    readDatabase(database_path);
     mergeFile();
 
     return 0;
