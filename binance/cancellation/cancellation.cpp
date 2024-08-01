@@ -253,7 +253,7 @@ void readCancellation(const vector<string>& files) {
                 // if (line.find("Stream: aggTrade") != string::npos && getSourceId(line) < base_agg_id) {
                 //     continue;
                 // }
-
+                cout << total_cancel_no << endl;
                 setCancelReq(line, file);
                 ++total_cancel_no;
             } else if (line.find("Final Cancel Result") != string::npos) {
