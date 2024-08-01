@@ -228,7 +228,9 @@ void readCancellation(const vector<string>& files) {
     cout << "start readCancellation" << endl;
     // string base_trade_id = "4200000000";
     // string base_agg_id = "1700000000";
+    int num = 0;
     for (const auto& file : files) {
+        ++num;
         ifstream infile(file);
         if (!infile.is_open()) {
             cerr << "Error opening file: " << file << endl;
@@ -255,10 +257,10 @@ void readCancellation(const vector<string>& files) {
                 //     continue;
                 // }
                 cout << total_cancel_no << endl;
-                setCancelReq(line, file);
+                setCancelReq(line, to_string(num));
                 ++total_cancel_no;
             } else if (line.find("Final Cancel Result") != string::npos) {
-                setCancelInfo(line, file);
+                setCancelInfo(line, to_string(num));
             }
         }
         cout << "trade_cancel size :" << trade_cancel.size() << ",agg cancel size:" << agg_cancel.size() << endl;
