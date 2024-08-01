@@ -255,6 +255,12 @@ void readCancellation(const vector<string>& files) {
             if (line.find("Trigger cancel, cancel id") != string::npos) {
                 if (getId(line) == "ETH_USDC_12410") {
                     cout << "!!!!!!!!!! set ETH_USDC_12410 : " << to_string(num) + "_" + getId(line) << endl;
+                    if (getSymbol(line) != log_symbol && !getSymbol(line).empty()) {
+                        cout << "symbol:" << getSymbol(line) << "log symbol:" << log_symbol << endl;
+                    }
+                    if (getType(line) != trigger_type && getType(line) != "deribit1s") {
+                        cout << "type :" << getType(line) << " trigger type :" << trigger_type << endl;
+                    }
                 }
                 if (getSymbol(line) != log_symbol && !getSymbol(line).empty()) {
                     continue;
