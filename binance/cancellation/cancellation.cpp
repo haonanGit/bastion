@@ -107,7 +107,7 @@ void setCancelReq(const string& cur, const string& num) {
     CancelInfo info;
     auto       id = num + "_" + getId(cur);
     if (getId(cur) == "ETH_USDC_12410") {
-        cout << "ETH_USDC_12410 : " << id << endl;
+        cout << "set ETH_USDC_12410 : " << id << endl;
     }
     info.type = getType(cur);
     info.source = getSource(cur);
@@ -252,7 +252,7 @@ void readCancellation(const vector<string>& files) {
             if (line.empty())
                 continue;
             if (getId(line) == "ETH_USDC_12410") {
-                cout << "ETH_USDC_12410 : " << num + "_" + getId(line) << endl;
+                cout << "!!!!!!!!!! set ETH_USDC_12410 : " << num + "_" + getId(line) << endl;
             }
             if (line.find("Trigger cancel, cancel id") != string::npos) {
                 if (getSymbol(line) != log_symbol && !getSymbol(line).empty()) {
