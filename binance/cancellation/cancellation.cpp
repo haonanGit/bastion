@@ -92,7 +92,7 @@ string getSymbol(const string& cur) {
     if (cur.find("Symbol") == string::npos) {
         return "";
     }
-    auto start = cur.find("Symbol") + 7;  // Symbol SOLUSDT,
+    auto start = cur.find("Symbol") + 7;  // Symbol SOLUSDT, Symbol ETHUSDT,
     auto end = cur.find(",", start);
     return cur.substr(start, end - start);
 }
@@ -113,17 +113,17 @@ void setCancelReq(const string& cur, const string& num) {
     info.logTime = getLogTime(cur);
 
     cancel_all[id] = info;
-    if (cur.find("ETH") != string::npos) {
-        cout << "set id:" << id << endl;
-    }
+    // if (cur.find("ETH") != string::npos) {
+    //     cout << "set id:" << id << endl;
+    // }
 }
 
 void setCancelInfo(const string& cur, const string& num) {
     auto id = num + "_" + getId(cur);
     if (cancel_all.count(id) == 0) {
-        if (cur.find("ETH") != string::npos) {
-            cout << "not fund:" << id << endl;
-        }
+        // if (cur.find("ETH") != string::npos) {
+        //     cout << "not fund:" << id << endl;
+        // }
 
         return;
     }
