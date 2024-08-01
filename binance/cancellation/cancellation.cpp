@@ -251,7 +251,9 @@ void readCancellation(const vector<string>& files) {
         while (getline(infile, line)) {
             if (line.empty())
                 continue;
-
+            if (getId(line) == "ETH_USDC_12410") {
+                cout << "ETH_USDC_12410 : " << num + "_" + getId(line) << endl;
+            }
             if (line.find("Trigger cancel, cancel id") != string::npos) {
                 if (getSymbol(line) != log_symbol && !getSymbol(line).empty()) {
                     continue;
