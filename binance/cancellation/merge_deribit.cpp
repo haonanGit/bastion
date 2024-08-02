@@ -89,7 +89,7 @@ long long getDeribitCancelTime(const string& line) {
     while (std::getline(ss, item, ',')) {
         v.emplace_back(item);
     }
-    return common::convertToTimestamp(v[v.size() - 4], common::TimeUnit::Milliseconds);  // deribit cancel time is the last 4 item
+    return common::convertToTimestamp(v[v.size() - 1], common::TimeUnit::Milliseconds);  // deribit cancel time is the last item
 }
 
 void getCalculationInfo(const long long& deribit_time, const vector<string>& log, CalculationInfo& cal) {
