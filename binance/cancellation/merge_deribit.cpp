@@ -184,7 +184,7 @@ void mergeFile() {
                 ss << item.size << ",";
                 ss << getDeribitCancelTime(it[i]) - item.timestamp << ",";
                 ss << it[i];
-                ss << "\n\n";
+                ss << "\n";
             }
             if (!ss.str().empty()) {
                 result.emplace_back(ss.str());

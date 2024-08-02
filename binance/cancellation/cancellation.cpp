@@ -43,6 +43,9 @@ struct CalculationInfo {
     double  pre_500ms_total_qty;
     int64_t pre_500ms_nums;
     int64_t pre_500ms_diff_price_nums;
+    double  pre_1000ms_total_qty;
+    int64_t pre_1000ms_nums;
+    int64_t pre_1000ms_diff_price_nums;
 
     void reset() {
         total_trade_qty_trigger_time = 0;
@@ -60,6 +63,9 @@ struct CalculationInfo {
         pre_500ms_total_qty = 0;
         pre_500ms_nums = 0;
         pre_500ms_diff_price_nums = 0;
+        pre_1000ms_total_qty = 0;
+        pre_1000ms_nums = 0;
+        pre_1000ms_diff_price_nums = 0;
     }
 };
 
@@ -205,21 +211,31 @@ void getCalculationInfo(CalculationInfo& cal, deque<json>& trade_que) {
                 ++cal.pre_50ms_diff_price_nums;
             }
             ++cal.pre_50ms_nums;
+            cal.pre_500ms_total_qty += stod(cur["data"]["q"].get<string>());
         } else if (diff <= 100) {
             if (pre_price != cur["data"]["p"] || cal.pre_100ms_nums == 0) {
                 ++cal.pre_100ms_diff_price_nums;
             }
             ++cal.pre_100ms_nums;
+            cal.pre_100ms_total_qty += stod(cur["data"]["q"].get<string>());
         } else if (diff <= 300) {
             if (pre_price != cur["data"]["p"] || cal.pre_300ms_nums == 0) {
                 ++cal.pre_300ms_diff_price_nums;
             }
             ++cal.pre_300ms_nums;
+            cal.pre_300ms_total_qty += stod(cur["data"]["q"].get<string>());
         } else if (diff <= 500) {
             if (pre_price != cur["data"]["p"] || cal.pre_500ms_nums == 0) {
                 ++cal.pre_500ms_diff_price_nums;
             }
             ++cal.pre_500ms_nums;
+            cal.pre_500ms_total_qty += stod(cur["data"]["q"].get<string>());
+        } else if (diff <= 1000) {
+            if (pre_price != cur["data"]["p"] || cal.pre_1000ms_nums == 0) {
+                ++cal.pre_1000ms_diff_price_nums;
+            }
+            ++cal.pre_1000ms_nums;
+            cal.pre_1000ms_total_qty += stod(cur["data"]["q"].get<string>());
         }
         pre_price = cur["data"]["p"];
     }
@@ -249,6 +265,9 @@ string getTitle() {
     title += "pre 500ms total qty,";
     title += "pre 500ms nums,";
     title += "pre 500ms diff price nums,";
+    title += "pre 1000ms total qty,";
+    title += "pre 1000ms nums,";
+    title += "pre 1000ms diff price nums,";
     // tail
     title += "cancel type,";
     title += "processing time us,";
@@ -275,6 +294,9 @@ string getCalculationInfoToString(const CalculationInfo& cal) {
     ss << cal.pre_500ms_total_qty << ",";           // pre 500ms total qty
     ss << cal.pre_500ms_nums << ",";                // pre 500ms nums
     ss << cal.pre_500ms_diff_price_nums << ",";     // pre 500ms diff price nums
+    ss << cal.pre_1000ms_total_qty << ",";          // pre 1000ms total qty
+    ss << cal.pre_1000ms_nums << ",";               // pre 1000ms nums
+    ss << cal.pre_1000ms_diff_price_nums << ",";    // pre 1000ms diff price nums
     return ss.str();
 }
 
