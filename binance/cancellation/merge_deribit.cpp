@@ -83,7 +83,6 @@ long long getLogTimestamp(const string& line) {
 }
 
 long long getDeribitCancelTime(const string& line) {
-    int               count = 0;
     std::stringstream ss(line);
     std::string       item;
     vector<string>    v;
