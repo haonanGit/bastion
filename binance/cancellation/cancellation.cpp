@@ -613,7 +613,7 @@ int main(int argc, char* argv[]) {
 
     readTradeLog(logFiles, tradePrefix);
     readAggTradeLog(aggLogFiles, aggPrefix);
-    readDeribit1sLog();
+    readDeribit1sLog(logFiles, tradePrefix);  // get trade cancel info
 
     return 0;
 }
