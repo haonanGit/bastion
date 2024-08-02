@@ -547,13 +547,11 @@ void readDeribit1sLog(const vector<string>& files, const string& prefix) {
             }
 
             deribit_all.emplace_back(currentJson);
-            while (common::convertToTimestamp(within1s[idx].logTime) <= common::convertToTimestamp(currentJson["data"]["T"]) &&
-                   idx < within1s.size()) {
-                cout << "idx:" << idx << ",sourceid:" << within1s[idx].id << endl;
+            if (common::convertToTimestamp(within1s[idx].logTime) >= common::convertToTimestamp(currentJson["data"]["T"]) && idx < within1s.size()) {
+                cout << "idx:" << idx << ",within1s:" << within1s[idx].id << endl;
 
                 CalculationInfo cal;
                 getCalculationInfo(cal, deribit_all);
-                cout << " match trade cancel,id:[" << currentJson["data"]["a"] << "], trade id :" << within1s[idx].id << endl;
                 tradeFile << convertToUtc(within1s[idx].logTime) << ",";
                 tradeFile << within1s[idx].result << ",";
                 tradeFile << "deribit within 1s,";
