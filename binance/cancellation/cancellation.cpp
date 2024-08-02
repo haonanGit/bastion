@@ -503,7 +503,7 @@ void readDeribit1sLog() {
         tradeFile << ",";                          // trigger trade id
         tradeFile << ",";                          // trigger trade time at binance time
         // cal info
-        tradeFile << getCalculationInfo();
+        tradeFile << getCalculationInfo(cal);
 
         tradeFile << within1s[idx].type << ",";
         tradeFile << within1s[idx].usDiff << ",";
