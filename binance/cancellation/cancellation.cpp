@@ -44,7 +44,7 @@ struct CalculationInfo {
     int64_t pre_500ms_nums;
     int64_t pre_500ms_diff_price_nums;
 
-    reset() {
+    void reset() {
         total_trade_qty_trigger_time = 0;
         total_nums_trigger_time = 0;
         diff_price_nums_trigger_time = 0;
@@ -325,7 +325,7 @@ string getTitle() {
     return title;
 }
 
-string getCalculationInfo() {
+string getCalculationInfoToString(const CalculationInfo& cal) {
     stringstream ss;
     ss << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
     ss << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
@@ -398,7 +398,7 @@ void readTradeLog(const vector<string>& files, const string& prefix) {
                 tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
                 tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
                 // cal info
-                tradeFile << getCalculationInfo();
+                tradeFile << getCalculationInfoToString(cal);
 
                 // tail
                 tradeFile << trade_cancel[idx].type << ",";
@@ -470,7 +470,7 @@ void readAggTradeLog(const vector<string>& files, const string& prefix) {
                 tradeFile << currentJson["data"]["a"] << ",";  // trigger trade id
                 tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
                 // cal info
-                tradeFile << getCalculationInfo();
+                tradeFile << getCalculationInfoToString(cal);
 
                 tradeFile << agg_cancel[idx].type << ",";
                 tradeFile << agg_cancel[idx].usDiff << ",";
