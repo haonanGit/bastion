@@ -16,7 +16,7 @@ char*       Base64Encode(const unsigned char* input, size_t length);
 int         Base64Decode(char* b64message, unsigned char** buffer, size_t* length);
 std::string GenerateRandomNonce(size_t length);
 std::string timestampToDate(int64_t timestamp, TimeUnit unit = TimeUnit::Milliseconds);
-long long   convertToTimestamp(const std::string& dateTimeStr, TimeUnit unit);
+long long   convertToTimestamp(const std::string& dateTimeStr, TimeUnit unit = TimeUnit::Milliseconds);
 
 inline int64_t getTimeStampNs() {
     return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
