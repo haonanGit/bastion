@@ -233,10 +233,10 @@ string getTitle() {
     title += "trigger qty,";
     title += "trigger trade id,";
     title += "trigger trade time by binance time,";
+    // calculation info
     title += "total trade qty at same binance time,";
     title += "total trade nums at same binance time,";
     title += "different price at same biance time,";
-    // calculation info
     title += "pre 50ms total qty,";
     title += "pre 50ms nums,";
     title += "pre 50ms diff price nums,";
@@ -405,7 +405,7 @@ void readTradeLog(const vector<string>& files, const string& prefix) {
                 // tail
                 tradeFile << trade_cancel[idx].type << ",";
                 tradeFile << trade_cancel[idx].usDiff << ",";
-                tradeFile << common::timestampToDate(trade_cancel[idx].usIn, common::TimeUnit::Microseconds);
+                tradeFile << common::timestampToDate(trade_cancel[idx].usIn, common::TimeUnit::Microseconds) << ",";
                 tradeFile << common::timestampToDate(trade_cancel[idx].usOut, common::TimeUnit::Microseconds);
                 tradeFile << "\n";
 
@@ -476,7 +476,7 @@ void readAggTradeLog(const vector<string>& files, const string& prefix) {
 
                 tradeFile << agg_cancel[idx].type << ",";
                 tradeFile << agg_cancel[idx].usDiff << ",";
-                tradeFile << common::timestampToDate(agg_cancel[idx].usIn, common::TimeUnit::Microseconds);
+                tradeFile << common::timestampToDate(agg_cancel[idx].usIn, common::TimeUnit::Microseconds) << ",";
                 tradeFile << common::timestampToDate(agg_cancel[idx].usOut, common::TimeUnit::Microseconds);
                 tradeFile << "\n";
 
@@ -537,14 +537,14 @@ void readDeribit1sLog(const vector<string>& files, const string& prefix) {
                 tradeFile << "deribit within 1s,";
                 tradeFile << within1s[idx].symbol << ",";  // symbol
                 tradeFile << ",";                          // trigger qty
-                tradeFile << within1s[idx].id;             // trigger trade id
+                tradeFile << within1s[idx].id << ",";      // trigger trade id
                 tradeFile << ",";                          // trigger trade time at binance time
                 // cal info
                 tradeFile << getCalculationInfoToString(cal);
 
                 tradeFile << within1s[idx].type << ",";
                 tradeFile << within1s[idx].usDiff << ",";
-                tradeFile << common::timestampToDate(within1s[idx].usIn, common::TimeUnit::Microseconds);
+                tradeFile << common::timestampToDate(within1s[idx].usIn, common::TimeUnit::Microseconds) << ",";
                 tradeFile << common::timestampToDate(within1s[idx].usOut, common::TimeUnit::Microseconds);
                 tradeFile << "\n";
 
@@ -613,7 +613,7 @@ int main(int argc, char* argv[]) {
 
     readTradeLog(logFiles, tradePrefix);
     readAggTradeLog(aggLogFiles, aggPrefix);
-    readDeribit1sLog(logFiles, tradePrefix);  // get trade cancel info
+    readDeribit1sLog(logFiles, "deribit");  // get trade cancel info
 
     return 0;
 }
