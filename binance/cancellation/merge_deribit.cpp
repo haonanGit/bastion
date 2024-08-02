@@ -164,7 +164,7 @@ void mergeFile() {
     tradeFile << "deribit id,"
               << "deribit trade time,"
               << "deribit trade size,"
-              << "deribit cancel time - deribit trade time," << title;
+              << "deribit cancel time - deribit trade time," << title << "\n";
 
     // get all result
     for (const auto& item : cancel_all) {

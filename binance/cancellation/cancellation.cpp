@@ -211,7 +211,7 @@ void getCalculationInfo(CalculationInfo& cal, deque<json>& trade_que) {
                 ++cal.pre_50ms_diff_price_nums;
             }
             ++cal.pre_50ms_nums;
-            cal.pre_500ms_total_qty += stod(cur["data"]["q"].get<string>());
+            cal.pre_50ms_total_qty += stod(cur["data"]["q"].get<string>());
         } else if (diff <= 100) {
             if (pre_price != cur["data"]["p"] || cal.pre_100ms_nums == 0) {
                 ++cal.pre_100ms_diff_price_nums;
@@ -409,8 +409,6 @@ void readTradeLog(const vector<string>& files, const string& prefix) {
                 ++idx;
             }
             if (trade_cancel[idx].id == to_string(currentJson["data"]["t"])) {
-                cout << "idx:" << idx << ",sourceid:" << trade_cancel[idx].id << endl;
-
                 CalculationInfo cal;
                 getCalculationInfo(cal, trade_all);
                 cout << " match trade cancel,id:[" << currentJson["data"]["t"] << "], trade id :" << trade_cancel[idx].id << endl;
@@ -481,8 +479,6 @@ void readAggTradeLog(const vector<string>& files, const string& prefix) {
                 ++idx;
             }
             if (agg_cancel[idx].id == to_string(currentJson["data"]["a"])) {
-                cout << "idx:" << idx << ",sourceid:" << agg_cancel[idx].id << endl;
-
                 CalculationInfo cal;
                 getCalculationInfo(cal, aggtrade_all);
                 cout << " match trade cancel,id:[" << currentJson["data"]["a"] << "], trade id :" << agg_cancel[idx].id << endl;
