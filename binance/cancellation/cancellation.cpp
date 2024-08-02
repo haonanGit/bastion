@@ -31,12 +31,36 @@ struct CalculationInfo {
     double  total_trade_qty_trigger_time;  // total trade qty at same binance time
     int64_t total_nums_trigger_time;       // total nums at same binance time
     int64_t diff_price_nums_trigger_time;  // different price at same biance time
+    double  pre_50ms_total_qty;
+    int64_t pre_50ms_nums;
+    int64_t pre_50ms_diff_price_nums;
+    double  pre_100ms_total_qty;
     int64_t pre_100ms_nums;
     int64_t pre_100ms_diff_price_nums;
+    double  pre_300ms_total_qty;
     int64_t pre_300ms_nums;
     int64_t pre_300ms_diff_price_nums;
+    double  pre_500ms_total_qty;
     int64_t pre_500ms_nums;
     int64_t pre_500ms_diff_price_nums;
+
+    reset() {
+        total_trade_qty_trigger_time = 0;
+        total_nums_trigger_time = 0;
+        diff_price_nums_trigger_time = 0;
+        pre_50ms_total_qty = 0;
+        pre_50ms_nums = 0;
+        pre_50ms_diff_price_nums = 0;
+        pre_100ms_total_qty = 0;
+        pre_100ms_nums = 0;
+        pre_100ms_diff_price_nums = 0;
+        pre_300ms_total_qty = 0;
+        pre_300ms_nums = 0;
+        pre_300ms_diff_price_nums = 0;
+        pre_500ms_total_qty = 0;
+        pre_500ms_nums = 0;
+        pre_500ms_diff_price_nums = 0;
+    }
 };
 
 unordered_map<string, CancelInfo> cancel_all;
@@ -152,15 +176,7 @@ void getCalculationInfo(CalculationInfo& cal, deque<json>& trade_que) {
     string pre_price;
     auto   base_time = common::convertToTimestamp(trade_que.back()["data"]["T"], common::TimeUnit::Milliseconds);
 
-    cal.total_trade_qty_trigger_time = 0.0;
-    cal.total_nums_trigger_time = 0;
-    cal.diff_price_nums_trigger_time = 0;
-    cal.pre_100ms_nums = 0;
-    cal.pre_100ms_diff_price_nums = 0;
-    cal.pre_300ms_nums = 0;
-    cal.pre_300ms_diff_price_nums = 0;
-    cal.pre_500ms_nums = 0;
-    cal.pre_500ms_diff_price_nums = 0;
+    cal.reset();
 
     while (!trade_que.empty()) {
         auto cur_time = common::convertToTimestamp(trade_que.front()["data"]["T"], common::TimeUnit::Milliseconds);
@@ -182,6 +198,11 @@ void getCalculationInfo(CalculationInfo& cal, deque<json>& trade_que) {
             ++cal.total_nums_trigger_time;
             cal.total_trade_qty_trigger_time += stod(cur["data"]["q"].get<string>());
 
+        } else if (diff <= 50) {
+            if (pre_price != cur["data"]["p"] || cal.pre_50ms_nums == 0) {
+                ++cal.pre_50ms_diff_price_nums;
+            }
+            ++cal.pre_50ms_nums;
         } else if (diff <= 100) {
             if (pre_price != cur["data"]["p"] || cal.pre_100ms_nums == 0) {
                 ++cal.pre_100ms_diff_price_nums;
@@ -271,34 +292,67 @@ void readCancellation(const vector<string>& files) {
     sort(agg_cancel.begin(), agg_cancel.end(), comp);
 }
 
+string getTitle() {
+    string title = "calcel log time,";
+    title += "result,";
+    title += "trigger type,";
+    title += "trigger symbol,";
+    title += "trigger qty,";
+    title += "trigger trade id,";
+    title += "trigger trade time by binance time,";
+    title += "total trade qty at same binance time,";
+    title += "total trade nums at same binance time,";
+    title += "different price at same biance time,";
+    // calculation info
+    title += "pre 50ms total qty,";
+    title += "pre 50ms nums,";
+    title += "pre 50ms diff price nums,";
+    title += "pre 100ms total qty,";
+    title += "pre 100ms nums,";
+    title += "pre 100ms diff price nums,";
+    title += "pre 300ms total qty,";
+    title += "pre 300ms nums,";
+    title += "pre 300ms diff price nums,";
+    title += "pre 500ms total qty,";
+    title += "pre 500ms nums,";
+    title += "pre 500ms diff price nums,";
+    // tail
+    title += "cancel type,";
+    title += "processing time us,";
+    title += "deribit input time us,";
+    title += "deribit output time us";
+    title += "\n";
+    return title;
+}
+
+string getCalculationInfo() {
+    stringstream ss;
+    ss << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
+    ss << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
+    ss << cal.diff_price_nums_trigger_time << ",";  // different price at same biance time
+    ss << cal.pre_50ms_total_qty << ",";            // pre 50ms total qty
+    ss << cal.pre_50ms_nums << ",";                 // pre 50ms nums
+    ss << cal.pre_50ms_diff_price_nums << ",";      // pre 50ms diff price nums
+    ss << cal.pre_100ms_total_qty << ",";           // pre 100ms total qty
+    ss << cal.pre_100ms_nums << ",";                // pre 100ms nums
+    ss << cal.pre_100ms_diff_price_nums << ",";     // pre 100ms diff price nums
+    ss << cal.pre_300ms_total_qty << ",";           // pre 300ms total qty
+    ss << cal.pre_300ms_nums << ",";                // pre 300ms nums
+    ss << cal.pre_300ms_diff_price_nums << ",";     // pre 300ms diff price nums
+    ss << cal.pre_500ms_total_qty << ",";           // pre 500ms total qty
+    ss << cal.pre_500ms_nums << ",";                // pre 500ms nums
+    ss << cal.pre_500ms_diff_price_nums << ",";     // pre 500ms diff price nums
+    return ss.str();
+}
+
 void readTradeLog(const vector<string>& files, const string& prefix) {
     cout << "start readTradeLog" << endl;
     string resultPath = "./";
     string resultName = prefix + ".csv";
-    string resuleFile = resultPath + resultName;
+    string resuletFile = resultPath + resultName;
 
-    ofstream tradeFile(resuleFile, ios::trunc);
-    tradeFile << "calcel log time,"
-              << "result,"
-              << "trigger type,"
-              << "trigger symbol,"
-              << "trigger qty,"
-              << "trigger trade id,"
-              << "trigger trade time by binance time,"
-              << "total trade qty at same binance time,"
-              << "total trade nums at same binance time,"
-              << "different price at same biance time,"
-              << "pre 100ms nums,"
-              << "pre 100ms diff price nums,"
-              << "pre 300ms nums,"
-              << "pre 300ms diff price nums,"
-              << "pre 500ms nums,"
-              << "pre 500ms diff price nums,";
-    tradeFile << "cancel type,"
-              << "processing time us,"
-              << "deribit input time us,"
-              << "deribit output time us";
-    tradeFile << "\n";
+    ofstream tradeFile(resuletFile, ios::trunc);
+    tradeFile << getTitle();
 
     size_t idx = 0;
 
@@ -344,16 +398,9 @@ void readTradeLog(const vector<string>& files, const string& prefix) {
                 tradeFile << currentJson["data"]["t"] << ",";  // trigger trade id
                 tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
                 // cal info
-                tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
-                tradeFile << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
-                tradeFile << cal.diff_price_nums_trigger_time << ",";  // different price at same biance time
-                tradeFile << cal.pre_100ms_nums << ",";                // pre 100ms nums
-                tradeFile << cal.pre_100ms_diff_price_nums << ",";     // pre 100ms diff price nums
-                tradeFile << cal.pre_300ms_nums << ",";
-                tradeFile << cal.pre_300ms_diff_price_nums << ",";
-                tradeFile << cal.pre_500ms_nums << ",";
-                tradeFile << cal.pre_500ms_diff_price_nums << ",";
+                tradeFile << getCalculationInfo();
 
+                // tail
                 tradeFile << trade_cancel[idx].type << ",";
                 tradeFile << trade_cancel[idx].usDiff << ",";
                 tradeFile << common::timestampToDate(trade_cancel[idx].usIn, common::TimeUnit::Microseconds);
@@ -372,30 +419,10 @@ void readTradeLog(const vector<string>& files, const string& prefix) {
 void readAggTradeLog(const vector<string>& files, const string& prefix) {
     string resultPath = "./";
     string resultName = prefix + ".csv";
-    string resuleFile = resultPath + resultName;
+    string resuletFile = resultPath + resultName;
 
-    ofstream tradeFile(resuleFile, ios::trunc);
-    tradeFile << "calcel log time,"
-              << "result,"
-              << "trigger type,"
-              << "trigger symbol,"
-              << "trigger qty,"
-              << "trigger trade id,"
-              << "trigger trade time by binance time,"
-              << "total trade qty at same binance time,"
-              << "total trade nums at same binance time,"
-              << "different price at same biance time,"
-              << "pre 100ms nums,"
-              << "pre 100ms diff price nums,"
-              << "pre 300ms nums,"
-              << "pre 300ms diff price nums,"
-              << "pre 500ms nums,"
-              << "pre 500ms diff price nums,";
-    tradeFile << "cancel type,"
-              << "processing time us,"
-              << "deribit input time us,"
-              << "deribit output time us";
-    tradeFile << "\n";
+    ofstream tradeFile(resuletFile, ios::trunc);
+    tradeFile << getTitle();
 
     size_t idx = 0;
 
@@ -443,15 +470,7 @@ void readAggTradeLog(const vector<string>& files, const string& prefix) {
                 tradeFile << currentJson["data"]["a"] << ",";  // trigger trade id
                 tradeFile << currentJson["data"]["T"] << ",";  // trigger trade time at binance time
                 // cal info
-                tradeFile << cal.total_trade_qty_trigger_time << ",";  // total trade nums at same binance time
-                tradeFile << cal.total_nums_trigger_time << ",";       // total trade nums at same binance time
-                tradeFile << cal.diff_price_nums_trigger_time << ",";  // different price at same biance time
-                tradeFile << cal.pre_100ms_nums << ",";                // pre 100ms nums
-                tradeFile << cal.pre_100ms_diff_price_nums << ",";     // pre 100ms diff price nums
-                tradeFile << cal.pre_300ms_nums << ",";
-                tradeFile << cal.pre_300ms_diff_price_nums << ",";
-                tradeFile << cal.pre_500ms_nums << ",";
-                tradeFile << cal.pre_500ms_diff_price_nums << ",";
+                tradeFile << getCalculationInfo();
 
                 tradeFile << agg_cancel[idx].type << ",";
                 tradeFile << agg_cancel[idx].usDiff << ",";
@@ -472,27 +491,7 @@ void readDeribit1sLog() {
     cout << "start readDeribit1sLog" << endl;
 
     ofstream tradeFile("./deribit1strade.csv", ios::trunc);
-    tradeFile << "calcel log time,"
-              << "result,"
-              << "trigger type,"
-              << "trigger symbol,"
-              << "trigger qty,"
-              << "trigger trade id,"
-              << "trigger trade time by binance time,"
-              << "total trade qty at same binance time,"
-              << "total trade nums at same binance time,"
-              << "different price at same biance time,"
-              << "pre 100ms nums,"
-              << "pre 100ms diff price nums,"
-              << "pre 300ms nums,"
-              << "pre 300ms diff price nums,"
-              << "pre 500ms nums,"
-              << "pre 500ms diff price nums,";
-    tradeFile << "cancel type,"
-              << "processing time us,"
-              << "deribit input time us,"
-              << "deribit output time us";
-    tradeFile << "\n";
+    tradeFile << getTitle();
 
     size_t idx = 0;
     while (idx < within1s.size()) {
@@ -504,15 +503,7 @@ void readDeribit1sLog() {
         tradeFile << ",";                          // trigger trade id
         tradeFile << ",";                          // trigger trade time at binance time
         // cal info
-        tradeFile << ",";  // total trade nums at same binance time
-        tradeFile << ",";  // total trade nums at same binance time
-        tradeFile << ",";  // different price at same biance time
-        tradeFile << ",";  // pre 100ms nums
-        tradeFile << ",";  // pre 100ms diff price nums
-        tradeFile << ",";
-        tradeFile << ",";
-        tradeFile << ",";
-        tradeFile << ",";
+        tradeFile << getCalculationInfo();
 
         tradeFile << within1s[idx].type << ",";
         tradeFile << within1s[idx].usDiff << ",";

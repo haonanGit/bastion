@@ -82,6 +82,17 @@ long long getLogTimestamp(const string& line) {
     return common::convertToTimestamp(item, common::TimeUnit::Milliseconds);
 }
 
+long long getDeribitCancelTime(const string& line) {
+    int               count = 0;
+    std::stringstream ss(line);
+    std::string       item;
+    vector<string>    v;
+    while (std::getline(ss, item, ',')) {
+        v.emplace_back(item);
+    }
+    return common::convertToTimestamp(v[v.size() - 4], common::TimeUnit::Milliseconds);  // deribit cancel time is the last 4 item
+}
+
 void getCalculationInfo(const long long& deribit_time, const vector<string>& log, CalculationInfo& cal) {
     cal.start = -1;
     cal.end = -1;
@@ -147,55 +158,14 @@ void readTradeLog(const vector<string>& files) {
     }
 }
 
-// void readAggLog(const string& file) {
-//     cout << "agg file :" << file << endl;
-//     ifstream infile(file);
-//     if (!infile.is_open()) {
-//         cerr << "Error opening file: " << file << endl;
-//         return;
-//     }
-
-//     string line;
-//     while (getline(infile, line)) {
-//         if (line.empty()) {
-//             continue;
-//         }
-//         if (line.find("result") != string::npos) {
-//             title = line;
-//             continue;
-//         }
-
-//         total_log["agg"].emplace_back(line);
-//     }
-// }
-
-// void readDeribitLog(const string& file) {
-//     cout << "deribit file :" << file << endl;
-//     ifstream infile(file);
-//     if (!infile.is_open()) {
-//         cerr << "Error opening file: " << file << endl;
-//         return;
-//     }
-
-//     string line;
-//     while (getline(infile, line)) {
-//         if (line.empty()) {
-//             continue;
-//         }
-//         if (line.find("result") != string::npos) {
-//             title = line;
-//             continue;
-//         }
-
-//         total_log["deribit"].emplace_back(line);
-//     }
-// }
-
 void mergeFile() {
     cout << "start merge" << endl;
 
     ofstream tradeFile("./cancel_trade_result.csv", ios::trunc);
-    tradeFile << "deribit id,deribit trade time,deribit trade size," << title;
+    tradeFile << "deribit id,"
+              << "deribit trade time,"
+              << "deribit trade size,"
+              << "deribit cancel time - deribit trade time," << title;
 
     // get all result
     for (const auto& item : cancel_all) {
@@ -213,7 +183,7 @@ void mergeFile() {
                 ss << item.id << ",";
                 ss << common::timestampToDate(item.timestamp, common::TimeUnit::Milliseconds) << ",";
                 ss << item.size << ",";
-                // cout << "idx :" << i << ", size:" << trade_log.size() << endl;
+                ss << getDeribitCancelTime(it[i]) - item.timestamp << ",";
                 ss << it[i];
                 ss << "\n\n";
             }
