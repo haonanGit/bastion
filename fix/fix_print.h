@@ -312,6 +312,7 @@ std::unordered_map<std::string, std::string> raw_str_dict = {
     {"746", "OpenInterest"},
     {"923", "UserRequestID"},
     {"926", "UserStatus"},
+    {"5127", "DeribitConditionTriggerMethod"},
     {"9011", "DeribitSkipBlockTrades"},
     {"9012", "DeribitShowBlockTradeId"},
     {"100001", "DeribitUserEquity"},
@@ -330,7 +331,7 @@ std::unordered_map<std::string, std::string> raw_str_dict = {
     {"100090", "MarkPrice"},
     {"100091", "DeribitLiquidation"},
     {"100092", "CurrentFunding"},
-    {"100093", "Funding8h"} {"5127", "DeribitConditionTriggerMethod"}
+    {"100093", "Funding8h"}
 
 };
 
