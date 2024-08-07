@@ -15,7 +15,7 @@ public:
     FIX44::NewOrderSingle req;
     req.set(FIX::ClOrdID("test001"));
     req.set(FIX::Side('2')); // 2 sell
-    req.set(FIX::OrderQty(0.01));
+    req.set(FIX::OrderQty(0.1));
     req.set(FIX::Price(price));
     req.set(FIX::Symbol("ETH-PERPETUAL"));
     req.setField(FIX::ExecInst("6"));
