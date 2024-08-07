@@ -74,8 +74,8 @@ public:
 
   void toAdmin(FIX::Message &message,
                const FIX::SessionID &session_id) override {
-    // std::cout << "to admin message:" << std::endl;
-    // printMsg(message);
+    std::cout << "to admin message:" << std::endl;
+    printMsg(message);
     auto &header = message.getHeader();
     // logon for the first time
     if (header.getField(FIX::FIELD::MsgType) == FIX::MsgType_Logon) {
@@ -87,8 +87,8 @@ public:
 
   void toApp(FIX::Message &message, const FIX::SessionID &) override {
     try {
-      // std::cout << "to app message:" << std::endl;
-      // printMsg(message);
+      std::cout << "to app message:" << std::endl;
+      printMsg(message);
     } catch (const FIX::DoNotSend &e) {
       std::cerr << "message should not be sent:" << e.what() << std::endl;
     } catch (...) {
