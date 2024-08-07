@@ -113,12 +113,49 @@
             <field name='TradingSessionSubID' required='N' />
         </message>
         <message name='ExecutionReport' msgtype='8' msgcat='app'>
-            <field name='OrderID' required='Y' />
-            <field name='SecondaryOrderID' required='N' />
-            <field name='SecondaryClOrdID' required='N' />
             <field name='SecondaryExecID' required='N' />
+            <field name='OrderID' required='N' />
             <field name='ClOrdID' required='N' />
             <field name='OrigClOrdID' required='N' />
+            <field name='OrdStatus' required='N' />
+            <field name='Side' required='N' />
+            <field name='TransactTime' required='N' />
+            <field name='LeavesQty' required='N' />
+            <field name='CumQty' required='N' />
+            <field name='OrderQty' required='N' />
+            <field name='ConditionTriggerMethod' required='N' />
+            <field name='OrdType' required='N' />
+            <field name='Price' required='N' />
+            <field name='ExecType' required='N' />
+            <field name='ExecInst' required='N' />
+            <field name='StopPx' required='N' />
+            <field name='OrdRejReason' required='N' />
+            <field name='Text' required='N' />
+            <field name='SecurityExchange' required='N' />
+            <field name='Symbol' required='N' />
+            <field name='QtyType' required='N' />
+            <field name='ContractMultiplier' required='N' />
+            <field name='AvgPx' required='N' />
+            <field name='MaxShow' required='N' />
+            <field name='DeribitAdvOrderType' required='N' />
+            <field name='Volatility' required='N' />
+            <field name='PeggedPrice' required='N' />
+            <field name='LastPx' required='N' />
+            <field name='LastQty' required='N' />
+            <field name='DeribitLabel' required='N' />
+            <field name='DeribitMMProtection' required='N' />
+            <field name='MMPGroup' required='N' />
+            <field name='QuoteSetID' required='N' />
+            <field name='QuoteID' required='N' />
+            <field name='QuoteEntryID' required='N' />
+            <component name='FillsGrp' required='Y' />
+
+
+            <field name='SecondaryOrderID' required='N' />
+            <field name='SecondaryClOrdID' required='N' />
+            
+            
+            
             <field name='ClOrdLinkID' required='N' />
             <field name='QuoteRespID' required='N' />
             <field name='OrdStatusReqID' required='N' />
@@ -134,10 +171,10 @@
             <field name='CrossType' required='N' />
             <field name='ExecID' required='Y' />
             <field name='ExecRefID' required='N' />
-            <field name='ExecType' required='Y' />
-            <field name='OrdStatus' required='Y' />
+            
+            
             <field name='WorkingIndicator' required='N' />
-            <field name='OrdRejReason' required='N' />
+            
             <field name='ExecRestatementReason' required='N' />
             <field name='Account' required='N' />
             <field name='AcctIDSource' required='N' />
@@ -152,17 +189,17 @@
             <component name='Instrument' required='Y' />
             <component name='FinancingDetails' required='N' />
             <component name='UndInstrmtGrp' required='N' />
-            <field name='Side' required='Y' />
+            
             <component name='Stipulations' required='N' />
-            <field name='QtyType' required='N' />
+            
             <component name='OrderQtyData' required='N' />
-            <field name='OrdType' required='N' />
+            
             <field name='PriceType' required='N' />
-            <field name='Price' required='N' />
-            <field name='StopPx' required='N' />
+            
+            
             <component name='PegInstructions' required='N' />
             <component name='DiscretionInstructions' required='N' />
-            <field name='PeggedPrice' required='N' />
+            
             <field name='DiscretionPrice' required='N' />
             <field name='TargetStrategy' required='N' />
             <field name='TargetStrategyParameters' required='N' />
@@ -175,13 +212,13 @@
             <field name='EffectiveTime' required='N' />
             <field name='ExpireDate' required='N' />
             <field name='ExpireTime' required='N' />
-            <field name='ExecInst' required='N' />
+            
             <field name='OrderCapacity' required='N' />
             <field name='OrderRestrictions' required='N' />
             <field name='CustOrderCapacity' required='N' />
-            <field name='LastQty' required='N' />
+            
             <field name='UnderlyingLastQty' required='N' />
-            <field name='LastPx' required='N' />
+            
             <field name='UnderlyingLastPx' required='N' />
             <field name='LastParPx' required='N' />
             <field name='LastSpotRate' required='N' />
@@ -191,15 +228,15 @@
             <field name='TradingSessionSubID' required='N' />
             <field name='TimeBracket' required='N' />
             <field name='LastCapacity' required='N' />
-            <field name='LeavesQty' required='Y' />
-            <field name='CumQty' required='Y' />
-            <field name='AvgPx' required='Y' />
+            
+            
+            
             <field name='DayOrderQty' required='N' />
             <field name='DayCumQty' required='N' />
             <field name='DayAvgPx' required='N' />
             <field name='GTBookingInst' required='N' />
             <field name='TradeDate' required='N' />
-            <field name='TransactTime' required='N' />
+            
             <field name='ReportToExch' required='N' />
             <component name='CommissionData' required='N' />
             <component name='SpreadOrBenchmarkCurveData' required='N' />
@@ -227,9 +264,9 @@
             <field name='MinQty' required='N' />
             <field name='MaxFloor' required='N' />
             <field name='PositionEffect' required='N' />
-            <field name='MaxShow' required='N' />
+            
             <field name='BookingType' required='N' />
-            <field name='Text' required='N' />
+            
             <field name='EncodedTextLen' required='N' />
             <field name='EncodedText' required='N' />
             <field name='SettlDate2' required='N' />
@@ -3772,6 +3809,14 @@
                 <field name='Nested3PartySubIDType' required='N' />
             </group>
         </component>
+        <component name='FillsGrp'>
+            <group name='NoFills' required='N'>
+                <field name='FillExecID' required='N' />
+                <field name='FillPx' required='N' />
+                <field name='FillQty' required='N' />
+                <field name='FillLiquidityInd' required='N' />
+            </group>
+        </component>
     </components>
     <fields>
         <field number='1' name='Account' type='STRING' />
@@ -6631,20 +6676,26 @@
         <field number='954' name='Nested3PartySubIDType' type='INT' />
         <field number='955' name='LegContractSettlMonth' type='MONTHYEAR' />
         <field number='956' name='LegInterestAccrualDate' type='LOCALMKTDATE' />
+        <field number='1188' name='Volatility' type='FLOAT' />
+        <field number='5127' name='ConditionTriggerMethod' type='INT' />
+        <field number='9008' name='DeribitMMProtection' type='BOOLEAN' />
+        <field number='9019' name='MMPGroup' type='STRING' />
         <field number='100001' name='DeribitUserEquity' type='FLOAT' />
         <field number='100002' name='DeribitUserBalance' type='FLOAT' />
         <field number='100003' name='DeribitUserInitialMargin' type='FLOAT' />
         <field number='100004' name='DeribitUserMaintenanceMargin' type='FLOAT' />
         <field number='100005' name='DeribitUnrealizedPl' type='FLOAT' />
         <field number='100006' name='DeribitRealizedPl' type='FLOAT' />
-        <field number='100011' name='DeribitTotalPl' type='FLOAT' />
-        <field number='100013' name='DeribitMarginBalance' type='FLOAT' />
         <field number='100009' name='DeribitTradeId' type='STRING' />
+        <field number='100011' name='DeribitTotalPl' type='FLOAT' />
+        <field number='100012' name='DeribitAdvOrderType' type='INT' />
+        <field number='100013' name='DeribitMarginBalance' type='FLOAT' />
         <field number='100010' name='DeribitLabel' type='STRING' />
         <field number='100087' name='TradeVolume24h' type='QTY' />
-        <field number='100090' name='MarkPrice' type='Price' />
+        <field number='100090' name='MarkPrice' type='PRICE' />
         <field number='100091' name='DeribitLiquidation' type='STRING' />
-        <field number='100092' name='CurrentFunding' type='Price' />
-        <field number='100093' name='Funding8h' type='Price' />
+        <field number='100092' name='CurrentFunding' type='PRICE' />
+        <field number='100093' name='Funding8h' type='PRICE' />
+        
     </fields>
 </fix>
