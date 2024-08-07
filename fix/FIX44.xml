@@ -6677,6 +6677,11 @@
         <field number='955' name='LegContractSettlMonth' type='MONTHYEAR' />
         <field number='956' name='LegInterestAccrualDate' type='LOCALMKTDATE' />
         <field number='1188' name='Volatility' type='FLOAT' />
+        <field number='1362' name='NoFills' type='NUMINGROUP' />
+        <field number='1363' name='FillExecID' type='STRING' />
+        <field number='1364' name='FillPx' type='PRICE' />
+        <field number='1365' name='FillQty' type='QTY' />
+        <field number='1443' name='FillLiquidityInd' type='INT' />
         <field number='5127' name='ConditionTriggerMethod' type='INT' />
         <field number='9008' name='DeribitMMProtection' type='BOOLEAN' />
         <field number='9019' name='MMPGroup' type='STRING' />

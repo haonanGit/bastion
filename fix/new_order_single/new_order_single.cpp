@@ -7,7 +7,7 @@ public:
   void onLogon(const FIX::SessionID &session_id) override {
     std::cout << "on logon and send" << std::endl;
 
-    newOrderSingle(session_id);
+    newOrderSingle(session_id, 3800.00);
   }
 
   void newOrderSingle(const FIX::SessionID &session_id, double price = 0.0) {
@@ -15,7 +15,7 @@ public:
     FIX44::NewOrderSingle req;
     req.set(FIX::ClOrdID("test001"));
     req.set(FIX::Side('2')); // 2 sell
-    req.set(FIX::OrderQty("0.0001"));
+    req.set(FIX::OrderQty(0.0001));
     req.set(FIX::Price(price));
     req.set(FIX::Symbol("ETH-PERPETUAL"));
     req.setField(FIX::ExecInst("6"));
