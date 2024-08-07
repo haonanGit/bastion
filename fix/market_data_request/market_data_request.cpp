@@ -36,7 +36,7 @@ public:
 
     //  InstrmtMDReqGrp group
     FIX44::MarketDataRequest::NoRelatedSym no_related_sym;
-    no_related_sym.set(FIX::Symbol("ETHUSDT"));
+    no_related_sym.set(FIX::Symbol("ETH-USDT-PERPETUAL"));
     req.addGroup(no_related_sym);
 
     try {
