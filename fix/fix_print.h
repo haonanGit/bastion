@@ -205,6 +205,8 @@ std::unordered_map<std::string, std::string> session_reject_reason_dict = {
 std::unordered_map<std::string, std::string> trade_request_result_dict = {{"0", "Successful"}, {"1", "Invalid type of trade requested"}};
 std::unordered_map<std::string, std::string> trade_request_status_dict = {{"0", "Accepted"}, {"1", "Rejected"}};
 std::unordered_map<std::string, std::string> side_dict = {{"1", "Buy"}, {"2", "Sell"}};
+std::unordered_map<std::string, std::string> md_entry_type_dict = {
+    {"0", "Bid"}, {"1", "Offer"}, {"2", "Trade"}, {"3", "Index Value"}, {"6", "Settlement Price"}};
 std::unordered_map<std::string, std::string> order_status_dict = {{std::string(1, FIX::OrdStatus_NEW), "New"},
                                                                   {std::string(1, FIX::OrdStatus_PARTIALLY_FILLED), "Partially Filled"},
                                                                   {std::string(1, FIX::OrdStatus_FILLED), "Filled"},
@@ -226,6 +228,7 @@ std::unordered_map<std::string, std::string> raw_str_dict = {{"7", "BeginSeqNo"}
                                                              {"8", "BeginString"},
                                                              {"9", "BodyLength"},
                                                              {"10", "CheckSum"},
+                                                             {"15", "Currency"},
                                                              {"16", "EndSeqNo"},
                                                              {"34", "MsgSeqNum"},
                                                              {"36", "NewSeqNo"},
@@ -265,8 +268,18 @@ std::unordered_map<std::string, std::string> raw_str_dict = {{"7", "BeginSeqNo"}
                                                              {"569", "TradeRequestType"},
                                                              {"571", "TradeRequestResult"},
                                                              {"746", "OpenInterest"},
+                                                             {"923", "UserRequestID"},
+                                                             {"926", "UserStatus"},
                                                              {"9011", "DeribitSkipBlockTrades"},
                                                              {"9012", "DeribitShowBlockTradeId"},
+                                                             {"100001", "DeribitUserEquity"},
+                                                             {"100002", "DeribitUserBalance"},
+                                                             {"100003", "DeribitUserInitialMargin"},
+                                                             {"100004", "DeribitUserMaintenanceMargin"},
+                                                             {"100005", "DeribitUnrealizedPl"},
+                                                             {"100006", "DeribitRealizedPl"},
+                                                             {"100011", "DeribitTotalPl"},
+                                                             {"100013", "DeribitMarginBalance"},
                                                              {"100007", "DeribitTradeAmount"},
                                                              {"100008", "DeribitSinceTimestamp"},
                                                              {"100009", "DeribitTradeId"},
@@ -275,19 +288,18 @@ std::unordered_map<std::string, std::string> raw_str_dict = {{"7", "BeginSeqNo"}
                                                              {"100090", "MarkPrice"},
                                                              {"100091", "DeribitLiquidation"},
                                                              {"100092", "CurrentFunding"},
-                                                             {"100093", "Funding8h"}};
+                                                             {"100093", "Funding8h"}
+
+};
 
 /*------------------------------------------------search dict map--------------------------------------------------------*/
 
-std::unordered_map<std::string, std::unordered_map<std::string, std::string>> dict_map = {{"35", msg_type_dict},
-                                                                                          {"373", session_reject_reason_dict},
-                                                                                          {"749", trade_request_result_dict},
-                                                                                          {"750", trade_request_status_dict},
-                                                                                          {"54", side_dict},
-                                                                                          {"39", order_status_dict}};
+std::unordered_map<std::string, std::unordered_map<std::string, std::string>> dict_map = {
+    {"35", msg_type_dict}, {"373", session_reject_reason_dict}, {"749", trade_request_result_dict}, {"750", trade_request_status_dict},
+    {"54", side_dict},     {"39", order_status_dict},           {"269", md_entry_type_dict}};
 
 /*------------------------------------------------print--------------------------------------------------------*/
-void printMsg(const FIX::Message& msg) {
+void printMsg(const FIX44::Message& msg) {
     std::vector<std::pair<std::string, std::string>> keyValuePairs;
     size_t                                           pos = 0;
     size_t                                           endPos = 0;

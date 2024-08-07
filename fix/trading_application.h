@@ -13,6 +13,7 @@
 #include "quickfix/MessageCracker.h"
 #include "quickfix/SessionSettings.h"
 #include "quickfix/SocketInitiator.h"
+#include "quickfix/fix44/Logon.h"
 #include "quickfix/fix44/SequenceReset.h"
 
 // #define client_id "API-KEY"
@@ -68,8 +69,8 @@ public:
     }
 
     void toAdmin(FIX::Message& message, const FIX::SessionID& session_id) override {
-        std::cout << "to admin message:" << std::endl;
-        printMsg(message);
+        // std::cout << "to admin message:" << std::endl;
+        // printMsg(message);
         auto& header = message.getHeader();
         // logon for the first time
         if (header.getField(FIX::FIELD::MsgType) == FIX::MsgType_Logon) {
@@ -81,8 +82,8 @@ public:
 
     void toApp(FIX::Message& message, const FIX::SessionID&) override {
         try {
-            std::cout << "to app message:" << std::endl;
-            printMsg(message);
+            // std::cout << "to app message:" << std::endl;
+            // printMsg(message);
         } catch (const FIX::DoNotSend& e) {
             std::cerr << "message should not be sent:" << e.what() << std::endl;
         } catch (...) {
@@ -92,7 +93,7 @@ public:
 
     void fromAdmin(const FIX::Message& message, const FIX::SessionID& session_id) override {
         try {
-            std::cout << "from admin :" << std::endl;
+            // std::cout << "from admin :" << std::endl;
             // printMsg(message);
         } catch (const FIX::FieldNotFound& e) {
             std::cerr << "filed not found:" << e.what() << std::endl;
@@ -107,7 +108,7 @@ public:
 
     void fromApp(const FIX::Message& message, const FIX::SessionID& session_id) override {
         try {
-            std::cout << "from app :" << std::endl;
+            // std::cout << "from app :" << std::endl;
             // printMsg(message);
             crack(message, session_id);
         } catch (const FIX::FieldNotFound& e) {
@@ -145,6 +146,10 @@ public:
         } catch (...) {
             std::cerr << "Unknown exception caught in sendSequenceReset" << std::endl;
         }
+    }
+    void onMessage(const FIX44::Logon& message, const FIX::SessionID&) override {
+        std::cout << "received logon:" << std::endl;
+        printMsg(message);
     }
 };
 

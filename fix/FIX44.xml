@@ -1413,6 +1413,7 @@
         <message name='TradeCaptureReportRequest' msgtype='AD' msgcat='app'>
             <field name='TradeRequestID' required='Y' />
             <field name='TradeRequestType' required='Y' />
+            <field name='Symbol' required='Y' />
             <field name='SubscriptionRequestType' required='N' />
             <field name='TradeReportID' required='N' />
             <field name='SecondaryTradeReportID' required='N' />
@@ -2306,6 +2307,7 @@
             <field name='UserRequestID' required='Y' />
             <field name='UserRequestType' required='Y' />
             <field name='Username' required='Y' />
+            <field name='Currency' required='Y' />
             <field name='Password' required='N' />
             <field name='NewPassword' required='N' />
             <field name='RawDataLength' required='N' />
@@ -2315,7 +2317,15 @@
             <field name='UserRequestID' required='Y' />
             <field name='Username' required='Y' />
             <field name='UserStatus' required='N' />
-            <field name='UserStatusText' required='N' />
+            <field name='Currency' required='N' />
+            <field name='DeribitUserEquity' required='N' />
+            <field name='DeribitUserBalance' required='N' />
+            <field name='DeribitUserInitialMargin' required='N' />
+            <field name='DeribitUserMaintenanceMargin' required='N' />
+            <field name='DeribitUnrealizedPl' required='N' />
+            <field name='DeribitRealizedPl' required='N' />
+            <field name='DeribitTotalPl' required='N' />
+            <field name='DeribitMarginBalance' required='N' />
         </message>
         <message name='CollateralInquiryAck' msgtype='BG' msgcat='app'>
             <field name='CollInquiryID' required='Y' />
@@ -6621,6 +6631,14 @@
         <field number='954' name='Nested3PartySubIDType' type='INT' />
         <field number='955' name='LegContractSettlMonth' type='MONTHYEAR' />
         <field number='956' name='LegInterestAccrualDate' type='LOCALMKTDATE' />
+        <field number='100001' name='DeribitUserEquity' type='FLOAT' />
+        <field number='100002' name='DeribitUserBalance' type='FLOAT' />
+        <field number='100003' name='DeribitUserInitialMargin' type='FLOAT' />
+        <field number='100004' name='DeribitUserMaintenanceMargin' type='FLOAT' />
+        <field number='100005' name='DeribitUnrealizedPl' type='FLOAT' />
+        <field number='100006' name='DeribitRealizedPl' type='FLOAT' />
+        <field number='100011' name='DeribitTotalPl' type='FLOAT' />
+        <field number='100013' name='DeribitMarginBalance' type='FLOAT' />
         <field number='100009' name='DeribitTradeId' type='STRING' />
         <field number='100010' name='DeribitLabel' type='STRING' />
         <field number='100087' name='TradeVolume24h' type='QTY' />

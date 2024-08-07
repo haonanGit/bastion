@@ -14,9 +14,9 @@ public:
     void tradeCaptureReportRequest(const FIX::SessionID& session_id) {
         std::cout << "start sending" << std::endl;
         FIX44::TradeCaptureReportRequest req;
-        req.set(FIX::TradeRequestID("test_id"));
+        req.set(FIX::TradeRequestID("id111"));
         req.set(FIX::TradeRequestType(0));
-        req.set(FIX::Symbol("BTC-PERPETUAL"));
+        req.set(FIX::Symbol("ETH-PERPETUAL"));
         req.set(FIX::SubscriptionRequestType('1'));
 
         try {
