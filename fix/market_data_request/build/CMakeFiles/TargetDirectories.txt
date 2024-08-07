@@ -1,3 +1,0 @@
-/work/code/deribit/api/fix/market_data_request/build/CMakeFiles/rebuild_cache.dir
-/work/code/deribit/api/fix/market_data_request/build/CMakeFiles/edit_cache.dir
-/work/code/deribit/api/fix/market_data_request/build/CMakeFiles/market_data_req.dir

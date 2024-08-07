@@ -1,1 +1,0 @@
-/usr/bin/c++ -g -g CMakeFiles/market_data_req.dir/market_data_request.cpp.o CMakeFiles/market_data_req.dir/work/code/deribit/api/common.cpp.o -o market_data_req  -lquickfix /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so 

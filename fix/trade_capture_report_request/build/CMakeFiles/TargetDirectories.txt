@@ -1,3 +1,0 @@
-/work/code/deribit/api/fix/trade_capture_report_request/build/CMakeFiles/trade_capture_report_request.dir
-/work/code/deribit/api/fix/trade_capture_report_request/build/CMakeFiles/edit_cache.dir
-/work/code/deribit/api/fix/trade_capture_report_request/build/CMakeFiles/rebuild_cache.dir
