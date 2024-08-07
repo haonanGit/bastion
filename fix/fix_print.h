@@ -299,6 +299,7 @@ std::unordered_map<std::string, std::string> raw_str_dict = {
     {"151", "LeavesQty"},
     {"198", "SecondaryOrderID"},
     {"207", "SecurityExchange"},
+    {"210", "MaxShow"},
     {"231", "ContractMultiplier"},
     {"262", "MDReqID"},
     {"263", "SubscriptionRequestType"},
