@@ -2,7 +2,6 @@
 #include "quickfix/fix44/NewOrderSingle.h"
 #include "trading_application.h"
 
-
 class NewOrderSingle : public TradingApplication {
 public:
   void onLogon(const FIX::SessionID &session_id) override {
@@ -19,7 +18,7 @@ public:
     req.set(FIX::OrderQty("0.0001"));
     req.set(FIX::Price(price));
     req.set(FIX::Symbol("ETH-PERPETUAL"));
-    req.setField(FIX::ExecInst('6'));
+    req.setField(FIX::ExecInst("6"));
     req.set(FIX::OrdType('2'));
     req.set(FIX::TimeInForce('0'));
     req.setField(FIX::IntField(5127, 1)); // DeribitConditionTriggerMethod
