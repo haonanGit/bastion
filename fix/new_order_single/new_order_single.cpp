@@ -17,7 +17,7 @@ public:
     req.set(FIX::Side('2')); // 2 sell
     req.set(FIX::OrderQty(0.1));
     req.set(FIX::Price(price));
-    req.set(FIX::Symbol("ETH-PERPETUAL"));
+    req.set(FIX::Symbol("ETHUSDT"));
     req.setField(FIX::ExecInst("6"));
     req.set(FIX::OrdType('2'));
     req.set(FIX::TimeInForce('0'));
