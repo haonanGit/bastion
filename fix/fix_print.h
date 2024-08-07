@@ -260,11 +260,14 @@ std::unordered_map<std::string, std::string> order_status_dict = {
  * result--------------------------------------------------------*/
 
 std::unordered_map<std::string, std::string> raw_str_dict = {
+    {"6", "AvgPx"},
     {"7", "BeginSeqNo"},
     {"8", "BeginString"},
     {"9", "BodyLength"},
     {"10", "CheckSum"},
     {"11", "ClOrdID"},
+    {"12", "Commission"},
+    {"14", "CumQty"},
     {"15", "Currency"},
     {"16", "EndSeqNo"},
     {"18", "ExecInst"},
@@ -273,6 +276,7 @@ std::unordered_map<std::string, std::string> raw_str_dict = {
     {"37", "OrderID"},
     {"38", "OrderQty"},
     {"40", "OrdType"},
+    {"41", "OrigClOrdID"},
     {"44", "Price"},
     {"45", "RefSeqNum"},
     {"49", "SenderCompID"},
@@ -282,14 +286,19 @@ std::unordered_map<std::string, std::string> raw_str_dict = {
     {"56", "TargetCompID"},
     {"58", "Text"},
     {"59", "TimeInForce"},
+    {"60", "TransactTime"},
     {"95", "RawDataLength"},
     {"96", "RawData"},
     {"98", "EncryptMethod"},
+    {"103", "OrdRejReason"},
     {"108", "HeartBtInt"},
     {"112", "TestReqID"},
     {"141", "ResetSeqNumFlag"},
     {"146", "NoRelatedSym"},
+    {"150", "ExecType"},
+    {"151", "LeavesQty"},
     {"198", "SecondaryOrderID"},
+    {"207", "SecurityExchange"},
     {"231", "ContractMultiplier"},
     {"262", "MDReqID"},
     {"263", "SubscriptionRequestType"},
@@ -304,12 +313,14 @@ std::unordered_map<std::string, std::string> raw_str_dict = {
     {"371", "RefTagID"},
     {"372", "RefMsgType"},
     {"373", "SessionRejectReason"},
+    {"527", "SecondaryExecID"},
     {"553", "Username"},
     {"554", "Password"},
     {"568", "TradeRequestID"},
     {"569", "TradeRequestType"},
     {"571", "TradeRequestResult"},
     {"746", "OpenInterest"},
+    {"854", "QtyType"},
     {"923", "UserRequestID"},
     {"926", "UserStatus"},
     {"5127", "DeribitConditionTriggerMethod"},
@@ -331,9 +342,7 @@ std::unordered_map<std::string, std::string> raw_str_dict = {
     {"100090", "MarkPrice"},
     {"100091", "DeribitLiquidation"},
     {"100092", "CurrentFunding"},
-    {"100093", "Funding8h"}
-
-};
+    {"100093", "Funding8h"}};
 
 /*------------------------------------------------search dict
  * map--------------------------------------------------------*/
