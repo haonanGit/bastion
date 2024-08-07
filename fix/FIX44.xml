@@ -120,6 +120,7 @@
             <field name='OrdStatus' required='N' />
             <field name='Side' required='N' />
             <field name='TransactTime' required='N' />
+            <field name='Commission' required='N' />
             <field name='LeavesQty' required='N' />
             <field name='CumQty' required='N' />
             <field name='OrderQty' required='N' />
