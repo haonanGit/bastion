@@ -28,7 +28,7 @@ public:
   void start(const Options &opt);
   void info(const std::string_view &msg);
   void stop();
-  inline void flush();
+  void flush();
 
 private:
   Options options_;
