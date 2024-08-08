@@ -48,7 +48,9 @@ void Logger::start(const Options &opt) {
 }
 
 void Logger::info(const std::string_view &msg) {
-  async_file_logger_->info(msg);
+  if (async_file_logger_) {
+    async_file_logger_->info(msg);
+  }
 }
 
 void Logger::stop() {
