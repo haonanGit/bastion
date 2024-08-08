@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 static utils::Logger logger;
-std::unordered_map<string, int64_t> m;
+std::unordered_map<std::string, int64_t> m;
 static int count = 0;
 class TradeCaptureReportRequest : public TradingApplication {
 public:
