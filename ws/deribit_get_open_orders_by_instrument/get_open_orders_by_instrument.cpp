@@ -116,8 +116,7 @@ int main(int argc, char *argv[]) {
   utils::GlobalLog::ins().init(opt_log);
 
   // aggtrade
-  std::string addr_agg =
-      "wss://stream.binance.com/stream?streams=ethfdusd@aggTrade";
+  std::string addr_agg = "wss://deribit.com/ws/api/v2";
   std::string subs_msg_agg =
       R"({"jsonrpc":"2.0","id":8442,"method":"private/get_open_orders_by_instrument","params":{"instrument_name":"ETH-PERPETUAL"}})";
   std::string cancel_subs_msg_agg =
