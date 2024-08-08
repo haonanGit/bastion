@@ -5,7 +5,7 @@
 #include "trading_application.h"
 #include <unordered_map>
 
-std::unordered_map<string, int64_t> msend, mrecv;
+std::unordered_map<std::string, int64_t> msend, mrecv;
 int count = 1;
 int num = 10;
 // static utils::Logger logger;
