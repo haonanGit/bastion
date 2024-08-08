@@ -115,8 +115,8 @@ public:
   void fromApp(const FIX::Message &message,
                const FIX::SessionID &session_id) override {
     try {
-      //   std::cout << "from app :" << std::endl;
-      //   printMsg(message);
+      std::cout << "from app :" << std::endl;
+      printMsg(message);
       crack(message, session_id);
     } catch (const FIX::FieldNotFound &e) {
       std::cerr << "filed not found:" << e.what() << std::endl;
