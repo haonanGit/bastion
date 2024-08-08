@@ -1,19 +1,31 @@
+#include "common.h"
+// #include "logger.h"
 #include "quickfix/fix44/ExecutionReport.h"
 #include "quickfix/fix44/NewOrderSingle.h"
 #include "trading_application.h"
+#include <unordered_map>
+
+std::unordered_map<string, int64_t> msend, mrecv;
+int count = 1;
+int num = 10;
+// static utils::Logger logger;
 
 class NewOrderSingle : public TradingApplication {
 public:
   void onLogon(const FIX::SessionID &session_id) override {
     std::cout << "on logon and send" << std::endl;
 
-    newOrderSingle(session_id, 3800.00);
+    while (count <= 10) {
+      newOrderSingle(session_id, 3800.00);
+      ++count;
+    }
   }
 
   void newOrderSingle(const FIX::SessionID &session_id, double price = 0.0) {
     std::cout << "start sending" << std::endl;
+    std::string clordid = "test" + std::to_string(count);
     FIX44::NewOrderSingle req;
-    req.set(FIX::ClOrdID("test001"));
+    req.set(FIX::ClOrdID(clordid));
     req.set(FIX::Side('2')); // 2 sell
     req.set(FIX::OrderQty(1));
     req.set(FIX::Price(price));
@@ -24,6 +36,7 @@ public:
     req.setField(FIX::IntField(5127, 1)); // DeribitConditionTriggerMethod
 
     try {
+      msend[clordid] = common::getTimeStampNs();
       FIX::Session::sendToTarget(
           req, session_id); // send 发送当前session，sendToTarget发送指定session
     } catch (FIX::SessionNotFound &e) {
@@ -36,8 +49,26 @@ public:
 
   void onMessage(const FIX44::ExecutionReport &message,
                  const FIX::SessionID &) override {
-    std::cout << "received execution report:" << std::endl;
-    printMsg(message);
+    FIX::OrigClOrdId origClOrdId;
+    if (message.isSetField(origClOrdId)) {
+      message.get(origClOrdId);
+      mrecv[origClOrdId] = common::getTimeStampNs();
+      --num;
+    }
+    if (num == 0) {
+      long long total = 0;
+      for (auto it : msend) {
+        auto rtt = mrecv[it.first] - it.second;
+        std::cout << "id" << it.first << ",sending time:[" << it.second
+                  << "],receiving time:[" << mrecv[it.first] << "], rtt:["
+                  << rtt << "]" << std::endl;
+        total += rtt;
+      }
+      std::cout << "avg rtt:[" << static_cast<double>(total) / count << "]"
+                << std::endl;
+    }
+    // std::cout << "received execution report:" << std::endl;
+    // printMsg(message);
   }
 };
 
@@ -47,6 +78,16 @@ int main(int argc, char **argv) {
     return 1;
   }
   std::string config_file = argv[1];
+
+  //   utils::Logger::Options opt_log;
+  //   opt_log.name = "log";
+  //   opt_log.file = "log.txt";
+  //   opt_log.dir = "./bus_log";
+  //   opt_log.is_async = true;
+  //   opt_log.max_size = 1024L * 1024 * 100; // 100 MB per file
+  //   opt_log.max_files = 50;                // up to X GB total
+  //   logger.init(opt_log);
+
   try {
     FIX::SessionSettings settings(config_file);
     NewOrderSingle app;
