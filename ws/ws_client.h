@@ -33,6 +33,9 @@ public:
   virtual void onMessage(websocketpp::connection_hdl hdl,
                          app_tls_client::message_ptr msg) = 0;
   virtual void onFail(websocketpp::connection_hdl hdl);
+  inline void send(websocketpp::connection_hdl hdl, const string_view &msg) {
+    client_.send(hdl, msg, websocketpp::frame::opcode::text);
+  }
 };
 
 } // namespace app

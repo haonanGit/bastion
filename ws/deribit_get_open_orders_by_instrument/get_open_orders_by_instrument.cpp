@@ -54,7 +54,7 @@ void GetOpenOrdersByInstrument::onAuth(websocketpp::connection_hdl hdl) {
                    {"nonce", nonce},
                    {"data", data}};
 
-  client_.send(hdl, msg.dump(), websocketpp::frame::opcode::text);
+  send(hdl, msg.dump());
 }
 
 void GetOpenOrdersByInstrument::onMessage(websocketpp::connection_hdl hdl,
