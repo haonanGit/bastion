@@ -1,3 +1,4 @@
+#include "quickfix/fix44/ExecutionReport.h"
 #include "quickfix/fix44/TradeCaptureReport.h"
 #include "quickfix/fix44/TradeCaptureReportRequest.h"
 #include "quickfix/fix44/TradeCaptureReportRequestAck.h"
