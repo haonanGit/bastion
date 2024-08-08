@@ -3,26 +3,30 @@
 #include "quickfix/fix44/ExecutionReport.h"
 #include "quickfix/fix44/NewOrderSingle.h"
 #include "trading_application.h"
+#include <atomic>
+#include <thread>
 #include <unordered_map>
 
 std::unordered_map<std::string, int64_t> msend, mrecv;
-int count = 1;
 int num = 10;
 // static utils::Logger logger;
+
+void runInThread(const FIX::SessionID &session_id) {
+  for (int i = 0; i < 10; ++i) {
+    newOrderSingle(session_id, 3800.00, i);
+  }
+}
 
 class NewOrderSingle : public TradingApplication {
 public:
   void onLogon(const FIX::SessionID &session_id) override {
     std::cout << "on logon and send" << std::endl;
-
-    while (count <= 10) {
-      newOrderSingle(session_id, 3800.00);
-      ++count;
-    }
+    std::thread(&TradingApplication::runInThread, this, session_id).detach();
   }
 
-  void newOrderSingle(const FIX::SessionID &session_id, double price = 0.0) {
-    std::cout << "start sending" << std::endl;
+  void newOrderSingle(const FIX::SessionID &session_id, double price = 0.0,
+                      int count = 0) {
+    // std::cout << "start sending" << std::endl;
     std::string clordid = "test" + std::to_string(count);
     FIX44::NewOrderSingle req;
     req.set(FIX::ClOrdID(clordid));
@@ -55,6 +59,7 @@ public:
       mrecv[origClOrdId] = common::getTimeStampNs();
       --num;
     }
+
     if (num == 0) {
       long long total = 0;
       for (auto it : msend) {
@@ -65,7 +70,7 @@ public:
         total += rtt;
       }
       std::cout << std::fixed << std::setprecision(1) << "avg rtt ms:["
-                << static_cast<double>(total) / (count * 100000) << "]"
+                << static_cast<double>(total) / (10 * 100000) << "]"
                 << std::endl;
     }
     // std::cout << "received execution report:" << std::endl;
