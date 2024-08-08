@@ -59,11 +59,11 @@ public:
     if (count == 10) {
       for (auto it : m) {
         std::stringstream ss;
-        ss << "id" << it.first << ",receiving time ns:[" << it.second
-           << std::endl;
+        ss << "id:" << it.first << ",receiving time ns:[" << it.second << "]";
         logger.info(ss.str());
       }
       logger.flush();
+      std::cout << "flush log" << std::endl;
     }
   }
 };

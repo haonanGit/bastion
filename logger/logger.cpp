@@ -42,8 +42,8 @@ void Logger::start() {
 void Logger::start(const Options &opt) {
   if (opt.is_async) {
     // async_file_logger_->flush_on(spdlog::level::info);
-    LOG_INFO(opt.name + "is async log mod\n");
-    async_file_logger_->flush();
+    // LOG_INFO(opt.name + "is async log mod\n");
+    // async_file_logger_->flush();
   }
 }
 
