@@ -49,7 +49,7 @@ WSClient::WSClient(const std::string_view &addr,
   });
 
   client_.set_open_handler([this](const websocketpp::connection_hdl hdl) {
-    onAuth();
+    onAuth(hdl);
     onSubscription(hdl);
   });
   client_.set_message_handler(
