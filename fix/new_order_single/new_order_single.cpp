@@ -49,7 +49,7 @@ public:
 
   void onMessage(const FIX44::ExecutionReport &message,
                  const FIX::SessionID &) override {
-    FIX::OrigClOrdId origClOrdId;
+    FIX::OrigClOrdID origClOrdId;
     if (message.isSetField(origClOrdId)) {
       message.get(origClOrdId);
       mrecv[origClOrdId] = common::getTimeStampNs();
