@@ -8,7 +8,7 @@
 #include <unordered_map>
 
 static utils::Logger logger;
-unordered_map<string, int64_t> m;
+std::unordered_map<string, int64_t> m;
 static int count = 0;
 class TradeCaptureReportRequest : public TradingApplication {
 public:
@@ -57,7 +57,7 @@ public:
     ++count;
 
     if (count == 10) {
-      for (auto it : msend) {
+      for (auto it : m) {
         std::stringstream ss;
         ss << "id" << it.first << ",receiving time ns:[" << it.second
            << std::endl;
