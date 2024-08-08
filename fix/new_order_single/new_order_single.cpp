@@ -72,7 +72,7 @@ public:
         total += rtt;
       }
       std::cout << std::fixed << std::setprecision(1) << "avg rtt ms:["
-                << static_cast<double>(total) / (10 * 100000) << "]"
+                << static_cast<double>(total) / (10 * 1000000) << "]"
                 << std::endl;
     }
     // std::cout << "received execution report:" << std::endl;
