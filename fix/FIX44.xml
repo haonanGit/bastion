@@ -1359,6 +1359,7 @@
             <field name='TradeDate' required='N' />
             <field name='TransactTime' required='N' />
             <component name='InstrmtLegGrp' required='N' />
+            <component name='TrdCapRptSideGrp' required='N' />
 
 
             <field name='TradeReportID' required='N' />
@@ -2781,8 +2782,12 @@
             </group>
         </component>
         <component name='InstrmtLegGrp'>
-            <group name='NoLegs' required='N'>
-                <component name='InstrumentLeg' required='N' />
+            <group name='NoLegs' required='Y'>
+                <field name="LegSymbol" required="N" description="Non-combo instrument name"/>
+                <field name="LegSide" required="N" description="Valid values: 1 = Buy, 2 = Sell"/>
+                <field name="LegRatioQty" required="N" description="Positive integer for the strategy"/>
+                <field name="LegPrice" required="N" description="Price for leg of a multileg"/>
+                <field name="LegQty" required="N" description="Quantity of the leg"/>
             </group>
         </component>
         <component name='InstrmtLegIOIGrp'>
@@ -3488,8 +3493,11 @@
         </component>
         <component name='TrdCapRptSideGrp'>
             <group name='NoSides' required='Y'>
-                <field name='Side' required='Y' />
-                <field name='OrderID' required='Y' />
+                <field name='Side' required='N' />
+                <field name='OrderID' required='N' />
+                <field name='Commission' required='N' />
+                <field name='CommCurrency' required='N' />
+
                 <field name='SecondaryOrderID' required='N' />
                 <field name='ClOrdID' required='N' />
                 <field name='SecondaryClOrdID' required='N' />
@@ -6550,6 +6558,8 @@
         <field number='954' name='Nested3PartySubIDType' type='INT' />
         <field number='955' name='LegContractSettlMonth' type='MONTHYEAR' />
         <field number='956' name='LegInterestAccrualDate' type='LOCALMKTDATE' />
+        <field number='1003' name='TradeId' type='STRING' />
+        <field number='1040' name='SecondaryTradeId' type='STRING' />
         <field number='1188' name='Volatility' type='FLOAT' />
         <field number='1362' name='NoFills' type='NUMINGROUP' />
         <field number='1363' name='FillExecID' type='STRING' />
@@ -6559,6 +6569,7 @@
         <field number='5127' name='ConditionTriggerMethod' type='INT' />
         <field number='9008' name='DeribitMMProtection' type='BOOLEAN' />
         <field number='9019' name='MMPGroup' type='STRING' />
+        
         <field number='100001' name='DeribitUserEquity' type='FLOAT' />
         <field number='100002' name='DeribitUserBalance' type='FLOAT' />
         <field number='100003' name='DeribitUserInitialMargin' type='FLOAT' />
