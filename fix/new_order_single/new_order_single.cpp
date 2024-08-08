@@ -13,16 +13,17 @@ int num = 10;
 
 class NewOrderSingle;
 
-void runInThread(const FIX::SessionID &session_id) {
-  for (int i = 0; i < 10; ++i) {
-    NewOrderSingle::newOrderSingle(session_id, 3800.00, i);
-  }
-}
 class NewOrderSingle : public TradingApplication {
 public:
   void onLogon(const FIX::SessionID &session_id) override {
     std::cout << "on logon and send" << std::endl;
-    std::thread(&runInThread, this, session_id).detach();
+    std::thread(&NewOrderSingle::runInThread, this, session_id).detach();
+  }
+
+  void runInThread(const FIX::SessionID &session_id) {
+    for (int i = 0; i < 10; ++i) {
+      newOrderSingle(session_id, 3800.00, i);
+    }
   }
 
   static void newOrderSingle(const FIX::SessionID &session_id,
