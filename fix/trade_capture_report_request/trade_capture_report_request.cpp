@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
   opt_log.is_async = true;
   opt_log.max_size = 1024L * 1024 * 100; // 100 MB per file
   opt_log.max_files = 50;                // up to X GB total
-  utils::GlobalLog::Ins().init(opt_log);
+  utils::GlobalLog::ins().init(opt_log);
   utils::GlobalLog::ins().start();
   logger.init(opt_log);
   logger.start();
