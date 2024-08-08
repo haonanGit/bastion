@@ -59,12 +59,13 @@ public:
       long long total = 0;
       for (auto it : msend) {
         auto rtt = mrecv[it.first] - it.second;
-        std::cout << "id" << it.first << ",sending time:[" << it.second
-                  << "],receiving time:[" << mrecv[it.first] << "], rtt:["
+        std::cout << "id" << it.first << ",sending time ns:[" << it.second
+                  << "],receiving time ns:[" << mrecv[it.first] << "], rtt:["
                   << rtt << "]" << std::endl;
         total += rtt;
       }
-      std::cout << "avg rtt:[" << static_cast<double>(total) / count << "]"
+      std::cout << std::fixed << std::setprecision(1) << "avg rtt ms:["
+                << static_cast<double>(total) / (count * 100000) << "]"
                 << std::endl;
     }
     // std::cout << "received execution report:" << std::endl;
