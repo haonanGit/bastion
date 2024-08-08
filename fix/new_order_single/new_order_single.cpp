@@ -11,6 +11,8 @@ std::unordered_map<std::string, int64_t> msend, mrecv;
 int num = 10;
 // static utils::Logger logger;
 
+class NewOrderSingle;
+
 void runInThread(const FIX::SessionID &session_id) {
   for (int i = 0; i < 10; ++i) {
     NewOrderSingle::newOrderSingle(session_id, 3800.00, i);
