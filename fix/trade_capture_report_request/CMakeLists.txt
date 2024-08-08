@@ -8,13 +8,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # 包含目录
-include_directories(../../quickfix/include/ ./ ../ ../../ ../../../ )
+include_directories(../../quickfix/include/ ./ ../ ../../ ../../../ ../../logger)
 
 # 查找 OpenSSL 库
 find_package(OpenSSL REQUIRED)
 
 # 添加可执行文件
-add_executable(trade_capture_report_request trade_capture_report_request.cpp ../../common.cpp)
+add_executable(trade_capture_report_request trade_capture_report_request.cpp ../../common.cpp ../../logger/logger.cpp)
 
 # 链接库
 target_link_libraries(trade_capture_report_request PRIVATE quickfix OpenSSL::SSL OpenSSL::Crypto)
