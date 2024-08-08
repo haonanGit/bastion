@@ -11,12 +11,6 @@ std::unordered_map<std::string, int64_t> msend, mrecv;
 int num = 10;
 // static utils::Logger logger;
 
-void runInThread(const FIX::SessionID &session_id) {
-  for (int i = 0; i < 10; ++i) {
-    newOrderSingle(session_id, 3800.00, i);
-  }
-}
-
 class NewOrderSingle : public TradingApplication {
 public:
   void onLogon(const FIX::SessionID &session_id) override {
@@ -24,6 +18,11 @@ public:
     std::thread(&TradingApplication::runInThread, this, session_id).detach();
   }
 
+  void runInThread(const FIX::SessionID &session_id) {
+    for (int i = 0; i < 10; ++i) {
+      newOrderSingle(session_id, 3800.00, i);
+    }
+  }
   void newOrderSingle(const FIX::SessionID &session_id, double price = 0.0,
                       int count = 0) {
     // std::cout << "start sending" << std::endl;
