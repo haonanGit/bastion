@@ -3,7 +3,12 @@
 #include "quickfix/fix44/TradeCaptureReportRequest.h"
 #include "quickfix/fix44/TradeCaptureReportRequestAck.h"
 #include "trading_application.h"
+#include <sstream>
+#include <unordered_map>
 
+static utils::Logger logger;
+unordered_map<string, int64_t> m;
+static int count = 0;
 class TradeCaptureReportRequest : public TradingApplication {
 public:
   void onLogon(const FIX::SessionID &session_id) override {
@@ -45,8 +50,20 @@ public:
 
   void onMessage(const FIX44::ExecutionReport &message,
                  const FIX::SessionID &) override {
-    std::cout << "received execution report:" << std::endl;
-    printMsg(message);
+    FIX::OrigClOrdID origClOrdId;
+    message.get(origClOrdId);
+    m[origClOrdId] = common::getTimeStampNs();
+    ++count;
+
+    if (count == 10) {
+      for (auto it : msend) {
+        std::stringstream ss;
+        ss << "id" << it.first << ",receiving time ns:[" << it.second
+           << std::endl;
+        logger.info(ss.str());
+      }
+      logger.flush();
+    }
   }
 };
 
@@ -56,6 +73,16 @@ int main(int argc, char **argv) {
     return 1;
   }
   std::string config_file = argv[1];
+
+  utils::Logger::Options opt_log;
+  opt_log.name = "log";
+  opt_log.file = "log.txt";
+  opt_log.dir = "../log";
+  opt_log.is_async = true;
+  opt_log.max_size = 1024L * 1024 * 100; // 100 MB per file
+  opt_log.max_files = 50;                // up to X GB total
+  logger.init(opt_log);
+
   try {
     FIX::SessionSettings settings(config_file);
     TradeCaptureReportRequest app;
