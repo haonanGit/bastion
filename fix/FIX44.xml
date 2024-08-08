@@ -1349,10 +1349,22 @@
             <field name='EncodedText' required='N' />
         </message>
         <message name='TradeCaptureReport' msgtype='AE' msgcat='app'>
-            <field name='TradeReportID' required='Y' />
+            <field name='TradeRequestID' required='N' />
+            <field name='PreviouslyReported' required='N' />
+            <field name='Symbol' required='N' />
+            <field name='LastQty' required='N' />
+            <field name='LastPx' required='N' />
+            <field name='TradeId' required='N' />
+            <field name='SecondaryTradeId' required='N' />
+            <field name='TradeDate' required='N' />
+            <field name='TransactTime' required='N' />
+            <component name='InstrmtLegGrp' required='N' />
+
+
+            <field name='TradeReportID' required='N' />
             <field name='TradeReportTransType' required='N' />
             <field name='TradeReportType' required='N' />
-            <field name='TradeRequestID' required='N' />
+            
             <field name='TrdType' required='N' />
             <field name='TrdSubType' required='N' />
             <field name='SecondaryTrdType' required='N' />
@@ -1371,7 +1383,7 @@
             <field name='OrdStatus' required='N' />
             <field name='SecondaryExecID' required='N' />
             <field name='ExecRestatementReason' required='N' />
-            <field name='PreviouslyReported' required='Y' />
+            
             <field name='PriceType' required='N' />
             <component name='Instrument' required='Y' />
             <component name='FinancingDetails' required='N' />
@@ -1381,13 +1393,13 @@
             <component name='UndInstrmtGrp' required='N' />
             <field name='UnderlyingTradingSessionID' required='N' />
             <field name='UnderlyingTradingSessionSubID' required='N' />
-            <field name='LastQty' required='Y' />
-            <field name='LastPx' required='Y' />
+            
+            
             <field name='LastParPx' required='N' />
             <field name='LastSpotRate' required='N' />
             <field name='LastForwardPoints' required='N' />
             <field name='LastMkt' required='N' />
-            <field name='TradeDate' required='Y' />
+            
             <field name='ClearingBusinessDate' required='N' />
             <field name='AvgPx' required='N' />
             <component name='SpreadOrBenchmarkCurveData' required='N' />
