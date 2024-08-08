@@ -1,7 +1,7 @@
 #ifndef GETOPENORDERSBYINSTRUMENT
 #define GETOPENORDERSBYINSTRUMENT
 
-#include "ws_client.h"
+#include "get_open_orders_by_instrument.h"
 
 namespace app {
 
