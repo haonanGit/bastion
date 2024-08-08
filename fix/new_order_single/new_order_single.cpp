@@ -15,7 +15,7 @@ class NewOrderSingle : public TradingApplication {
 public:
   void onLogon(const FIX::SessionID &session_id) override {
     std::cout << "on logon and send" << std::endl;
-    std::thread(&runInThread, this, session_id).detach();
+    std::thread(&this->runInThread, this, session_id).detach();
   }
 
   void runInThread(const FIX::SessionID &session_id) {
