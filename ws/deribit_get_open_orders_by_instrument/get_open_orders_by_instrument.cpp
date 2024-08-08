@@ -1,5 +1,5 @@
 
-#include "aggregate_trade_streams.h"
+#include "get_open_orders_by_instrument.h"
 #include "common.h"
 #include "logger.h"
 #include "nlohmann/json.hpp"
@@ -40,7 +40,8 @@ void GetOpenOrdersByInstrument::onAuth(websocketpp::connection_hdl hdl) {
   std::string nonce = common::GenerateRandomNonce(8);
   std::string data = "";
   std::string sign = timestamp + "\n" + nonce + "\n" + data;
-  std::string signature = hmac_sha256HexString(application_secret, sign);
+  std::string signature =
+      common::hmac_sha256HexString(application_secret, sign);
 
   nlohmann::json msg;
   msg["jsonrpc"] = "2.0";
