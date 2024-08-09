@@ -35,11 +35,11 @@ void convertTimestampToDate(nlohmann::json &jsonObject) {
 }
 
 void GetOpenOrdersByInstrument::onAuth(websocketpp::connection_hdl hdl) {
-  printf("need auth\n");
+  printf("send auth\n");
   auto timestamp = common::getTimeStampNs() / 1000000;
   std::string nonce = common::GenerateRandomNonce(8);
   std::string data = "";
-  std::string sign = timestamp + "\n" + nonce + "\n" + data;
+  std::string sign = std::to_string(timestamp) + "\n" + nonce + "\n" + data;
   std::string signature =
       common::hmac_sha256HexString(application_secret, sign);
 
@@ -61,6 +61,7 @@ void GetOpenOrdersByInstrument::onMessage(websocketpp::connection_hdl hdl,
                                           app_tls_client::message_ptr msg) {
   const auto &recv_tm = common::getTimeStampNs();
   // const auto&    ret_msg = msg->get_payload();
+  std::cout << "on message" << std::endl;
   nlohmann::json jsonObject = nlohmann::json::parse(msg->get_payload());
   std::cout << jsonObject.dump() << std::endl;
   //   convertTimestampToDate(jsonObject);
