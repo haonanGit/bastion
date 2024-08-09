@@ -42,11 +42,7 @@ public:
     try {
       // FIX::Session::sendToTarget(req, session_id);  // send
       // 发送当前session，sendToTarget发送指定session
-      for (int i = 0; i < 50; ++i) {
-        FIX::Session::sendToTarget(
-            req,
-            session_id); // send 发送当前session，sendToTarget发送指定session
-      }
+      FIX::Session::sendToTarget(req, session_id);
     } catch (FIX::SessionNotFound &e) {
       std::cerr << "error:" << e.what() << std::endl;
     } catch (...) {

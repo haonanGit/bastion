@@ -384,7 +384,7 @@ void printMsg(const FIX44::Message &msg) {
            << ", ";
         continue;
       }
-      ss << val << "(T_" << key << ")"
+      ss << raw_str_dict[val] << "(T_" << key << ")"
          << ":[" << dict_map[key][val] << "]"
          << ", ";
     } else if (raw_str_dict.count(key) != 0) {
